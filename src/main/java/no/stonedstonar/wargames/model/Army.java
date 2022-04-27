@@ -1,16 +1,76 @@
 package no.stonedstonar.wargames.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
+ * Represents an army on the battleground.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
 public class Army {
 
+    private String armyName;
+
+    private List<Unit> units;
+
     /**
      * Makes an instance of the Army class.
+     * @param armyName the name of the army.
+     * @param unitList the list of units.
      */
-    public Army() {
+    public Army(String armyName, List<Unit> unitList) {
+        checkArmyName(armyName);
+        checkListWithUnits(unitList);
+        this.armyName = armyName;
+        this.units = unitList;
+    }
 
+    /**
+     * Makes an instance of the Army class.
+     * @param armyName the name of the army.
+     */
+    public Army(String armyName) {
+        checkArmyName(armyName);
+        this.armyName = armyName;
+        this.units = new ArrayList<>();
+    }
+
+    public void addUnit(Unit unit){
+
+    }
+
+    public void addAllUnits(Collection<Unit> units){
+
+    }
+
+    public void removeUnit(Unit unitToRemove){
+
+    }
+
+    public boolean hasUnits(){
+        return !units.isEmpty();
+    }
+
+    public Unit getRandomUnit(){
+        return null;
+    }
+
+    /**
+     * Checks if a list with units is null.
+     * @param units the units to check.
+     */
+    private void checkListWithUnits(List<Unit> units){
+        checkIfObjectIsNull(units, null);
+    }
+
+    /**
+     * Checks if the input army name is not null or empty.
+     * @param armyName the army name
+     */
+    private void checkArmyName(String armyName){
+        checkString(armyName, "army name");
     }
 
     /**
