@@ -1,7 +1,7 @@
 package no.stonedstonar.wargames;
 
-import no.stonedstonar.wargames.model.InfantryUnit;
-import no.stonedstonar.wargames.model.Unit;
+import no.stonedstonar.wargames.model.units.InfantryUnit;
+import no.stonedstonar.wargames.model.units.Unit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

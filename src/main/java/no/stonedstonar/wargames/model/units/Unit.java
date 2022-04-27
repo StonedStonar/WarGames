@@ -1,4 +1,4 @@
-package no.stonedstonar.wargames.model;
+package no.stonedstonar.wargames.model.units;
 
 /**
  * @author Steinar Hjelle Midthus
