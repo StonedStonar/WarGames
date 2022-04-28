@@ -104,6 +104,7 @@ public class NormalArmy implements Army {
 
     @Override
     public List<Unit> getSpecifiedUnit(UnitType unitType) {
+        checkIfObjectIsNull(unitType, "unit type");
         return units.stream().filter(unit -> switch (unitType){
             case INFANTRY -> unit instanceof InfantryUnit;
             case CAVALRYCOMMANDER -> unit instanceof ChivalryCommanderUnit;
