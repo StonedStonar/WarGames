@@ -1,7 +1,7 @@
 package no.stonedstonar.wargames;
 
-import no.stonedstonar.wargames.model.Army;
-import no.stonedstonar.wargames.model.NormalArmy;
+import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;

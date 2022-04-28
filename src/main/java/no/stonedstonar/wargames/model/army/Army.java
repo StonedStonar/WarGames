@@ -1,5 +1,6 @@
-package no.stonedstonar.wargames.model;
+package no.stonedstonar.wargames.model.army;
 
+import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;

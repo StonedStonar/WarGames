@@ -1,11 +1,11 @@
 package no.stonedstonar.wargames.model;
 
+import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.ArmyPresets;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
 import no.stonedstonar.wargames.model.units.Unit;
-
-import java.util.Collection;
 
 /**
  * Represents a basic battle where to armies face each other one unit at the time.
