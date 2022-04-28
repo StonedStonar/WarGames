@@ -24,12 +24,20 @@ public class OneToOneBattle implements Battle {
             Army army1 = ArmyPresets.getOrcishArmy();
             Battle battle = new OneToOneBattle(army, army1);
             Army winningArmy = battle.simulateBattle();
-            String winner = "either army";
+            String winner = "either army as the last men strikes each other for the last time. \nThe silence settles over the battlefield and only the peasants will remember this day as a legendary battle to the death.";
             if (winningArmy != null){
                 winner = winningArmy.getArmyName();
             }
             System.out.println("The winning army is " +  winner + ".");
-        }catch (CouldNotFinishBattleException exception){
+            if (winningArmy != null){
+                System.out.println("And the winning units are: ");
+                Thread.sleep(1000);
+                winningArmy.getAllUnits().forEachRemaining(unit -> System.out.println(unit.getUnitName() + " " + unit.getHealth()));
+                System.out.println("\nAnd the deathtoll of each army is:");
+                System.out.println("Army one (" + army.getArmyName() + ") " + army.getDeathToll());
+                System.out.println("Army two (" + army1.getArmyName()  + ") " + army1.getDeathToll());
+            }
+        }catch (CouldNotFinishBattleException | InterruptedException exception){
             System.err.println("The battle could not be simulated. \nSomething has gone wrong.\n" + exception.getMessage());
         }
     }

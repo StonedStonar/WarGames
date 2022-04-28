@@ -6,6 +6,7 @@ import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
 import no.stonedstonar.wargames.model.units.Unit;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -50,6 +51,12 @@ public interface Army {
     boolean hasUnits();
 
     /**
+     * Gets an Iterator with all the units.
+     * @return the units.
+     */
+    Iterator<Unit> getAllUnits();
+
+    /**
      * Gets a random unit from this army.
      * @return the random unit.
      * @throws CouldNotGetUnitException gets thrown if the unit could not be found.
@@ -62,4 +69,10 @@ public interface Army {
      * @return the unit with that type.
      */
     List<Unit> getSpecifiedUnit(UnitType unitType);
+
+    /**
+     * Gets the death toll of this army.
+     * @return the amount of soldiers that died from this army.
+     */
+    int getDeathToll();
 }

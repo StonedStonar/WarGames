@@ -5,10 +5,7 @@ import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
 import no.stonedstonar.wargames.model.units.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Represents a normal army on the battleground.
@@ -22,6 +19,8 @@ public class NormalArmy implements Army {
     private List<Unit> units;
 
     private Random random;
+
+    private int deathToll;
 
     /**
      * Makes an instance of the Army class.
@@ -78,6 +77,8 @@ public class NormalArmy implements Army {
         checkIfUnitIsValid(unitToRemove);
         if (!units.remove(unitToRemove)){
             throw new CouldNotRemoveUnitException("The unit is not in this army.");
+        }else{
+            deathToll += 1;
         }
 
     }
@@ -85,6 +86,11 @@ public class NormalArmy implements Army {
     @Override
     public boolean hasUnits(){
         return !this.units.isEmpty();
+    }
+
+    @Override
+    public Iterator<Unit> getAllUnits() {
+        return units.iterator();
     }
 
     @Override
@@ -104,6 +110,11 @@ public class NormalArmy implements Army {
             case CAVALRY -> (unit instanceof CavalryUnit) && !(unit instanceof ChivalryCommanderUnit);
             case RANGEDUNIT -> unit instanceof RangedUnit;
         }).toList();
+    }
+
+    @Override
+    public int getDeathToll() {
+        return deathToll;
     }
 
     /**
