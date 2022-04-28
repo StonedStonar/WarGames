@@ -1,9 +1,12 @@
 package no.stonedstonar.wargames.model.army;
 
-import no.stonedstonar.wargames.model.units.Unit;
+import no.stonedstonar.wargames.model.exception.InvalidFormatException;
+import no.stonedstonar.wargames.model.units.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * A class that has static methods for writing a army to a file and reading it.
@@ -16,16 +19,100 @@ public class ArmyFileHandler {
 
     private static String newline = "\n";
 
-    public static void main(String[] args) {
-        Army army = ArmyPresets.getOrcishArmy();
-        try {
-            writeArmyToFile(army, true);
-            System.out.println("Army with the name " + army.getArmyName() + " has been written to a file.");
-        }catch (IOException exception){
-            System.err.println("The army could not be saved to the file.");
-        }
+    /**
+     * Throws an error since the class is utility class.
+     */
+    private ArmyFileHandler(){
+        throw new IllegalStateException("Utility class");
     }
 
+    /**
+     * Reads an army from a file.
+     * @param armyFileName the name of the army savefile.
+     * @throws IOException gets thrown if something went wrong I/O wise.
+     * @throws InvalidFormatException gets thrown if the format on the file is invalid.
+     */
+    public static Army readFromFile(String armyFileName) throws IOException, InvalidFormatException {
+        return makeArmy(readFile(armyFileName));
+    }
+
+    /**
+     * Makes an army from a list of strings.
+     * @param readLines the list of units as strings.
+     * @return the army this list represents.
+     * @throws InvalidFormatException gets thrown if the format on the string does not match any units.
+     */
+    private static Army makeArmy(List<String> readLines) throws InvalidFormatException {
+        boolean firstLine = true;
+        String armyName = null;
+        List<Unit> units = new ArrayList<>();
+        Iterator<String> iterator = readLines.iterator();
+        while (iterator.hasNext()){
+            String line = iterator.next();
+            try {
+                String[] unitAsString = line.split(delimiter);
+                if (!firstLine && unitAsString.length >= 3){
+                    units.add(makeUnit(unitAsString));
+                }else if (armyName == null && unitAsString.length == 1){
+                    firstLine = false;
+                    armyName = line;
+                }else {
+                    throw new InvalidFormatException("The format on the file is invalid.");
+                }
+            }catch (IllegalArgumentException exception){
+                throw new InvalidFormatException("The format on the file is invalid.");
+            }
+        }
+        return new NormalArmy(armyName, units);
+    }
+
+    /**
+     * Makes a unit from a string array.
+     * @param stringArray the string array.
+     * @return the unit matching the string array.
+     * @throws InvalidFormatException gets thrown if the format on the string does not match any units.
+     */
+    private static Unit makeUnit(String[] stringArray) throws InvalidFormatException {
+        String unitType = stringArray[0];
+        String unitName = stringArray[1];
+        int health = parseNumber(stringArray[2]);
+        return switch (unitType){
+            case "InfantryUnit" -> new InfantryUnit(unitName, health);
+            case "RangedUnit" -> new RangedUnit(unitName, health);
+            case "CavalryUnit" -> new CavalryUnit(unitName, health);
+            case "ChivalryCommanderUnit" -> new ChivalryCommanderUnit(unitName, health);
+            default -> throw new InvalidFormatException("The class " + unitType + " could not be found");
+        };
+    }
+
+    private static int parseNumber(String numberAsString){
+        return Integer.parseInt(numberAsString);
+    }
+
+    /**
+     * Reads from a file and puts it into a list.
+     * @return a list with all the lines from the file.
+     * @throws IOException gets thrown if something went wrong I/O wise.
+     */
+    private static List<String> readFile(String armyFileName) throws IOException {
+        String path = System.getProperty("user.home") + "\\Documents" + "\\WarGames Saves\\" + armyFileName + ".csv";
+        File file = new File(path);
+        List<String> readLines = new ArrayList<>();
+        if (file.isFile()){
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))){
+                String line = bufferedReader.readLine();
+                while (line != null) {
+                    readLines.add(line);
+                    line = bufferedReader.readLine();
+                }
+            } catch (IOException e) {
+                throw e;
+            }
+        }else {
+            throw new FileNotFoundException("The file with the name " + armyFileName + " cannot be located.");
+        }
+        return readLines;
+    }
     /**
      * Writes an army to a file.
      * @param army the army to write to the file.
