@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Wargames">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="0.9620853080568719" startX="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.01532567049808429">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.5418098510882015">
+                     <color>
+                        <Color red="1.0" green="1.0" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="1.0" green="0.4000000059604645" blue="0.4000000059604645" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Label>
+      <Label text="Made by StonedStonar" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" text="For shits and giggles" textFill="WHITE">
+         <font>
+            <Font name="System Bold Italic" size="10.0" />
+         </font>
+      </Label>
+      <Line endX="473.5" startX="-100.0" stroke="#c9c9c9">
+         <VBox.margin>
+            <Insets top="2.0" />
+         </VBox.margin>
+      </Line>
+      <Label text="Choose gamemode" textFill="WHITE">
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Button fx:id="oneToOneButton" mnemonicParsing="false" style="-fx-background-color: #2c6894; -fx-background-radius: 5;" text="One to one battle" textFill="WHITE">
+         <VBox.margin>
+            <Insets bottom="5.0" top="15.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button mnemonicParsing="false" style="-fx-background-color: #2c6894; -fx-background-radius: 5;" text="Another mode" textFill="WHITE">
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="exitButton" cancelButton="true" mnemonicParsing="false" style="-fx-background-color: #2c6894; -fx-background-radius: 5;" text="Exit application" textFill="WHITE">
+         <VBox.margin>
+            <Insets bottom="5.0" top="5.0" />
+         </VBox.margin>
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</VBox>
