@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames.model.army;
 
+import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.units.*;
 
 import java.util.ArrayList;
@@ -11,6 +12,14 @@ import java.util.List;
  * @version 0.1
  */
 public class ArmyPresets {
+
+
+    /**
+     * Makes an instance of army presets.
+     */
+    private ArmyPresets(){
+        throw new IllegalStateException("Utility class");
+    }
 
 
     /**
@@ -41,15 +50,16 @@ public class ArmyPresets {
      */
     public static Army fillArmyWithUnits(String infantryName, String cavalryName, String rangedName, String commanderName, int health, String armyName){
         List<Unit> units = new ArrayList<>();
-        units.add(new ChivalryCommanderUnit(commanderName, health/100*180));
+        UnitFactory unitFactory = new UnitFactory();
+        units.add(unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, commanderName, health/100*180));
         for (int i = 0; i < 500; i++){
             if (i < 200){
-                units.add(new RangedUnit(rangedName, health));
+                units.add(unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, rangedName, health));
             }
             if (i < 100){
-                units.add(new CavalryUnit(cavalryName, health));
+                units.add(unitFactory.makeSimpleUnit(UnitType.CAVALRY, cavalryName, health));
             }
-            units.add(new InfantryUnit(infantryName, health));
+            units.add(unitFactory.makeSimpleUnit(UnitType.INFANTRY, infantryName, health));
         }
         return new NormalArmy(armyName, units);
     }

@@ -35,6 +35,9 @@ public class GameModeController implements Controller{
 
     }
 
+    /**
+     * Sets the functions of the buttons.
+     */
     private void setButtonsFunctions(){
         WarGamesApplication warGamesApplication = WarGamesApplication.getWarGamesApplication();
         oneToOneButton.setOnAction(event -> {
@@ -46,9 +49,7 @@ public class GameModeController implements Controller{
             }
         });
 
-        exitButton.setOnAction(event -> {
-            Platform.exit();
-        });
+        exitButton.setOnAction(event -> Platform.exit());
     }
 
     @Override

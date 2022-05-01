@@ -17,7 +17,6 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar>
@@ -89,7 +88,7 @@
          <children>
             <VBox prefHeight="298.0" prefWidth="167.0" GridPane.rowIndex="1">
                <children>
-                  <Label text="Army name" textFill="WHITE">
+                  <Label fx:id="armyOneLabel" text="Army name" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -117,7 +116,7 @@
             </Label>
             <VBox prefHeight="298.0" prefWidth="167.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label text="Army name" textFill="WHITE">
+                  <Label fx:id="armyTwoLabel" text="Army name" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>

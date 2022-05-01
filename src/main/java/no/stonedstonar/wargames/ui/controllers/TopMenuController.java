@@ -1,51 +1,16 @@
 package no.stonedstonar.wargames.ui.controllers;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
-import no.stonedstonar.wargames.model.units.Unit;
-
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class OneToOneBattleController implements Controller{
-
-    @FXML
-    private TableView<Unit> armyOneTable;
-
-    @FXML
-    private TableView<Unit> armyTwoTable;
-
-    @FXML
-    private Button editArmyOneButton;
-
-    @FXML
-    private Button editArmyTwoButton;
+public class TopMenuController {
 
     /**
-     * Makes an instance of the OneToOneBattleController class.
+     * Makes an instance of the TopMenuController class.
      */
-    public OneToOneBattleController() {
+    public TopMenuController() {
 
-    }
-
-    /**
-     * Sets the functions of the buttons.
-     */
-    private void setButtonsFunctions(){
-    }
-
-    @Override
-    public void updateContent() {
-
-    }
-
-    @Override
-    public void emptyContent() {
-        armyOneTable.getItems().clear();
-        armyTwoTable.getItems().clear();
     }
 
     /**

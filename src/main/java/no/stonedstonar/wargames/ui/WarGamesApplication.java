@@ -11,6 +11,7 @@ import no.stonedstonar.wargames.ui.windows.Window;
 import java.io.IOException;
 
 /**
+ * The main class of the WarGames application. Used to switch scenes.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
