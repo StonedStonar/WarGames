@@ -14,4 +14,11 @@ public interface Weapon {
      * @param opponent the unit to attack.
      */
     void attack(Unit opponent);
+
+
+    /**
+     * Gets the weight of the weapons.
+     * @return the weight of the weapon.
+     */
+    WeaponWeight getWeaponWeight();
 }
