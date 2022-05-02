@@ -63,7 +63,7 @@ public class UnitTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10);
+        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3);
     }
 
     /**
@@ -106,37 +106,55 @@ public class UnitTests {
         int health = 100;
         int attack = 12;
         int armour = 10;
+        int bonusAttack = 2;
+        int bonusDefence = 3;
         try {
-            Unit unit = new InfantryUnit("", health, attack, armour);
+            Unit unit = new InfantryUnit("", health, attack, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input unit name is empty.");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(null, health, attack, armour);
+            Unit unit = new InfantryUnit(null, health, attack, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input unit name is null");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, 0, attack, armour);
+            Unit unit = new InfantryUnit(unitName, 0, attack, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input health is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, -5, attack, armour);
+            Unit unit = new InfantryUnit(unitName, -5, attack, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input health is negative 5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, 0, armour);
+            Unit unit = new InfantryUnit(unitName, health, 0, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input attack is zero");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, -5, armour);
+            Unit unit = new InfantryUnit(unitName, health, -5, armour, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input attack is negative 5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, 0);
+            Unit unit = new InfantryUnit(unitName, health, attack, 0, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input armour is zero");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, -5);
+            Unit unit = new InfantryUnit(unitName, health, attack, -5, bonusAttack, bonusDefence);
             addError(illegalPrefix, "the input armour is negative 5");
+        }catch (IllegalArgumentException exception){}
+        try {
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, 0, bonusDefence);
+            addError(illegalPrefix, "the input attack bonus is 0");
+        }catch (IllegalArgumentException exception){}
+        try {
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, -5, bonusDefence);
+            addError(illegalPrefix, "the input attack bonus is -5");
+        }catch (IllegalArgumentException exception){}
+        try {
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, 0);
+            addError(illegalPrefix, "the input armour bonus is 0");
+        }catch (IllegalArgumentException exception){}
+        try {
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, -5);
+            addError(illegalPrefix, "the input armour bonus is negative 5");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -147,7 +165,7 @@ public class UnitTests {
     @DisplayName("Tests if constructor works with valid input.")
     public void testIfConstructorWorksWithValidInput(){
         try {
-            Unit unit = new InfantryUnit("Bjarne", 100, 20, 10);
+            Unit unit = new InfantryUnit("Bjarne", 100, 20, 10, 2, 3);
         }catch (IllegalArgumentException exception){
             addErrorWithException("", "Expected the unit to be made since the input is valid", exception);
         }

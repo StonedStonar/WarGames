@@ -103,7 +103,7 @@ public abstract class Unit {
      * @param prefix the prefix that the error should have.
      * @throws IllegalArgumentException gets thrown if the number is below zero.
      */
-    private void checkIfNumberIsValid(long number, String prefix){
+    protected void checkIfNumberIsValid(long number, String prefix){
         if (number <= 0){
             throw new IllegalArgumentException("The " + prefix + " cannot be shorter than 0.");
         }
@@ -114,7 +114,7 @@ public abstract class Unit {
      * @param prefix the prefix that the error should have.
      * @throws IllegalArgumentException gets thrown if the number is below zero.
      */
-    private void checkIfNumberIsNotUnderZero(long number, String prefix){
+    protected void checkIfNumberIsNotUnderZero(long number, String prefix){
         if (number < 0){
             throw new IllegalArgumentException("The " + prefix + " cannot be shorter than 0.");
         }
@@ -139,7 +139,7 @@ public abstract class Unit {
      * @param errorPrefix   the error the exception should have if the string is invalid.
      * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
      */
-    private void checkString(String stringToCheck, String errorPrefix) {
+    protected void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
         if (stringToCheck.isEmpty()) {
             throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
@@ -153,7 +153,7 @@ public abstract class Unit {
      * @param error  the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
-    private void checkIfObjectIsNull(Object object, String error) {
+    protected void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }

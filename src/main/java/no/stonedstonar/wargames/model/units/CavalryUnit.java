@@ -19,12 +19,16 @@ public class CavalryUnit extends Unit{
      * @param health the health.
      * @param attack the attack.
      * @param armour the armour.
+     * @param attackBonus the attack bonus.
+     * @param armourBonus the armour bonus.
      */
-    public CavalryUnit(String unitName, int health, int attack, int armour){
+    public CavalryUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus){
         super(unitName, health, attack, armour);
         //Todo: Bonus fra avstand.
-        this.attackBonus = 2;
-        this.armourBonus = 2;
+        checkIfNumberIsValid(attackBonus, "attack bonus");
+        checkIfNumberIsValid(armourBonus, "armour bonus");
+        this.attackBonus = attackBonus;
+        this.armourBonus = armourBonus;
         this.amountOfAttacks = 0;
     }
     /**
@@ -49,8 +53,8 @@ public class CavalryUnit extends Unit{
     @Override
     public int getAttackBonus() {
         int extraAttack = switch (amountOfAttacks){
-            case 0 -> 4;
-            case 1 -> 2;
+            case 0 -> attackBonus*2;
+            case 1 -> attackBonus;
             default -> 0;
         };
         return extraAttack + attackBonus;

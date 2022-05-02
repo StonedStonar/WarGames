@@ -48,6 +48,7 @@ public class NormalArmy implements Army {
         checkArmyName(armyName);
         this.armyName = armyName;
         this.units = new ArrayList<>();
+        random = new Random();
     }
 
     @Override

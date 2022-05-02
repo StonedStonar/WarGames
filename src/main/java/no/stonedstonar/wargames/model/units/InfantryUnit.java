@@ -17,11 +17,15 @@ public class InfantryUnit extends Unit{
      * @param health the health.
      * @param attack the attack.
      * @param armour the armour.
+     * @param attackBonus the attack bonus.
+     * @param armourBonus the armour bonus.
      */
-    public InfantryUnit(String unitName, int health, int attack, int armour) {
+    public InfantryUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus) {
         super(unitName, health, attack, armour);
-        attackBonus = 2;
-        armourBonus = 1;
+        checkIfNumberIsValid(attackBonus, "attack bonus");
+        checkIfNumberIsValid(armourBonus, "armour bonus");
+        this.armourBonus = armourBonus;
+        this.attackBonus = attackBonus;
     }
 
     /**

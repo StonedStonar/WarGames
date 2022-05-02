@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
+ * Tests the army class.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
@@ -95,7 +96,7 @@ public class ArmyTest {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10);
+        return new InfantryUnit("Fjarne", 100, 20, 10, 2, 3);
     }
 
     /**
@@ -313,7 +314,4 @@ public class ArmyTest {
             addError(getPrefix, "the army is empty");
         }catch (CouldNotGetUnitException exception){}
     }
-
-
-
 }
