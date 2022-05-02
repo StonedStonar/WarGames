@@ -148,7 +148,6 @@ public class NormalArmy implements Army {
 
     /**
      * Checks if a string is of a valid format or not.
-     *
      * @param stringToCheck the string you want to check.
      * @param errorPrefix   the error the exception should have if the string is invalid.
      * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
