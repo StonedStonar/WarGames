@@ -1,16 +1,31 @@
 package no.stonedstonar.wargames.ui.controllers;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.units.Unit;
+import no.stonedstonar.wargames.ui.WarGamesApplication;
+import no.stonedstonar.wargames.ui.elements.AlertTemplate;
+import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
+import no.stonedstonar.wargames.ui.windows.EditUnitWindow;
+import no.stonedstonar.wargames.ui.windows.GameModeWindow;
+import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
+
+import java.io.IOException;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
 public class OneToOneBattleController implements Controller{
+
+    @FXML
+    private Label armyOneLabel;
+
+    @FXML
+    private Label armyTwoLabel;
 
     @FXML
     private TableView<Unit> armyOneTable;
@@ -24,28 +39,96 @@ public class OneToOneBattleController implements Controller{
     @FXML
     private Button editArmyTwoButton;
 
+    @FXML
+    private MenuItem saveToFileMenu;
+
+    @FXML
+    private MenuItem loadFromFileMenu;
+
+    @FXML
+    private MenuItem exitAppMenu;
+
+    @FXML
+    private MenuItem backToMenu;
+
+    @FXML
+    private MenuItem aboutApplicationMenu;
+
+    @FXML
+    private MenuItem howToPlayMenu;
+
+    private Army armyOne;
+
+    private Army armyTwo;
+
+
+
+
     /**
      * Makes an instance of the OneToOneBattleController class.
      */
     public OneToOneBattleController() {
-
+        armyOne = new NormalArmy("Human");
+        armyTwo = new NormalArmy("Orcs");
     }
 
     /**
      * Sets the functions of the buttons.
      */
     private void setButtonsFunctions(){
+        editArmyOneButton.setOnAction(event -> editArmy(armyOne));
+        editArmyTwoButton.setOnAction(event -> editArmy(armyTwo));
+    }
+
+    private void setMenuItemFunctions(){
+        exitAppMenu.setOnAction(event -> Platform.exit());
+        backToMenu.setOnAction(event -> {
+            try {
+                WarGamesApplication.getWarGamesApplication().setNewScene(GameModeWindow.getGameModeWindow());
+            } catch (IOException e) {
+                AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+            }
+        });
+    }
+
+    /**
+     * Makes it possible to edit an army.
+     * @param army the army to edit.
+     */
+    private void editArmy(Army army){
+        EditUnitWindow editUnitWindow = EditUnitWindow.getEditUnitWindow();
+        editUnitWindow.setArmy(army, OneToOneBattleWindow.getOneToOneBattleWindow());
+        try {
+            WarGamesApplication.getWarGamesApplication().setNewScene(editUnitWindow);
+        } catch (IOException e) {
+            AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+        }
     }
 
     @Override
     public void updateContent() {
-
+        if (armyTwoTable.getColumns().isEmpty()){
+            makeColumnsToTable(armyTwoTable);
+        }
+        if (armyOneTable.getColumns().isEmpty()){
+            makeColumnsToTable(armyOneTable);
+        }
+        setButtonsFunctions();
+        setMenuItemFunctions();
     }
 
     @Override
     public void emptyContent() {
         armyOneTable.getItems().clear();
         armyTwoTable.getItems().clear();
+    }
+
+    /**
+     * Makes a standard set of columns to the table.
+     * @param tableView the table view to add columns to.
+     */
+    private void makeColumnsToTable(TableView<Unit> tableView){
+        TableView<Unit> tableView1 = new ArmyTableBuilder(tableView).addNameColumn().addHealthColumn().build();
     }
 
     /**

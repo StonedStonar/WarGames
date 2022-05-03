@@ -20,23 +20,20 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="632.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar>
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Save to file" />
-                  <MenuItem mnemonicParsing="false" text="Load from file" />
+                  <MenuItem fx:id="backToMenu" mnemonicParsing="false" text="Back to menu" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Back to menu" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem fx:id="exitAppMenu" mnemonicParsing="false" text="Exit" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About application" />
+                  <MenuItem fx:id="aboutApplicationMenu" mnemonicParsing="false" text="About application" />
                   <MenuItem mnemonicParsing="false" text="How to play gamemode" />
                </items>
             </Menu>
@@ -78,11 +75,27 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <HBox prefHeight="299.0" prefWidth="600.0">
+      <HBox prefHeight="374.0" prefWidth="708.0">
          <children>
-            <VBox prefHeight="298.0" prefWidth="305.0">
+            <VBox prefHeight="305.0" prefWidth="332.0">
                <children>
-                  <Label fx:id="armyLabel" text="Name of the army" textFill="WHITE">
+                  <Label text="Enter army name" textFill="WHITE">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Label>
+                  <TextField>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets left="10.0" right="50.0" />
+                     </VBox.margin>
+                  </TextField>
+                  <Label text="Units" textFill="WHITE">
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
@@ -95,14 +108,31 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </TableView>
-                  <Button fx:id="editUnitButton" mnemonicParsing="false" text="Edit selected unit">
+                  <HBox fx:id="clearArmyButton" prefHeight="33.0" prefWidth="305.0">
+                     <children>
+                        <Button fx:id="editUnitButton" mnemonicParsing="false" text="Edit selected unit">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Clear army">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" text="Add preset units">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
                      <VBox.margin>
-                        <Insets left="10.0" top="5.0" />
+                        <Insets top="10.0" />
                      </VBox.margin>
-                  </Button>
+                  </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="298.0" prefWidth="290.0">
+            <VBox prefHeight="305.0" prefWidth="301.0">
                <children>
                   <Label text="Select unit" textFill="WHITE">
                      <VBox.margin>
@@ -214,6 +244,11 @@
                         </Button>
                      </children>
                   </HBox>
+                  <Button fx:id="backToBattleButton" mnemonicParsing="false" text="Back to battle">
+                     <VBox.margin>
+                        <Insets left="10.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
             </VBox>
          </children>

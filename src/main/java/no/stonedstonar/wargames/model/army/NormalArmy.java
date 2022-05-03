@@ -57,6 +57,12 @@ public class NormalArmy implements Army {
     }
 
     @Override
+    public void setArmyName(String armyName) {
+        checkString(armyName, "army name");
+        this.armyName = armyName;
+    }
+
+    @Override
     public void addUnit(Unit unit) throws CouldNotAddUnitException {
         checkIfUnitIsValid(unit);
         if (!units.contains(unit)){

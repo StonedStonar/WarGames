@@ -57,9 +57,9 @@ public class WarGamesApplication extends Application {
         String title = window.getTitleName();
         checkString(title, "title");
         String windowTitle = "Chat application 0.1v - " + title;
-        controller.updateContent();
         stage.setTitle(windowTitle);
         stage.setScene(scene);
+        controller.updateContent();
     }
 
     /**

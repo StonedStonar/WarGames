@@ -1,6 +1,7 @@
 package no.stonedstonar.wargames.ui.windows;
 
 import javafx.scene.Scene;
+import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.ui.controllers.Controller;
 import no.stonedstonar.wargames.ui.controllers.EditUnitController;
 
@@ -27,6 +28,17 @@ public class EditUnitWindow implements Window{
         editUnitController = new EditUnitController();
         this.title = "Edit units";
         this.fxmlName = "Edit army";
+    }
+
+    /**
+     * Sets the army to change in this edit pag.e
+     * @param army the army.
+     * @param lastWindow the last window
+     */
+    public void setArmy(Army army, Window lastWindow){
+        checkIfObjectIsNull(army, "army");
+        checkIfObjectIsNull(lastWindow, "last window");
+        editUnitController.setArmyAndLastWindow(army, lastWindow);
     }
 
     /**

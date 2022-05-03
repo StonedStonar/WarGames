@@ -24,6 +24,12 @@ public interface Army {
     String getArmyName();
 
     /**
+     * Sets the name of the army.
+     * @param armyName the new army name.
+     */
+    void setArmyName(String armyName);
+
+    /**
      * Adds a unit to the army.
      * @param unit the unit to add.
      * @throws CouldNotAddUnitException gets thrown if the unit could not be added.

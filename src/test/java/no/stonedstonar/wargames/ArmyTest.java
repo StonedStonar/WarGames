@@ -171,6 +171,35 @@ public class ArmyTest {
     }
 
     /**
+     * Tests if setArmyName works with invalid input.
+     */
+    @Test
+    @DisplayName("Tests if setArmyName works with invalid input.")
+    public void testIfSetArmyNameWorksWithInvalidInput(){
+        try {
+            army.setArmyName("");
+            addError(illegalPrefix, "the input name is empty");
+        }catch (IllegalArgumentException exception){}
+        try {
+            army.setArmyName(null);
+            addError(illegalPrefix, "the input name is null");
+        }catch (IllegalArgumentException exception){}
+    }
+
+    /**
+     * Tests if setArmyName works with valid input.
+     */
+    @Test
+    @DisplayName("Tests if setArmyName works with valid input.")
+    public void testIfSetArmyNameWorksWithValidInput(){
+        try {
+            army.setArmyName("Hei");
+        }catch (IllegalArgumentException exception){
+            addErrorWithException("Expected the army to be made since", "the input is valid", exception);
+        }
+    }
+
+    /**
      * Tests if addUnit works with invalid input.
      */
     @Test
