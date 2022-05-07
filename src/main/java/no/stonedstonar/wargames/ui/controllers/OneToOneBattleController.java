@@ -19,6 +19,7 @@ import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
 import java.io.IOException;
 
 /**
+ * Represents a controller of a one-to-one battle.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
@@ -71,8 +72,6 @@ public class OneToOneBattleController implements Controller{
     private Army armyTwo;
 
 
-
-
     /**
      * Makes an instance of the OneToOneBattleController class.
      */
@@ -87,8 +86,12 @@ public class OneToOneBattleController implements Controller{
     private void setButtonsFunctions(){
         editArmyOneButton.setOnAction(event -> editArmy(armyOne));
         editArmyTwoButton.setOnAction(event -> editArmy(armyTwo));
+        startSimulationButton.setOnAction(event -> simulateBattle());
     }
 
+    /**
+     * Sets the menu items functions.
+     */
     private void setMenuItemFunctions(){
         exitAppMenu.setOnAction(event -> Platform.exit());
         backToMenu.setOnAction(event -> {
@@ -98,9 +101,11 @@ public class OneToOneBattleController implements Controller{
                 AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
             }
         });
-        startSimulationButton.setOnAction(event -> simulateBattle());
     }
 
+    /**
+     * Simulates a battle between two armies.
+     */
     private void simulateBattle(){
         try {
             if (armyTwo.hasUnits() && armyOne.hasUnits()){
