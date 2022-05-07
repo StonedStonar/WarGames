@@ -193,8 +193,8 @@ public class ArmyFileHandler {
      *                          <code>false</code> if all the details about the units should be included.
      */
     private static void appendUnits(Army army, StringBuilder stringBuilder, boolean onlyHealthAndName){
-        Iterator<Unit> unitIterator = army.getAllUnits();
-        unitIterator.forEachRemaining(unit -> appendUnit(unit, stringBuilder, onlyHealthAndName));
+        List<Unit> unitIterator = army.getAllUnits();
+        unitIterator.forEach(unit -> appendUnit(unit, stringBuilder, onlyHealthAndName));
     }
 
     /**

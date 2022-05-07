@@ -40,4 +40,20 @@ public class AlertTemplate {
     public static Alert makeCouldNotEditSelectUnit(){
         return makeAlert(Alert.AlertType.ERROR, "Could not edit unit", "Could not edit unit", "No unit is selected from the table before editing. \nPlease try again");
     }
+
+    /**
+     * Makes a CouldNotAddUnit alert.
+     * @return the alert.
+     */
+    public static Alert makeCouldNotAddUnitAlert(){
+        return makeAlert(Alert.AlertType.ERROR, "Could not add unit", "Could not add unit", "Could not add wanted unit(s). \nInput is invalid please try again.");
+    }
+
+    /**
+     * Makes a CouldNotSimulateBattle alert.
+     * @return the alert.
+     */
+    public static Alert makeCouldNotSimulateBattle(){
+        return makeAlert(Alert.AlertType.INFORMATION, "Could not start battle", "Could not start battle", "Could not start battle since one army does not have any units.");
+    }
 }

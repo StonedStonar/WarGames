@@ -105,8 +105,8 @@ public class NormalArmy implements Army {
     }
 
     @Override
-    public Iterator<Unit> getAllUnits() {
-        return units.iterator();
+    public List<Unit> getAllUnits() {
+        return units;
     }
 
     @Override

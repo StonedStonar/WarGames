@@ -7,12 +7,15 @@ import javafx.scene.control.*;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.ArmyPresets;
+import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
-import no.stonedstonar.wargames.model.units.Unit;
+import no.stonedstonar.wargames.model.units.*;
+import no.stonedstonar.wargames.ui.WarGamesApplication;
 import no.stonedstonar.wargames.ui.elements.AlertTemplate;
 import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
 import no.stonedstonar.wargames.ui.windows.Window;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +76,7 @@ public class EditUnitController implements Controller{
     @FXML
     private Button addPresetsButton;
 
+    private UnitFactory unitFactory;
 
     private Window lastWindow;
 
@@ -82,6 +86,7 @@ public class EditUnitController implements Controller{
      * Makes an instance of the EditUnitController class.
      */
     public EditUnitController() {
+        unitFactory = new UnitFactory();
 
     }
 
@@ -95,6 +100,7 @@ public class EditUnitController implements Controller{
         checkIfObjectIsNull(lastWindow, "last window");
         this.army = army;
         this.lastWindow = lastWindow;
+        unitFactory = new UnitFactory();
     }
 
     /**
@@ -116,9 +122,59 @@ public class EditUnitController implements Controller{
             army.clearAllUnits();
         });
         addPresetsButton.setOnAction(event -> {
-
+            try {
+                ArmyPresets.fillArmyWithUnits(army);
+                armyTable.getItems().clear();
+                armyTable.getItems().addAll(army.getAllUnits());
+            } catch (CouldNotAddUnitException e) {
+                AlertTemplate.makeAlert(Alert.AlertType.ERROR, "Could not add presets", "Could not add presets", "Could not add default presets. \nPlease try again").showAndWait();
+            }
         });
+        backToBattleButton.setOnAction(event -> {
+            try {
+                WarGamesApplication.getWarGamesApplication().setNewScene(lastWindow);
+            } catch (IOException e) {
+                AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+            }
+        });
+        saveUnitsButton.setOnAction(event -> {
+            addUnitOrUnits();
+        });
+    }
 
+    /**
+     * Adds a unit or units based on the input.
+     */
+    private void addUnitOrUnits(){
+        try {
+            int health = Integer.parseInt(healthField.getText());
+            String unitName = unitNameField.getText();
+            UnitType unitType = unitCombo.getSelectionModel().getSelectedItem();
+            if (!amountField.isDisable() && amountField.getText().isEmpty()){
+                int number = Integer.parseInt(amountField.textProperty().get());
+                List<Unit> units = unitFactory.makeNAmountOfTypeUnit(number, unitType, unitName,health);
+                army.addAllUnits(units);
+                armyTable.getItems().addAll(units);
+                emptyFields();
+            }else {
+                Unit unit = unitFactory.makeSimpleUnit(unitType, unitName, health);
+                army.addUnit(unit);
+                armyTable.getItems().add(unit);
+                emptyFields();
+            }
+        }catch (CouldNotAddUnitException | IllegalArgumentException exception){
+            Alert alert = AlertTemplate.makeCouldNotAddUnitAlert();
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Makes an observable list out of the units.
+     * @param units the units.
+     * @return the observable list.
+     */
+    private ObservableList<Unit> makeObservableUnits(List<Unit> units){
+        return FXCollections.observableList(units);
     }
 
     @Override
@@ -127,7 +183,7 @@ public class EditUnitController implements Controller{
             makeColumnsToTable(armyTable);
         }
         armyTable.getItems().clear();
-        armyTable.getItems().setAll(makeObservableListFromArmy());
+        armyTable.getItems().addAll(army.getAllUnits());
         setButtonsAndFunctions();
         armyNameField.setText(army.getArmyName());
     }
@@ -148,6 +204,7 @@ public class EditUnitController implements Controller{
         unitNameField.setText("");
         healthField.setText("");
         amountField.setText("");
+        unitCombo.getSelectionModel().clearSelection();
     }
 
     /**
@@ -166,6 +223,14 @@ public class EditUnitController implements Controller{
             healthField.setText(Integer.toString(unit.getHealth()));
             attackField.setText(Integer.toString(unit.getAttack()));
             armourField.setText(Integer.toString(unit.getArmour()));
+            UnitType unitType = switch (unit.getClass().getSimpleName()){
+                case "InfantryUnit" -> UnitType.INFANTRY;
+                case "CavalryUnit" -> UnitType.CAVALRY;
+                case "RangedUnit" -> UnitType.RANGEDUNIT;
+                case "ChivalryCommanderUnit" -> UnitType.CAVALRYCOMMANDER;
+                default -> null;
+            };
+            unitCombo.getSelectionModel().select(unitType);
             try {
                 army.removeUnit(unit);
                 armyTable.getItems().remove(unit);
@@ -177,9 +242,7 @@ public class EditUnitController implements Controller{
     }
 
     private ObservableList<Unit> makeObservableListFromArmy(){
-        List<Unit> unitList = new ArrayList<>();
-        army.getAllUnits().forEachRemaining(unitList::add);
-        return FXCollections.observableList(unitList);
+        return FXCollections.observableList(army.getAllUnits());
     }
 
     /**
@@ -187,7 +250,7 @@ public class EditUnitController implements Controller{
      * @param tableView the table view to add columns to.
      */
     private void makeColumnsToTable(TableView<Unit> tableView){
-        TableView<Unit> tableView1 = new ArmyTableBuilder(tableView).addNameColumn().addHealthColumn().build();
+        TableView<Unit> tableView1 = new ArmyTableBuilder(tableView).addNameColumn().addHealthColumn().addAttackColumn().addArmourColumn().build();
     }
 
     /**

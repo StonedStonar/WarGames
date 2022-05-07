@@ -108,7 +108,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </TableView>
-                  <HBox fx:id="clearArmyButton" prefHeight="33.0" prefWidth="305.0">
+                  <HBox prefHeight="33.0" prefWidth="305.0">
                      <children>
                         <Button fx:id="editUnitButton" mnemonicParsing="false" text="Edit selected unit">
                            <HBox.margin>

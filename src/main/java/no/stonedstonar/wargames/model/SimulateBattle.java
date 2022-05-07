@@ -25,7 +25,7 @@ public class SimulateBattle {
         try {
             Army army = ArmyFileHandler.readFromFile("Orcish Horde");
             AtomicInteger size = new AtomicInteger();
-            army.getAllUnits().forEachRemaining(unit -> size.getAndIncrement());
+            army.getAllUnits().forEach(unit -> size.getAndIncrement());
             System.out.println("Amount of units in army that was read from file: " + size);
         }catch (InvalidFormatException | IOException exception){
             System.err.println("Could not read from the file. Got this exception " + exception.getClass().getSimpleName());
@@ -47,7 +47,7 @@ public class SimulateBattle {
             if (winningArmy != null){
                 System.out.println("And the winning units are: ");
                 Thread.sleep(1000);
-                winningArmy.getAllUnits().forEachRemaining(unit -> System.out.println(unit.getUnitName() + " " + unit.getHealth()));
+                winningArmy.getAllUnits().forEach(unit -> System.out.println(unit.getUnitName() + " " + unit.getHealth()));
                 System.out.println("\nAnd the deathtoll of each army is:");
                 System.out.println("Army one (" + army.getArmyName() + ") " + army.getDeathToll());
                 System.out.println("Army two (" + army1.getArmyName()  + ") " + army1.getDeathToll());

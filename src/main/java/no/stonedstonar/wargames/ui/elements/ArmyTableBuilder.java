@@ -45,6 +45,28 @@ public class ArmyTableBuilder {
         return this;
     }
 
+    /**
+     * Adds an attack column to the table.
+     * @return the builder object.
+     */
+    public ArmyTableBuilder addAttackColumn(){
+        TableColumn<Unit, Number> attackCol = new TableColumn<>("Attack");
+        attackCol.setCellValueFactory(unit -> new SimpleIntegerProperty(unit.getValue().getAttack()));
+        tableView.getColumns().add(attackCol);
+        return this;
+    }
+
+    /**
+     * Adds a health column to the table.
+     * @return the builder object.
+     */
+    public ArmyTableBuilder addArmourColumn(){
+        TableColumn<Unit, Number> armourCol = new TableColumn<>("Attack");
+        armourCol.setCellValueFactory(unit -> new SimpleIntegerProperty(unit.getValue().getArmour()));
+        tableView.getColumns().add(armourCol);
+        return this;
+    }
+
 
     /**
      * Builds the tableview.

@@ -66,7 +66,7 @@ public interface Army {
      * Gets an Iterator with all the units.
      * @return the units.
      */
-    Iterator<Unit> getAllUnits();
+    List<Unit> getAllUnits();
 
     /**
      * Gets a random unit from this army.
