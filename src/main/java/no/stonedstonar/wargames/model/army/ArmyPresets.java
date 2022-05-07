@@ -1,6 +1,7 @@
 package no.stonedstonar.wargames.model.army;
 
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.units.*;
 
 import java.util.ArrayList;
@@ -25,16 +26,18 @@ public class ArmyPresets {
     /**
      * Makes an army that has the Humans preset.
      * @return the army.
+     * @throws CouldNotAddUnitException gets thrown if a unit could not be added.
      */
-    public static Army getHumanArmy(){
+    public static Army getHumanArmy() throws CouldNotAddUnitException {
         return fillArmyWithUnits("Footman", "Knight", "Archer", "Mountian King", 100, "Humans");
     }
 
     /**
      * Makes an army that has the Orcish preset.
      * @return the army.
+     * @throws CouldNotAddUnitException gets thrown if a unit could not be added.
      */
-    public static Army getOrcishArmy(){
+    public static Army getOrcishArmy() throws CouldNotAddUnitException {
         return fillArmyWithUnits("Grunt", "Raider", "Spearman", "Gul´dan", 100, "Orcish Horde");
     }
 
@@ -47,20 +50,46 @@ public class ArmyPresets {
      * @param health the health most of the units should have.
      * @param armyName the name of the army.
      * @return the new army.
+     * @throws CouldNotAddUnitException gets thrown if a unit could not be added.
      */
-    public static Army fillArmyWithUnits(String infantryName, String cavalryName, String rangedName, String commanderName, int health, String armyName){
-        List<Unit> units = new ArrayList<>();
+    public static Army fillArmyWithUnits(String infantryName, String cavalryName, String rangedName, String commanderName, int health, String armyName) throws CouldNotAddUnitException {
+        Army army = new NormalArmy(armyName);
+        return fillArmy(infantryName, cavalryName, rangedName, commanderName, health, army);
+
+    }
+
+    /**
+     * Adds units to an army.
+     * @param army the army to add units too.
+     * @throws CouldNotAddUnitException gets thrown if a unit could not be added.
+     */
+    public static void fillArmyWithUnits(Army army) throws CouldNotAddUnitException {
+        fillArmy("Infantry", "Cavalry", "Ranged", "Commander", 100, army);
+    }
+
+    /**
+     * Fills an army with units.
+     * @param infantryName the name of the infantry unit.
+     * @param cavalryName the name of the cavalry unit.
+     * @param rangedName the name of the ranged unit.
+     * @param commanderName the name of the commander unit.
+     * @param health the health most of the units should have.
+     * @param army army to add units to.
+     * @return the new army.
+     * @throws CouldNotAddUnitException
+     */
+    private static Army fillArmy(String infantryName, String cavalryName, String rangedName, String commanderName, int health, Army army) throws CouldNotAddUnitException {
         UnitFactory unitFactory = new UnitFactory();
-        units.add(unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, commanderName, health/100*180));
+        army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, commanderName, health/100*180));
         for (int i = 0; i < 500; i++){
             if (i < 200){
-                units.add(unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, rangedName, health));
+                army.addUnit(unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, rangedName, health));
             }
             if (i < 100){
-                units.add(unitFactory.makeSimpleUnit(UnitType.CAVALRY, cavalryName, health));
+                army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRY, cavalryName, health));
             }
-            units.add(unitFactory.makeSimpleUnit(UnitType.INFANTRY, infantryName, health));
+            army.addUnit(unitFactory.makeSimpleUnit(UnitType.INFANTRY, infantryName, health));
         }
-        return new NormalArmy(armyName, units);
+        return army;
     }
 }

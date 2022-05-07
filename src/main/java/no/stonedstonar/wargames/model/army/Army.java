@@ -51,6 +51,11 @@ public interface Army {
     void removeUnit(Unit unitToRemove) throws CouldNotRemoveUnitException;
 
     /**
+     * Deletes all the units in this army.
+     */
+    void clearAllUnits();
+
+    /**
      * Checks if there is any units in the army.
      * @return <code>true</code> if the army has units.
      *         <code>false</code> if the army does not have any units.

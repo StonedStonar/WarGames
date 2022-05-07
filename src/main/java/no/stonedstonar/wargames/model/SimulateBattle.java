@@ -3,6 +3,7 @@ package no.stonedstonar.wargames.model;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.ArmyPresets;
+import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.exception.InvalidFormatException;
 
@@ -51,18 +52,20 @@ public class SimulateBattle {
                 System.out.println("Army one (" + army.getArmyName() + ") " + army.getDeathToll());
                 System.out.println("Army two (" + army1.getArmyName()  + ") " + army1.getDeathToll());
             }
-        }catch (CouldNotFinishBattleException | InterruptedException exception){
+        }catch (CouldNotFinishBattleException | CouldNotAddUnitException | InterruptedException exception){
             System.err.println("The battle could not be simulated. \nSomething has gone wrong.\n" + exception.getMessage());
         }
     }
 
     private static void testWriteToFile(){
-        Army army = ArmyPresets.getOrcishArmy();
         try {
+            Army army = ArmyPresets.getOrcishArmy();
             ArmyFileHandler.writeArmyToFile(army, true);
             System.out.println("Army with the name " + army.getArmyName() + " has been written to a file.");
         }catch (IOException exception){
             System.err.println("The army could not be saved to the file.");
+        }catch (CouldNotAddUnitException exception){
+            System.err.println("The armys units could not be added.");
         }
     }
 

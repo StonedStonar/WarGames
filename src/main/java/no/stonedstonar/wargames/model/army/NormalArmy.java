@@ -95,6 +95,11 @@ public class NormalArmy implements Army {
     }
 
     @Override
+    public void clearAllUnits() {
+        units.clear();
+    }
+
+    @Override
     public boolean hasUnits(){
         return !this.units.isEmpty();
     }

@@ -87,7 +87,7 @@
                         <Insets left="10.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="armyNameField">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -115,12 +115,12 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Clear army">
+                        <Button fx:id="clearArmyButton" mnemonicParsing="false" text="Clear army">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Add preset units">
+                        <Button fx:id="addPresetsButton" mnemonicParsing="false" text="Add preset units">
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
@@ -227,14 +227,9 @@
                   </GridPane>
                   <HBox prefHeight="38.0" prefWidth="290.0">
                      <children>
-                        <Button fx:id="saveUnitsButton" mnemonicParsing="false" text="Save unit">
+                        <Button fx:id="saveUnitsButton" mnemonicParsing="false" text="Save unit(s)">
                            <HBox.margin>
                               <Insets left="10.0" />
-                           </HBox.margin>
-                        </Button>
-                        <Button fx:id="addUnitsButton" mnemonicParsing="false" text="Add unit(s)">
-                           <HBox.margin>
-                              <Insets left="20.0" />
                            </HBox.margin>
                         </Button>
                         <Button fx:id="cancelButton" mnemonicParsing="false" text="Clear">

@@ -4,10 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.ArmyPresets;
+import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
 import no.stonedstonar.wargames.model.units.Unit;
+import no.stonedstonar.wargames.ui.elements.AlertTemplate;
 import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
 import no.stonedstonar.wargames.ui.windows.Window;
 
@@ -57,9 +59,6 @@ public class EditUnitController implements Controller{
     private Button saveUnitsButton;
 
     @FXML
-    private Button addUnitsButton;
-
-    @FXML
     private Button cancelButton;
 
     @FXML
@@ -68,7 +67,12 @@ public class EditUnitController implements Controller{
     @FXML
     private Button clearArmyButton;
 
-    private boolean editUnit;
+    @FXML
+    private TextField armyNameField;
+
+    @FXML
+    private Button addPresetsButton;
+
 
     private Window lastWindow;
 
@@ -78,7 +82,7 @@ public class EditUnitController implements Controller{
      * Makes an instance of the EditUnitController class.
      */
     public EditUnitController() {
-        editUnit = false;
+
     }
 
     /**
@@ -93,6 +97,30 @@ public class EditUnitController implements Controller{
         this.lastWindow = lastWindow;
     }
 
+    /**
+     * Sets the buttons and their functions.
+     */
+    private void setButtonsAndFunctions(){
+        unitCombo.getItems().add(UnitType.INFANTRY);
+        unitCombo.getItems().add(UnitType.CAVALRY);
+        unitCombo.getItems().add(UnitType.CAVALRYCOMMANDER);
+        unitCombo.getItems().add(UnitType.RANGEDUNIT);
+
+        editUnitButton.setOnAction(event -> editUnit());
+        cancelButton.setOnAction(event -> {
+            emptyFields();
+            amountField.setDisable(false);
+        });
+        clearArmyButton.setOnAction(event -> {
+            armyTable.getItems().clear();
+            army.clearAllUnits();
+        });
+        addPresetsButton.setOnAction(event -> {
+
+        });
+
+    }
+
     @Override
     public void updateContent() {
         if (armyTable.getColumns().isEmpty()){
@@ -100,11 +128,52 @@ public class EditUnitController implements Controller{
         }
         armyTable.getItems().clear();
         armyTable.getItems().setAll(makeObservableListFromArmy());
+        setButtonsAndFunctions();
+        armyNameField.setText(army.getArmyName());
     }
 
     @Override
     public void emptyContent() {
+        armyTable.getItems().clear();
+        armyNameField.setText("");
+        emptyFields();
+    }
 
+    /**
+     * Empties the fields.
+     */
+    private void emptyFields(){
+        armourField.setText("");
+        attackField.setText("");
+        unitNameField.setText("");
+        healthField.setText("");
+        amountField.setText("");
+    }
+
+    /**
+     * Makes the edit window go into edit unit mode.
+     */
+    private void editUnit(){
+        Unit unit = armyTable.getSelectionModel().getSelectedItem();
+        emptyFields();
+        if (unit == null){
+            Alert alert = AlertTemplate.makeCouldNotEditSelectUnit();
+            alert.showAndWait();
+        }else {
+            amountField.setDisable(true);
+            saveUnitsButton.setDisable(false);
+            unitNameField.setText(unit.getUnitName());
+            healthField.setText(Integer.toString(unit.getHealth()));
+            attackField.setText(Integer.toString(unit.getAttack()));
+            armourField.setText(Integer.toString(unit.getArmour()));
+            try {
+                army.removeUnit(unit);
+                armyTable.getItems().remove(unit);
+                armyTable.refresh();
+            }catch (CouldNotRemoveUnitException | IllegalArgumentException exception){
+                System.err.println("The unit selected could not be removed.");
+            }
+        }
     }
 
     private ObservableList<Unit> makeObservableListFromArmy(){

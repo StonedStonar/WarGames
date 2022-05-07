@@ -32,4 +32,12 @@ public class AlertTemplate {
         alert.setContentText(contents);
         return alert;
     }
+
+    /**
+     * Makes a CouldNotEditSelectedUnit alert.
+     * @return the alert.
+     */
+    public static Alert makeCouldNotEditSelectUnit(){
+        return makeAlert(Alert.AlertType.ERROR, "Could not edit unit", "Could not edit unit", "No unit is selected from the table before editing. \nPlease try again");
+    }
 }
