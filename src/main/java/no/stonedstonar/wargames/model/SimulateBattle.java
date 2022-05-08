@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SimulateBattle {
 
     public static void main(String[] args) {
-        testSimulationOneOnOne();
+        testReadFile();
     }
 
     private static void testReadFile(){
@@ -27,6 +27,7 @@ public class SimulateBattle {
             AtomicInteger size = new AtomicInteger();
             army.getAllUnits().forEach(unit -> size.getAndIncrement());
             System.out.println("Amount of units in army that was read from file: " + size);
+            System.out.println("Terrain is: " + army.getAllUnits().get(0).getTerrainStyle());
         }catch (InvalidFormatException | IOException exception){
             System.err.println("Could not read from the file. Got this exception " + exception.getClass().getSimpleName());
         }
@@ -37,7 +38,7 @@ public class SimulateBattle {
         try {
             Army army = ArmyPresets.getHumanArmy();
             Army army1 = ArmyPresets.getOrcishArmy();
-            Battle battle = new OneToOneBattle(army, army1);
+            Battle battle = new OneToOneBattle(army, army1, TerrainStyle.FOREST);
             Army winningArmy = battle.simulateBattle();
             String winner = "either army as the last men strikes each other for the last time. \nThe silence settles over the battlefield and only the peasants will remember this day as a legendary battle to the death.";
             if (winningArmy != null){
@@ -56,6 +57,7 @@ public class SimulateBattle {
             System.err.println("The battle could not be simulated. \nSomething has gone wrong.\n" + exception.getMessage());
         }
     }
+
 
     private static void testWriteToFile(){
         try {

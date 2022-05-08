@@ -1,5 +1,8 @@
 package no.stonedstonar.wargames.model.units;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.UnitType;
+
 /**
  * Represents a unit that uses ranged weapons.
  * @author Steinar Hjelle Midthus
@@ -21,9 +24,10 @@ public class RangedUnit extends Unit {
      * @param armour the armour.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
+     * @param terrainStyle the terrain of the unit.
      */
-    public RangedUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus) {
-        super(unitName, health, attack, armour);
+    public RangedUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+        super(unitName, health, attack, armour, UnitType.RANGEDUNIT, terrainStyle);
         //Todo: Hvis det er på avstand
         checkIfNumberIsValid(attackBonus, "attack bonus");
         checkIfNumberIsValid(armourBonus, "armour bonus");
@@ -37,14 +41,29 @@ public class RangedUnit extends Unit {
      * Makes an instance of the ranged unit class.
      * @param unitName the name.
      * @param health the health.
+     * @param terrainStyle the terrain of the unit.
      */
-    public RangedUnit(String unitName, int health) {
-        super(unitName, health, 15, 8);
+    public RangedUnit(String unitName, int health, TerrainStyle terrainStyle) {
+        super(unitName, health, 15, 8, UnitType.RANGEDUNIT,terrainStyle);
         //Todo: If there is distance.
         this.attackBonus = 3;
         //Todo: Based on the distance to the enemy.
         this.armourBonus = 2;
         timesAttacked = 0;
+    }
+
+    /**
+     * Gets the bonus of this unit.
+     * @return the bonus.
+     */
+    private int getBonus(){
+        int bonus = 0;
+        if (getTerrainStyle() == TerrainStyle.FOREST){
+            bonus = 2;
+        }else if (getTerrainStyle() == TerrainStyle.HILL){
+            bonus = -2;
+        }
+        return bonus;
     }
 
     @Override
@@ -55,7 +74,7 @@ public class RangedUnit extends Unit {
 
     @Override
     public int getAttackBonus() {
-        return attackBonus;
+        return attackBonus - getBonus();
     }
 
     @Override

@@ -1,9 +1,11 @@
 package no.stonedstonar.wargames.ui.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.ArmyPresets;
@@ -13,6 +15,7 @@ import no.stonedstonar.wargames.model.units.*;
 import no.stonedstonar.wargames.ui.WarGamesApplication;
 import no.stonedstonar.wargames.ui.elements.AlertTemplate;
 import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
+import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.Window;
 
 import java.io.IOException;
@@ -103,6 +106,22 @@ public class EditUnitController implements Controller{
         unitFactory = new UnitFactory();
     }
 
+    private void setMenuFunctions(){
+        exitAppMenu.setOnAction(event -> Platform.exit());
+        backToMenu.setOnAction(event -> {
+            try {
+                WarGamesApplication.getWarGamesApplication().setNewScene(GameModeWindow.getGameModeWindow());
+            } catch (IOException e) {
+                Alert alert = AlertTemplate.makeCouldNotChangeWindowAlert();
+                alert.showAndWait();
+            }
+        });
+        aboutApplicationMenu.setOnAction(actionEvent -> {
+            Alert alert = AlertTemplate.makeAlert(Alert.AlertType.INFORMATION, "Edit units", "Edit units", "Edit units is a window where you can edit a unit in an army. It is also possible to edit the armies name and different units.\nTo edit units in the table select one and click \"edit unit\" button. \nTo make new units use the \"clear\" button and fill in the details.");
+            alert.showAndWait();
+        });
+    }
+
     /**
      * Sets the buttons and their functions.
      */
@@ -152,12 +171,12 @@ public class EditUnitController implements Controller{
             UnitType unitType = unitCombo.getSelectionModel().getSelectedItem();
             if (!amountField.isDisable() && amountField.getText().isEmpty()){
                 int number = Integer.parseInt(amountField.textProperty().get());
-                List<Unit> units = unitFactory.makeNAmountOfTypeUnit(number, unitType, unitName,health);
+                List<Unit> units = unitFactory.makeNAmountOfTypeUnit(number, unitType, unitName,health, TerrainStyle.PLAINS);
                 army.addAllUnits(units);
                 armyTable.getItems().addAll(units);
                 emptyFields();
             }else {
-                Unit unit = unitFactory.makeSimpleUnit(unitType, unitName, health);
+                Unit unit = unitFactory.makeSimpleUnit(unitType, unitName, health, TerrainStyle.PLAINS);
                 army.addUnit(unit);
                 armyTable.getItems().add(unit);
                 emptyFields();
@@ -179,12 +198,8 @@ public class EditUnitController implements Controller{
 
     @Override
     public void updateContent() {
-        if (armyTable.getColumns().isEmpty()){
-            makeColumnsToTable(armyTable);
-        }
         armyTable.getItems().clear();
         armyTable.getItems().addAll(army.getAllUnits());
-        setButtonsAndFunctions();
         armyNameField.setText(army.getArmyName());
     }
 
@@ -193,6 +208,15 @@ public class EditUnitController implements Controller{
         armyTable.getItems().clear();
         armyNameField.setText("");
         emptyFields();
+    }
+
+    @Override
+    public void setFunctionsOnce() {
+        if (armyTable.getColumns().isEmpty()){
+            makeColumnsToTable(armyTable);
+        }
+        setButtonsAndFunctions();
+        setMenuFunctions();
     }
 
     /**
@@ -223,13 +247,7 @@ public class EditUnitController implements Controller{
             healthField.setText(Integer.toString(unit.getHealth()));
             attackField.setText(Integer.toString(unit.getAttack()));
             armourField.setText(Integer.toString(unit.getArmour()));
-            UnitType unitType = switch (unit.getClass().getSimpleName()){
-                case "InfantryUnit" -> UnitType.INFANTRY;
-                case "CavalryUnit" -> UnitType.CAVALRY;
-                case "RangedUnit" -> UnitType.RANGEDUNIT;
-                case "ChivalryCommanderUnit" -> UnitType.CAVALRYCOMMANDER;
-                default -> null;
-            };
+            UnitType unitType = unit.getUnitType();
             unitCombo.getSelectionModel().select(unitType);
             try {
                 army.removeUnit(unit);

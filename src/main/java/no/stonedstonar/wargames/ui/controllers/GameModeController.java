@@ -54,12 +54,17 @@ public class GameModeController implements Controller{
 
     @Override
     public void updateContent() {
-        setButtonsFunctions();
+
     }
 
     @Override
     public void emptyContent() {
 
+    }
+
+    @Override
+    public void setFunctionsOnce() {
+        setButtonsFunctions();
     }
 
     /**

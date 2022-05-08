@@ -16,4 +16,9 @@ public interface Controller {
      * Makes all the content to reset that needs to be reset.
      */
     void emptyContent();
+
+    /**
+     * Sets up functions that only needs to be ran once.
+     */
+    void setFunctionsOnce();
 }

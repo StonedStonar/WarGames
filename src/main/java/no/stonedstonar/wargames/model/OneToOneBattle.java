@@ -1,8 +1,8 @@
 package no.stonedstonar.wargames.model;
 
 import no.stonedstonar.wargames.model.army.Army;
-import no.stonedstonar.wargames.model.army.ArmyPresets;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
+import no.stonedstonar.wargames.model.exception.CouldNotGetArmyException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -14,20 +14,26 @@ import no.stonedstonar.wargames.model.units.Unit;
  */
 public class OneToOneBattle implements Battle {
 
-    private Army armyOne;
+    private final Army armyOne;
 
-    private Army armyTwo;
+    private final Army armyTwo;
+
+    private Army winnerArmy;
 
     /**
      * Makes an instance of the Battle class.
      * @param armyOne the first army.
      * @param armyTwo the second army.
+     * @param terrainStyle the style of the terrain.
      */
-    public OneToOneBattle(Army armyOne, Army armyTwo) {
+    public OneToOneBattle(Army armyOne, Army armyTwo, TerrainStyle terrainStyle) {
         checkIfArmyIsValid(armyOne);
         checkIfArmyIsValid(armyTwo);
+        checkIfObjectIsNull(terrainStyle, "terrain style");
         this.armyOne = armyOne;
         this.armyTwo = armyTwo;
+        armyOne.getAllUnits().forEach(unit -> unit.setTerrainStyle(terrainStyle));
+        armyTwo.getAllUnits().forEach(unit -> unit.setTerrainStyle(terrainStyle));
     }
 
     @Override
@@ -43,7 +49,15 @@ public class OneToOneBattle implements Battle {
         }catch (CouldNotGetUnitException | CouldNotRemoveUnitException exception){
             throw new CouldNotFinishBattleException(exception.getMessage());
         }
-        return getWinnerArmy(armyOne, armyTwo);
+        return findWinnerArmy(armyOne, armyTwo);
+    }
+
+    @Override
+    public Army getWinnerArmy() throws CouldNotGetArmyException {
+        if (winnerArmy == null){
+            throw new CouldNotGetArmyException("There is no winning army.");
+        }
+        return winnerArmy;
     }
 
     /**
@@ -52,8 +66,7 @@ public class OneToOneBattle implements Battle {
      * @param armyTwo the second army.
      * @return the army that has won. Returns <code>null</code> if no army won.
      */
-    private Army getWinnerArmy(Army armyOne, Army armyTwo){
-        Army winnerArmy = null;
+    private Army findWinnerArmy(Army armyOne, Army armyTwo){
         if (armyTwo.hasUnits()){
             winnerArmy = armyTwo;
         }else if (armyOne.hasUnits()){

@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames.model.army;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.units.*;
@@ -14,6 +15,8 @@ import java.util.List;
  */
 public class ArmyPresets {
 
+
+    private static TerrainStyle terrainStyle = TerrainStyle.FOREST;
 
     /**
      * Makes an instance of army presets.
@@ -80,15 +83,15 @@ public class ArmyPresets {
      */
     private static Army fillArmy(String infantryName, String cavalryName, String rangedName, String commanderName, int health, Army army) throws CouldNotAddUnitException {
         UnitFactory unitFactory = new UnitFactory();
-        army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, commanderName, health/100*180));
+        army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, commanderName, health/100*180, terrainStyle));
         for (int i = 0; i < 500; i++){
             if (i < 200){
-                army.addUnit(unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, rangedName, health));
+                army.addUnit(unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, rangedName, health, terrainStyle));
             }
             if (i < 100){
-                army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRY, cavalryName, health));
+                army.addUnit(unitFactory.makeSimpleUnit(UnitType.CAVALRY, cavalryName, health, terrainStyle));
             }
-            army.addUnit(unitFactory.makeSimpleUnit(UnitType.INFANTRY, infantryName, health));
+            army.addUnit(unitFactory.makeSimpleUnit(UnitType.INFANTRY, infantryName, health, terrainStyle));
         }
         return army;
     }

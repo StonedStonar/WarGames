@@ -56,4 +56,12 @@ public class AlertTemplate {
     public static Alert makeCouldNotSimulateBattle(){
         return makeAlert(Alert.AlertType.INFORMATION, "Could not start battle", "Could not start battle", "Could not start battle since one army does not have any units.");
     }
+
+    /**
+     * Makes a Select terrain alert.
+     * @return the alert.
+     */
+    public static Alert makeSelectTerrainAlert(){
+        return makeAlert(Alert.AlertType.INFORMATION, "Select terrain", "Select terrain", "Please select terrain before continuing.");
+    }
 }

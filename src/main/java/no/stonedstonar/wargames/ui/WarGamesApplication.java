@@ -53,12 +53,14 @@ public class WarGamesApplication extends Application {
             String fullFilename = fileName + ".fxml";
             scene = loadScene(fullFilename , controller);
             window.setScene(scene);
+            controller.setFunctionsOnce();
         }
         String title = window.getTitleName();
         checkString(title, "title");
         String windowTitle = "Chat application 0.1v - " + title;
         stage.setTitle(windowTitle);
         stage.setScene(scene);
+        controller.emptyContent();
         controller.updateContent();
     }
 

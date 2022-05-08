@@ -1,5 +1,8 @@
 package no.stonedstonar.wargames.model.units;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.UnitType;
+
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
@@ -14,6 +17,10 @@ public abstract class Unit {
 
     private int armour;
 
+    private TerrainStyle terrainStyle;
+
+    private UnitType unitType;
+
 
     /**
      * Makes an instance of the Unit class.
@@ -21,16 +28,22 @@ public abstract class Unit {
      * @param health the health.
      * @param attack the attack.
      * @param armour the armour.
+     * @param unitType the type of unit.
+     * @param terrainStyle the terrain of the unit.
      */
-    public Unit(String unitName, int health, int attack, int armour) {
+    public Unit(String unitName, int health, int attack, int armour, UnitType unitType, TerrainStyle terrainStyle) {
         checkString(unitName, "unit name");
         checkIfNumberIsValid(health, "health");
         checkIfNumberIsValid(attack, "attack");
         checkIfNumberIsValid(armour, "armour");
+        checkIfObjectIsNull(unitType, "unitType");
+        checkIfObjectIsNull(terrainStyle, "terrain style");
         this.unitName = unitName;
         this.health = health;
         this.attack = attack;
         this.armour = armour;
+        this.unitType = unitType;
+        this.terrainStyle = terrainStyle;
     }
 
     /**
@@ -66,6 +79,15 @@ public abstract class Unit {
     }
 
     /**
+     * Sets the terrain style that the unit is on.
+     * @param terrainStyle the style of terrain.
+     */
+    public void setTerrainStyle(TerrainStyle terrainStyle){
+        checkIfObjectIsNull(terrainStyle, "terrain style");
+        this.terrainStyle = terrainStyle;
+    }
+
+    /**
      * Gets the name of the unit.
      * @return the name of the unit.
      */
@@ -95,6 +117,22 @@ public abstract class Unit {
      */
     public int getArmour() {
         return armour;
+    }
+
+    /**
+     * Gets the style of the terrain.
+     * @return the terrain style.
+     */
+    public TerrainStyle getTerrainStyle(){
+        return terrainStyle;
+    }
+
+    /**
+     * Gets the type of the unit. Used for storage and GUI operations.
+     * @return the unit type.
+     */
+    public UnitType getUnitType(){
+        return unitType;
     }
 
     /**

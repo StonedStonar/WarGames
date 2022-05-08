@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -24,6 +25,8 @@ public class UnitFactoryTests {
 
     private String illegalPrefix;
 
+    private TerrainStyle terrainStyle;
+
     /**
      * Makes an instance of the RangedUnitTests class.
      */
@@ -36,6 +39,7 @@ public class UnitFactoryTests {
      */
     @BeforeEach
     private void addTestData(){
+        this.terrainStyle = TerrainStyle.HILL;
         stringBuilder = new StringBuilder();
         errors = 0;
     }
@@ -57,7 +61,7 @@ public class UnitFactoryTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3);
+        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3, terrainStyle);
     }
 
     /**
@@ -101,24 +105,28 @@ public class UnitFactoryTests {
         int health = 100;
         UnitFactory unitFactory = new UnitFactory();
         try {
-            unitFactory.makeSimpleUnit(null, unitName, health);
+            unitFactory.makeSimpleUnit(null, unitName, health, terrainStyle);
             addError(illegalPrefix, "the input type is null");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeSimpleUnit(unitType, null, health);
+            unitFactory.makeSimpleUnit(unitType, null, health, terrainStyle);
             addError(illegalPrefix, "the input unit name is null");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeSimpleUnit(unitType, "", health);
+            unitFactory.makeSimpleUnit(unitType, "", health, terrainStyle);
             addError(illegalPrefix, "the input unit name is empty");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeSimpleUnit(unitType, unitName, 0);
+            unitFactory.makeSimpleUnit(unitType, unitName, 0, terrainStyle);
             addError(illegalPrefix, "the input health is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeSimpleUnit(unitType, unitName, -5);
+            unitFactory.makeSimpleUnit(unitType, unitName, -5, terrainStyle);
             addError(illegalPrefix, "the input health is -5");
+        }catch (IllegalArgumentException exception){}
+        try {
+            unitFactory.makeSimpleUnit(unitType, unitName, health, null);
+            addError(illegalPrefix, "the input terrain is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -133,7 +141,7 @@ public class UnitFactoryTests {
         int health = 100;
         UnitFactory unitFactory = new UnitFactory();
         try{
-            unitFactory.makeSimpleUnit(unitType, unitName, health);
+            unitFactory.makeSimpleUnit(unitType, unitName, health, terrainStyle);
         }catch (IllegalArgumentException exception){
             addErrorWithException("The input values are valid so the unit", "should be added", exception);
         }
@@ -151,32 +159,36 @@ public class UnitFactoryTests {
         int health = 100;
         UnitFactory unitFactory = new UnitFactory();
         try {
-            unitFactory.makeNAmountOfTypeUnit(0, unitType, unitName, health);
+            unitFactory.makeNAmountOfTypeUnit(0, unitType, unitName, health, terrainStyle);
             addError(illegalPrefix, "the amount is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(-5, unitType, unitName, health);
+            unitFactory.makeNAmountOfTypeUnit(-5, unitType, unitName, health, terrainStyle);
             addError(illegalPrefix, "the amount is -5");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(amount, null, unitName, health);
+            unitFactory.makeNAmountOfTypeUnit(amount, null, unitName, health, terrainStyle);
             addError(illegalPrefix, "the unit type is null");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(amount, unitType, null, health);
+            unitFactory.makeNAmountOfTypeUnit(amount, unitType, null, health, terrainStyle);
             addError(illegalPrefix, "the unit name is null");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(amount, unitType, "", health);
+            unitFactory.makeNAmountOfTypeUnit(amount, unitType, "", health, terrainStyle);
             addError(illegalPrefix, "the unit name is empty");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(amount, unitType, unitName, 0);
+            unitFactory.makeNAmountOfTypeUnit(amount, unitType, unitName, 0, terrainStyle);
             addError(illegalPrefix, "health is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            unitFactory.makeNAmountOfTypeUnit(amount, unitType, unitName, -5);
+            unitFactory.makeNAmountOfTypeUnit(amount, unitType, unitName, -5, terrainStyle);
             addError(illegalPrefix, "health is -5");
+        }catch (IllegalArgumentException exception){}
+        try {
+            unitFactory.makeNAmountOfTypeUnit(amount, unitType, unitName, health, null);
+            addError(illegalPrefix, "the terrain is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -192,7 +204,7 @@ public class UnitFactoryTests {
         int health = 100;
         UnitFactory unitFactory = new UnitFactory();
         try {
-            unitFactory.makeNAmountOfTypeUnit(5, unitType, unitName, health);
+            unitFactory.makeNAmountOfTypeUnit(5, unitType, unitName, health, terrainStyle);
         }catch (IllegalArgumentException exception){
             addErrorWithException("Expected the units to be made since the input is valid", "", exception);
         }

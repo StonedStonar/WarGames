@@ -20,7 +20,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="632.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="632.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar>
          <menus>
@@ -34,7 +34,6 @@
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="aboutApplicationMenu" mnemonicParsing="false" text="About application" />
-                  <MenuItem mnemonicParsing="false" text="How to play gamemode" />
                </items>
             </Menu>
          </menus>

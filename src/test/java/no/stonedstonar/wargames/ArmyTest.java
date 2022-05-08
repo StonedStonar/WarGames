@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.UnitType;
@@ -41,6 +42,8 @@ public class ArmyTest {
 
     private String getPrefix;
 
+    private TerrainStyle terrainStyle;
+
     /**
      * Makes an army test instance.
      */
@@ -56,6 +59,7 @@ public class ArmyTest {
      */
     @BeforeEach
     private void addTestData(){
+        this.terrainStyle = TerrainStyle.FOREST;
         try {
             this.units = makeUnits();
             army = new NormalArmy("hei", units);
@@ -72,10 +76,10 @@ public class ArmyTest {
      */
     private List<Unit> makeUnits(){
         List<Unit> units = new ArrayList<>();
-        units.add(new InfantryUnit("Bjarne", 100));
-        units.add(new CavalryUnit("Fjell", 100));
-        units.add(new ChivalryCommanderUnit("pepe",200));
-        units.add(new RangedUnit("Robin", 100));
+        units.add(new InfantryUnit("Bjarne", 100, terrainStyle));
+        units.add(new CavalryUnit("Fjell", 100, terrainStyle));
+        units.add(new ChivalryCommanderUnit("pepe",200, terrainStyle));
+        units.add(new RangedUnit("Robin", 100, terrainStyle));
         return units;
     }
 
@@ -96,7 +100,7 @@ public class ArmyTest {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10, 2, 3);
+        return new InfantryUnit("Fjarne", 100, 20, 10, 2, 3, TerrainStyle.FOREST);
     }
 
     /**
@@ -228,7 +232,7 @@ public class ArmyTest {
     @DisplayName("Tests if addUnit works with valid input.")
     public void testIfAddUnitWorksWithValidInput(){
         try {
-            army.addUnit(new InfantryUnit("Bjarne 2", 100));
+            army.addUnit(new InfantryUnit("Bjarne 2", 100, terrainStyle));
         } catch (CouldNotAddUnitException | IllegalArgumentException exception) {
             addErrorWithException("Expeted the ", "unit to be added sience the input is valid", exception);
         }
@@ -284,7 +288,7 @@ public class ArmyTest {
             addErrorWithException(illegalPrefix, "the input unit is null", exception);
         }
         try {
-            army.removeUnit(new InfantryUnit("Bjarne 3", 100));
+            army.removeUnit(new InfantryUnit("Bjarne 3", 100, terrainStyle));
             addError(removePrefix, "the unit is not in the army");
         }catch (IllegalArgumentException exception){
             addErrorWithException(removePrefix, "the unit is not in the army", exception);

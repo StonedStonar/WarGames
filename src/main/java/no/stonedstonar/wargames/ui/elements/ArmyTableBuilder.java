@@ -61,7 +61,7 @@ public class ArmyTableBuilder {
      * @return the builder object.
      */
     public ArmyTableBuilder addArmourColumn(){
-        TableColumn<Unit, Number> armourCol = new TableColumn<>("Attack");
+        TableColumn<Unit, Number> armourCol = new TableColumn<>("Armour");
         armourCol.setCellValueFactory(unit -> new SimpleIntegerProperty(unit.getValue().getArmour()));
         tableView.getColumns().add(armourCol);
         return this;

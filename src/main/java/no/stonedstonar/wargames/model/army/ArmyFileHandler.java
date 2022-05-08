@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames.model.army;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.InvalidFormatException;
 import no.stonedstonar.wargames.model.units.*;
@@ -50,15 +51,17 @@ public class ArmyFileHandler {
         List<Unit> units = new ArrayList<>();
         UnitFactory unitFactory = new UnitFactory();
         Iterator<String> iterator = readLines.iterator();
+        TerrainStyle terrainStyle = null;
         while (iterator.hasNext()){
             String line = iterator.next();
             try {
                 String[] unitAsString = line.split(delimiter);
                 if (!firstLine && unitAsString.length >= 3){
-                    units.add(makeUnit(unitAsString, unitFactory));
-                }else if (armyName == null && unitAsString.length == 1){
+                    units.add(makeUnit(unitAsString, unitFactory, terrainStyle));
+                }else if (armyName == null && terrainStyle == null && unitAsString.length == 2){
                     firstLine = false;
-                    armyName = line;
+                    armyName = unitAsString[0];
+                    terrainStyle = TerrainStyle.valueOf(unitAsString[1]);
                 }else {
                     throw new InvalidFormatException("The format on the file is invalid.");
                 }
@@ -73,18 +76,19 @@ public class ArmyFileHandler {
      * Makes a unit from a string array.
      * @param stringArray the string array.
      * @param unitFactory the unit factory.
+     * @param terrainStyle the terrain style.
      * @return the unit matching the string array.
      * @throws InvalidFormatException gets thrown if the format on the string does not match any units.
      */
-    private static Unit makeUnit(String[] stringArray, UnitFactory unitFactory) throws InvalidFormatException {
+    private static Unit makeUnit(String[] stringArray, UnitFactory unitFactory, TerrainStyle terrainStyle) throws InvalidFormatException {
         String unitType = stringArray[0];
         String unitName = stringArray[1];
         int health = parseNumber(stringArray[2]);
         return switch (unitType){
-            case "InfantryUnit" -> unitFactory.makeSimpleUnit(UnitType.INFANTRY, unitName, health);
-            case "RangedUnit" -> unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, unitName, health);
-            case "CavalryUnit" -> unitFactory.makeSimpleUnit(UnitType.CAVALRY, unitName, health);
-            case "ChivalryCommanderUnit" -> unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, unitName, health);
+            case "InfantryUnit" -> unitFactory.makeSimpleUnit(UnitType.INFANTRY, unitName, health, terrainStyle);
+            case "RangedUnit" -> unitFactory.makeSimpleUnit(UnitType.RANGEDUNIT, unitName, health, terrainStyle);
+            case "CavalryUnit" -> unitFactory.makeSimpleUnit(UnitType.CAVALRY, unitName, health, terrainStyle);
+            case "ChivalryCommanderUnit" -> unitFactory.makeSimpleUnit(UnitType.CAVALRYCOMMANDER, unitName, health, terrainStyle);
             default -> throw new InvalidFormatException("The class " + unitType + " could not be found");
         };
     }
@@ -182,7 +186,7 @@ public class ArmyFileHandler {
      * @param stringBuilder the string builder.
      */
     private static void appendArmyDetails(Army army, StringBuilder stringBuilder){
-        stringBuilder.append(army.getArmyName()).append(newline);
+        stringBuilder.append(army.getArmyName()).append(delimiter).append(army.getAllUnits().get(0).getTerrainStyle()).append(newline);
     }
 
     /**

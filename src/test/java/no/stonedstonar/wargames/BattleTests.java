@@ -2,6 +2,7 @@ package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.Battle;
 import no.stonedstonar.wargames.model.OneToOneBattle;
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
@@ -31,6 +32,8 @@ public class BattleTests {
 
     private String illegalPrefix;
 
+    private TerrainStyle terrainStyle;
+
     /**
      * Makes a instance of the battle tests.
      */
@@ -44,8 +47,9 @@ public class BattleTests {
      */
     @BeforeEach
     private void setUpTest(){
+        terrainStyle = TerrainStyle.FOREST;
         try {
-            battle = new OneToOneBattle(makeTestArmy("Human"), makeTestArmy("Snails"));
+            battle = new OneToOneBattle(makeTestArmy("Human"), makeTestArmy("Snails"), terrainStyle);
         } catch (IllegalArgumentException | CouldNotAddUnitException e) {
             fail("Could not make test battle");
         }
@@ -62,7 +66,7 @@ public class BattleTests {
      */
     private Army makeTestArmy(String armyName) throws CouldNotAddUnitException {
         Army army = new NormalArmy(armyName);
-        army.addUnit(new InfantryUnit("Jan " + armyName, 100));
+        army.addUnit(new InfantryUnit("Jan " + armyName, 100, terrainStyle));
         return army;
     }
 
@@ -124,12 +128,16 @@ public class BattleTests {
         }
         try {
 
-            Battle battle = new OneToOneBattle(null, armyTwo);
+            Battle battle = new OneToOneBattle(null, armyTwo, terrainStyle);
             addError(illegalPrefix, "the input army one is null");
         } catch (IllegalArgumentException e) {}
         try {
-            Battle battle = new OneToOneBattle(armyOne, null);
+            Battle battle = new OneToOneBattle(armyOne, null, terrainStyle);
             addError(illegalPrefix, "the input army two is null");
+        }catch (IllegalArgumentException exception){}
+        try {
+            Battle battle = new OneToOneBattle(armyOne, armyTwo, null);
+            addError(illegalPrefix, "the input terrain is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -140,7 +148,7 @@ public class BattleTests {
     @DisplayName("Tests if constructor works with valid input.")
     public void testIfConstructorWorksWithValidInput(){
         try {
-            Battle battle = new OneToOneBattle(makeTestArmy("human"), makeTestArmy("dwarf"));
+            Battle battle = new OneToOneBattle(makeTestArmy("human"), makeTestArmy("dwarf"), terrainStyle);
         }catch (IllegalArgumentException | CouldNotAddUnitException exception){
             addErrorWithException("Expected the", "battle to be made since the input is valid", exception);
         }
@@ -155,8 +163,8 @@ public class BattleTests {
         try {
             Army army = makeTestArmy("Human");
             Army army1 = new NormalArmy("Dwarf");
-            army1.addUnit(new InfantryUnit("Peter", 6000));
-            Battle battle = new OneToOneBattle(army, army1);
+            army1.addUnit(new InfantryUnit("Peter", 6000, terrainStyle));
+            Battle battle = new OneToOneBattle(army, army1, terrainStyle);
             Army winningArmy = battle.simulateBattle();
             if (winningArmy != army1){
                 addError("Expected the dwarf army to win since they have an overpowered unit", "");

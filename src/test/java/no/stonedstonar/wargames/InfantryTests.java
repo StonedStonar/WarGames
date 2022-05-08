@@ -14,12 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Represents tests for the Cavalry unit class.
+ * Tests the infantry units class.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class CavalryUnitTests {
-
+public class InfantryTests {
 
     private StringBuilder stringBuilder;
 
@@ -32,7 +31,7 @@ public class CavalryUnitTests {
     /**
      * Makes an instance of the RangedUnitTests class.
      */
-    public CavalryUnitTests() {
+    public InfantryTests() {
         illegalPrefix = makeExceptionString("IllegalArgumentException");
     }
 
@@ -41,7 +40,7 @@ public class CavalryUnitTests {
      */
     @BeforeEach
     private void addTestData(){
-        terrainStyle = TerrainStyle.FOREST;
+        this.terrainStyle = TerrainStyle.FOREST;
         stringBuilder = new StringBuilder();
         errors = 0;
     }
@@ -63,7 +62,7 @@ public class CavalryUnitTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3,terrainStyle);
+        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3, terrainStyle);
     }
 
     /**
@@ -109,24 +108,20 @@ public class CavalryUnitTests {
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, 0, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, 0, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input bonus attack bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, -5, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, -5, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack bonus -5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, bonusAttack, 0, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, 0, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, bonusAttack, -5, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, -5, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is -5");
-        }catch (IllegalArgumentException exception){}
-        try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, null);
-            addError(illegalPrefix, "the input terrain is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -143,42 +138,44 @@ public class CavalryUnitTests {
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new CavalryUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
         }catch (IllegalArgumentException exception){
-            addError("Expected the", "unit to be made since the input value is valid.");
+            addErrorWithException("Expected the", "unit to be made since the input value is valid", exception);
         }
     }
 
     /**
-     * Tests if cavalry gets attack bonus on plains.
+     * Tests if infantry gets bonus in attack when in a forest.
      */
     @Test
-    @DisplayName("Tests if cavalry gets attack bonus on plains.")
-    public void testIfCavalryGetsBonusOnPlains(){
+    @DisplayName("Tests if infantry gets bonus in attack when in a forest.")
+    public void testIfInfantryGetsBonusAttackInForest(){
         try {
-            Unit unit = new CavalryUnit("Lars", 100, TerrainStyle.PLAINS);
-            Unit unit1 = new CavalryUnit("Lars", 100, TerrainStyle.HILL);
-            if (unit.getAttackBonus() <= unit1.getAttackBonus()){
-                addError("Expected the first unit to have more attack bonus since its on plains.", "");
+            Unit unit = new InfantryUnit("Laras", 100, TerrainStyle.FOREST);
+            Unit unit1 = new InfantryUnit("AS", 100, TerrainStyle.PLAINS);
+            if (unit1.getAttackBonus() >= unit.getAttackBonus()){
+                addError("Expected the unit to have more attack bonus since its in a forest.", "");
             }
         }catch (IllegalArgumentException exception){
-
+            addErrorWithException("Expected the", "unit to be made since the input value is valid", exception);
         }
     }
 
+
     /**
-     * Tests if cavalry gets zero defence in forest.
+     * Tests if infantry gets bonus in defence when in a forest.
      */
     @Test
-    @DisplayName("Tests if cavalry gets zero defence in forest.")
-    public void testIfCavalryGetsZeroDefenceInForest(){
+    @DisplayName("Tests if infantry gets bonus in defence when in a forest.")
+    public void testIfInfantryGetsDefenceBonusInForest(){
         try {
-            Unit unit = new CavalryUnit("Lars", 100, TerrainStyle.FOREST);
-            if (unit.getArmourBonus() != 0){
-                addError("Expected the unit to have zero armour since its in the forest.", "");
+            Unit unit = new InfantryUnit("Laras", 100, TerrainStyle.FOREST);
+            Unit unit1 = new InfantryUnit("AS", 100, TerrainStyle.PLAINS);
+            if (unit1.getArmourBonus() >= unit.getArmourBonus()){
+                addError("Expected the unit to have more defence bonus since its in a forest.", "");
             }
         }catch (IllegalArgumentException exception){
-            addErrorWithException("Expected the unit to be made since", "the format is valid", exception);
+            addErrorWithException("Expected the", "unit to be made since the input value is valid", exception);
         }
     }
 }

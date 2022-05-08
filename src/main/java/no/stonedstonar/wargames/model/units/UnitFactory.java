@@ -1,7 +1,7 @@
 package no.stonedstonar.wargames.model.units;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
-import no.stonedstonar.wargames.model.exception.InvalidFormatException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,14 @@ public class UnitFactory {
      * @param unitType the unit type.
      * @param unitName the unit name.
      * @param health the unit health.
+     * @param terrainStyle the terrain style
      * @return the list with all the units.
      */
-    public List<Unit> makeNAmountOfTypeUnit(int amount, UnitType unitType, String unitName, int health){
+    public List<Unit> makeNAmountOfTypeUnit(int amount, UnitType unitType, String unitName, int health, TerrainStyle terrainStyle){
         List<Unit> units = new ArrayList<>();
         checkIfNumberIsValid(amount, "amount");
         for (int i = 0; i < amount; i++){
-            units.add(makeSimpleUnit(unitType, unitName, health));
+            units.add(makeSimpleUnit(unitType, unitName, health, terrainStyle));
         }
         return units;
     }
@@ -46,14 +47,15 @@ public class UnitFactory {
      * @param attack the units attack.
      * @param attackBonus the units' bonus attack.
      * @param armourBonus the units armour bonus.
+     * @param terrainStyle the terrain style.
      * @return the unit matching the input.
      */
-    private Unit makeUnit(UnitType unitType, String unitName, int health, int armour,int attack , int attackBonus, int armourBonus) {
+    private Unit makeUnit(UnitType unitType, String unitName, int health, int armour,int attack , int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
         return switch (unitType){
-            case CAVALRY -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus);
-            case INFANTRY -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus);
-            case RANGEDUNIT -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus);
-            case CAVALRYCOMMANDER -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus);
+            case CAVALRY -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
+            case INFANTRY -> new InfantryUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
+            case RANGEDUNIT -> new RangedUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
+            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
         };
     }
 
@@ -62,17 +64,18 @@ public class UnitFactory {
      * @param unitType the unit type.
      * @param unitName the unit name.
      * @param health the unit health.
+     * @param terrainStyle the style of the terrain.
      * @return the unit matching the input.
      */
-    public Unit makeSimpleUnit(UnitType unitType, String unitName, int health) {
+    public Unit makeSimpleUnit(UnitType unitType, String unitName, int health, TerrainStyle terrainStyle) {
         checkIfObjectIsNull(unitType, "unit type");
         checkIfNumberIsValid(health, "health");
         checkString(unitName, "unit name");
         return switch (unitType){
-            case CAVALRY -> new CavalryUnit(unitName, health);
-            case INFANTRY -> new InfantryUnit(unitName, health);
-            case RANGEDUNIT -> new RangedUnit(unitName, health);
-            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health);
+            case CAVALRY -> new CavalryUnit(unitName, health, terrainStyle);
+            case INFANTRY -> new InfantryUnit(unitName, health, terrainStyle);
+            case RANGEDUNIT -> new RangedUnit(unitName, health, terrainStyle);
+            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, terrainStyle);
         };
     }
 

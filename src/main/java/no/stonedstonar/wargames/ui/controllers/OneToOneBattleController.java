@@ -5,7 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import no.stonedstonar.wargames.model.Battle;
 import no.stonedstonar.wargames.model.OneToOneBattle;
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -17,6 +19,7 @@ import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
 
 import java.io.IOException;
+import java.util.logging.FileHandler;
 
 /**
  * Represents a controller of a one-to-one battle.
@@ -67,6 +70,9 @@ public class OneToOneBattleController implements Controller{
     @FXML
     private Button startSimulationButton;
 
+    @FXML
+    private ComboBox<TerrainStyle> terrainComboBox;
+
     private Army armyOne;
 
     private Army armyTwo;
@@ -84,6 +90,10 @@ public class OneToOneBattleController implements Controller{
      * Sets the functions of the buttons.
      */
     private void setButtonsFunctions(){
+        terrainComboBox.getItems().add(TerrainStyle.FOREST);
+        terrainComboBox.getItems().add(TerrainStyle.HILL);
+        terrainComboBox.getItems().add(TerrainStyle.PLAINS);
+
         editArmyOneButton.setOnAction(event -> editArmy(armyOne));
         editArmyTwoButton.setOnAction(event -> editArmy(armyTwo));
         startSimulationButton.setOnAction(event -> simulateBattle());
@@ -107,25 +117,31 @@ public class OneToOneBattleController implements Controller{
      * Simulates a battle between two armies.
      */
     private void simulateBattle(){
-        try {
-            if (armyTwo.hasUnits() && armyOne.hasUnits()){
-                Battle battle = new OneToOneBattle(armyOne, armyTwo);
-                Army army = battle.simulateBattle();
-                if (army != null){
-                    winningArmyLabel.setText(army.getArmyName());
+        TerrainStyle terrainStyle = terrainComboBox.getSelectionModel().getSelectedItem();
+        if (terrainStyle == null){
+            Alert alert = AlertTemplate.makeSelectTerrainAlert();
+            alert.showAndWait();
+        }else {
+            try {
+                if (armyTwo.hasUnits() && armyOne.hasUnits()){
+                    Battle battle = new OneToOneBattle(armyOne, armyTwo, terrainStyle);
+                    Army army = battle.simulateBattle();
+                    if (army != null){
+                        winningArmyLabel.setText(army.getArmyName());
+                    }else {
+                        winningArmyLabel.setText("Draw");
+                    }
+                    startSimulationButton.setDisable(true);
+                    armyTwoTable.refresh();
+                    armyOneTable.refresh();
                 }else {
-                    winningArmyLabel.setText("Draw");
+                    Alert alert = AlertTemplate.makeCouldNotSimulateBattle();
+                    alert.showAndWait();
                 }
-                startSimulationButton.setDisable(true);
-                armyTwoTable.refresh();
-                armyOneTable.refresh();
-            }else {
-                Alert alert = AlertTemplate.makeCouldNotSimulateBattle();
+            }catch (CouldNotFinishBattleException | IllegalArgumentException exception){
+                Alert alert = AlertTemplate.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
                 alert.showAndWait();
             }
-        }catch (CouldNotFinishBattleException exception){
-            Alert alert = AlertTemplate.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
-            alert.showAndWait();
         }
     }
 
@@ -146,12 +162,6 @@ public class OneToOneBattleController implements Controller{
 
     @Override
     public void updateContent() {
-        if (armyTwoTable.getColumns().isEmpty()){
-            makeColumnsToTable(armyTwoTable);
-        }
-        if (armyOneTable.getColumns().isEmpty()){
-            makeColumnsToTable(armyOneTable);
-        }
         startSimulationButton.setDisable(!(armyOne.hasUnits() && armyTwo.hasUnits()));
         armyOneTable.getItems().clear();
         armyTwoTable.getItems().clear();
@@ -159,8 +169,6 @@ public class OneToOneBattleController implements Controller{
         armyOneTable.getItems().addAll(armyOne.getAllUnits());
         armyTwoLabel.setText(armyTwo.getArmyName());
         armyOneLabel.setText(armyOne.getArmyName());
-        setButtonsFunctions();
-        setMenuItemFunctions();
     }
 
     @Override
@@ -170,6 +178,18 @@ public class OneToOneBattleController implements Controller{
         winningArmyLabel.setText("");
         armyOneLabel.setText("");
         armyTwoLabel.setText("");
+    }
+
+    @Override
+    public void setFunctionsOnce() {
+        setButtonsFunctions();
+        setMenuItemFunctions();
+        if (armyTwoTable.getColumns().isEmpty()){
+            makeColumnsToTable(armyTwoTable);
+        }
+        if (armyOneTable.getColumns().isEmpty()){
+            makeColumnsToTable(armyOneTable);
+        }
     }
 
     /**

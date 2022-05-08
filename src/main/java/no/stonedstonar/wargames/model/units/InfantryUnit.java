@@ -1,5 +1,8 @@
 package no.stonedstonar.wargames.model.units;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.UnitType;
+
 /**
  * Represents a infantry unit.
  * @author Steinar Hjelle Midthus
@@ -19,9 +22,10 @@ public class InfantryUnit extends Unit{
      * @param armour the armour.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
+     * @param terrainStyle the terrain of the unit.
      */
-    public InfantryUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus) {
-        super(unitName, health, attack, armour);
+    public InfantryUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+        super(unitName, health, attack, armour, UnitType.INFANTRY, terrainStyle);
         checkIfNumberIsValid(attackBonus, "attack bonus");
         checkIfNumberIsValid(armourBonus, "armour bonus");
         this.armourBonus = armourBonus;
@@ -32,21 +36,34 @@ public class InfantryUnit extends Unit{
      * Makes an instance of the InfantryUnit class that has set attack and armour.
      * @param unitName the name.
      * @param health the health.
+     * @param terrainStyle the terrain of the unit.
      */
-    public InfantryUnit(String unitName, int health){
-        super(unitName, health, 15, 10);
+    public InfantryUnit(String unitName, int health, TerrainStyle terrainStyle){
+        super(unitName, health, 15, 10, UnitType.INFANTRY, terrainStyle);
         //Todo: Skal ha en bonus i nærkamp.
         attackBonus = 2;
         armourBonus = 1;
     }
 
+    /**
+     * Gets the bonus this unit should have.
+     * @return the bonus.
+     */
+    private int getBonus(){
+        int bonus = 0;
+        if (getTerrainStyle() == TerrainStyle.FOREST){
+            bonus = 2;
+        }
+        return bonus;
+    }
+
     @Override
     public int getAttackBonus() {
-        return attackBonus;
+        return (attackBonus + getBonus());
     }
 
     @Override
     public int getArmourBonus() {
-        return armourBonus;
+        return (armourBonus + getBonus());
     }
 }
