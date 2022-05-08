@@ -24,6 +24,12 @@ public interface Army {
     String getArmyName();
 
     /**
+     * Sets the name of the army.
+     * @param armyName the new army name.
+     */
+    void setArmyName(String armyName);
+
+    /**
      * Adds a unit to the army.
      * @param unit the unit to add.
      * @throws CouldNotAddUnitException gets thrown if the unit could not be added.
@@ -45,6 +51,11 @@ public interface Army {
     void removeUnit(Unit unitToRemove) throws CouldNotRemoveUnitException;
 
     /**
+     * Deletes all the units in this army.
+     */
+    void clearAllUnits();
+
+    /**
      * Checks if there is any units in the army.
      * @return <code>true</code> if the army has units.
      *         <code>false</code> if the army does not have any units.
@@ -55,7 +66,7 @@ public interface Army {
      * Gets an Iterator with all the units.
      * @return the units.
      */
-    Iterator<Unit> getAllUnits();
+    List<Unit> getAllUnits();
 
     /**
      * Gets a random unit from this army.
