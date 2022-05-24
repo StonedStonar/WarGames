@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" style="-fx-background-color: #333333;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label text="Wargames">
          <font>
@@ -75,7 +74,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" style="-fx-background-color: #2c6894; -fx-background-radius: 5;" text="Another mode" textFill="WHITE">
+      <Button fx:id="anotherModeButton" mnemonicParsing="false" style="-fx-background-color: #2c6894; -fx-background-radius: 5;" text="Another mode" textFill="WHITE">
          <VBox.margin>
             <Insets bottom="5.0" top="5.0" />
          </VBox.margin>

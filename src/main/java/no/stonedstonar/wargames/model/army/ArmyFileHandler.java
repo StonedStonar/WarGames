@@ -154,7 +154,6 @@ public class ArmyFileHandler {
      */
     public static void writeArmyToFile(Army army,File file , boolean onlyHealthAndName) throws IOException {
         checkIfObjectIsNull(army, "army");
-        checkIfObjectIsNull(file, "file");
         StringBuilder stringBuilder = new StringBuilder();
         appendArmyDetails(army, stringBuilder);
         appendUnits(army, stringBuilder, onlyHealthAndName);

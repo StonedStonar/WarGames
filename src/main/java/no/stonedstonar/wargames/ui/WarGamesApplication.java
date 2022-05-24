@@ -1,10 +1,14 @@
 package no.stonedstonar.wargames.ui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import no.stonedstonar.wargames.ui.controllers.Controller;
+import no.stonedstonar.wargames.ui.elements.AlertTemplateFactory;
 import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.Window;
 
@@ -21,6 +25,8 @@ public class WarGamesApplication extends Application {
 
     private static WarGamesApplication warGamesApplication;
 
+    private AlertTemplateFactory alertTemplateFactory;
+
     /**
      * Makes an instance of the WarGamesApplication class.
      */
@@ -28,6 +34,7 @@ public class WarGamesApplication extends Application {
         synchronized (WarGamesApplication.class){
             warGamesApplication = this;
         }
+        alertTemplateFactory = new AlertTemplateFactory();
     }
 
     @Override
@@ -35,6 +42,17 @@ public class WarGamesApplication extends Application {
         this.stage = primaryStage;
         setNewScene(GameModeWindow.getGameModeWindow());
         stage.show();
+    }
+
+    /**
+     * Closes the application if the prompt is answered with "ok".
+     */
+    public void closeApplication(){
+        Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.CONFIRMATION, "Exit application", "Are you sure you want to close this application?");
+        ButtonType buttonType = alert.showAndWait().get();
+        if (buttonType != null && buttonType == ButtonType.OK){
+            Platform.exit();
+        }
     }
 
     /**

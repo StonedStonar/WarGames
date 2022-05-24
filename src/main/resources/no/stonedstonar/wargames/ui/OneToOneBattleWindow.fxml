@@ -107,7 +107,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label text="Army one" textFill="WHITE" GridPane.columnIndex="1">
+            <Label text="Army two" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font size="16.0" />
                </font>

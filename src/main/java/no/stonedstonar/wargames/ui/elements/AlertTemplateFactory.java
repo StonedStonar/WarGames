@@ -7,13 +7,20 @@ import javafx.scene.control.Alert;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class AlertTemplate {
+public class AlertTemplateFactory {
+
+    /**
+     * Makes an instance of this template factory.
+     */
+    public AlertTemplateFactory(){
+
+    }
 
     /**
      * Makes the "About application" alert.
      * @return the alert.
      */
-    public static Alert makeAboutApplicationAlert(){
+    public Alert makeAboutApplicationAlert(){
         return makeAlert(Alert.AlertType.INFORMATION, "About wargames application", "Application version 0.1v\nThis application is made by a teacher assistant at NTNU Ålesund named Steinar Hjelle Midthus.\nThe task is taken from the Programming 2 course at NTNU Ålesund in 2022 and is an example of how the task could be solved.\nLater iterations will hopefully include a 2D map.");
     }
 
@@ -22,7 +29,7 @@ public class AlertTemplate {
      * Makes an alert that matches the could not change window format.
      * @return the alert.
      */
-    public static Alert makeCouldNotChangeWindowAlert(){
+    public Alert makeCouldNotChangeWindowAlert(){
         return makeAlert(Alert.AlertType.ERROR, "Could not change window.", "An error has occurred in switching between windows.\n Please try again or restart the app.");
     }
 
@@ -33,7 +40,7 @@ public class AlertTemplate {
      * @param contents the contents of the alert.
      * @return the alert that was made.
      */
-    public static Alert makeAlert(Alert.AlertType alertType, String title, String contents){
+    public Alert makeAlert(Alert.AlertType alertType, String title, String contents){
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(title);
@@ -45,7 +52,7 @@ public class AlertTemplate {
      * Makes a CouldNotEditSelectedUnit alert.
      * @return the alert.
      */
-    public static Alert makeCouldNotEditSelectUnit(){
+    public Alert makeCouldNotEditSelectUnit(){
         return makeAlert(Alert.AlertType.ERROR, "Could not edit unit", "No unit is selected from the table before editing. \nPlease try again");
     }
 
@@ -53,7 +60,7 @@ public class AlertTemplate {
      * Makes a CouldNotAddUnit alert.
      * @return the alert.
      */
-    public static Alert makeCouldNotAddUnitAlert(){
+    public Alert makeCouldNotAddUnitAlert(){
         return makeAlert(Alert.AlertType.ERROR, "Could not add unit", "Could not add wanted unit(s). \nInput is invalid please try again.");
     }
 
@@ -61,7 +68,7 @@ public class AlertTemplate {
      * Makes a CouldNotSimulateBattle alert.
      * @return the alert.
      */
-    public static Alert makeCouldNotSimulateBattle(){
+    public Alert makeCouldNotSimulateBattle(){
         return makeAlert(Alert.AlertType.INFORMATION, "Could not start battle", "Could not start battle since one army does not have any units.");
     }
 
@@ -69,7 +76,7 @@ public class AlertTemplate {
      * Makes a Select terrain alert.
      * @return the alert.
      */
-    public static Alert makeSelectTerrainAlert(){
+    public Alert makeSelectTerrainAlert(){
         return makeAlert(Alert.AlertType.INFORMATION, "Select terrain", "Please select terrain before continuing.");
     }
 }
