@@ -3,11 +3,10 @@ package no.stonedstonar.wargames.ui.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import no.stonedstonar.wargames.model.Battle;
-import no.stonedstonar.wargames.model.OneToOneBattle;
+import no.stonedstonar.wargames.model.battle.Battle;
+import no.stonedstonar.wargames.model.battle.OneToOneBattle;
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
-import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -19,7 +18,6 @@ import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
 
 import java.io.IOException;
-import java.util.logging.FileHandler;
 
 /**
  * Represents a controller of a one-to-one battle.
@@ -45,12 +43,6 @@ public class OneToOneBattleController implements Controller{
 
     @FXML
     private Button editArmyTwoButton;
-
-    @FXML
-    private MenuItem saveToFileMenu;
-
-    @FXML
-    private MenuItem loadFromFileMenu;
 
     @FXML
     private MenuItem exitAppMenu;
@@ -111,6 +103,10 @@ public class OneToOneBattleController implements Controller{
                 AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
             }
         });
+        aboutApplicationMenu.setOnAction(actionEvent -> {
+            Alert alert = AlertTemplate.makeAboutApplicationAlert();
+            alert.showAndWait();
+        });
     }
 
     /**
@@ -139,7 +135,7 @@ public class OneToOneBattleController implements Controller{
                     alert.showAndWait();
                 }
             }catch (CouldNotFinishBattleException | IllegalArgumentException exception){
-                Alert alert = AlertTemplate.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
+                Alert alert = AlertTemplate.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
                 alert.showAndWait();
             }
         }

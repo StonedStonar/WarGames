@@ -1,6 +1,8 @@
-package no.stonedstonar.wargames.model;
+package no.stonedstonar.wargames.model.battle;
 
+import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.battle.Battle;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetArmyException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;

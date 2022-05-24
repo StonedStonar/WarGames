@@ -114,8 +114,11 @@ public class UnitTests {
         int bonusDefence = 3;
         try {
             Unit unit = new InfantryUnit("", health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
-            addError(illegalPrefix, "the input unit name is empty.");
-        }catch (IllegalArgumentException exception){}
+            fail("Expected a IllegalArgumentException since the unit name is invalid");
+            //addError(illegalPrefix, "the input unit name is empty.");
+        }catch (IllegalArgumentException exception){
+
+        }
         try {
             Unit unit = new InfantryUnit(null, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input unit name is null");

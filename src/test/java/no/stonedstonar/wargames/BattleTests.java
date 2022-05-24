@@ -1,14 +1,13 @@
 package no.stonedstonar.wargames;
 
-import no.stonedstonar.wargames.model.Battle;
-import no.stonedstonar.wargames.model.OneToOneBattle;
+import no.stonedstonar.wargames.model.battle.Battle;
+import no.stonedstonar.wargames.model.battle.OneToOneBattle;
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
-import no.stonedstonar.wargames.model.units.Unit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

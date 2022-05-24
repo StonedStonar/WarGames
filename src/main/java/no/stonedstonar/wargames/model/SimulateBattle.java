@@ -3,6 +3,8 @@ package no.stonedstonar.wargames.model;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.ArmyPresets;
+import no.stonedstonar.wargames.model.battle.Battle;
+import no.stonedstonar.wargames.model.battle.OneToOneBattle;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.exception.InvalidFormatException;
@@ -23,7 +25,7 @@ public class SimulateBattle {
 
     private static void testReadFile(){
         try {
-            Army army = ArmyFileHandler.readFromFile("Orcish Horde");
+            Army army = ArmyFileHandler.readFromFileWithName("Orcish Horde");
             AtomicInteger size = new AtomicInteger();
             army.getAllUnits().forEach(unit -> size.getAndIncrement());
             System.out.println("Amount of units in army that was read from file: " + size);
@@ -62,7 +64,7 @@ public class SimulateBattle {
     private static void testWriteToFile(){
         try {
             Army army = ArmyPresets.getOrcishArmy();
-            ArmyFileHandler.writeArmyToFile(army, true);
+            ArmyFileHandler.writeArmyToFile(army, null, true);
             System.out.println("Army with the name " + army.getArmyName() + " has been written to a file.");
         }catch (IOException exception){
             System.err.println("The army could not be saved to the file.");

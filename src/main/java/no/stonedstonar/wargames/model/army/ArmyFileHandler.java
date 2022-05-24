@@ -35,8 +35,22 @@ public class ArmyFileHandler {
      * @throws IOException gets thrown if something went wrong I/O wise.
      * @throws InvalidFormatException gets thrown if the format on the file is invalid.
      */
-    public static Army readFromFile(String armyFileName) throws IOException, InvalidFormatException {
-        return makeArmy(readFile(armyFileName));
+    public static Army readFromFileWithName(String armyFileName) throws IOException, InvalidFormatException {
+        String path = System.getProperty("user.home") + "\\Documents" + "\\WarGames Saves\\" + armyFileName + ".csv";
+        File file = new File(path);
+        return makeArmyFromFile(readFile(file));
+    }
+
+    /**
+     * Reads an army form the file.
+     * @param file the file.
+     * @return the army.
+     * @throws IOException gets thrown if something went wrong I/O wise.
+     * @throws InvalidFormatException gets thrown if the format on the file is invalid.
+     */
+    public static Army readFromFile(File file) throws IOException, InvalidFormatException {
+        checkIfObjectIsNull(file, "file");
+        return makeArmyFromFile(readFile(file));
     }
 
     /**
@@ -45,27 +59,38 @@ public class ArmyFileHandler {
      * @return the army this list represents.
      * @throws InvalidFormatException gets thrown if the format on the string does not match any units.
      */
-    private static Army makeArmy(List<String> readLines) throws InvalidFormatException {
+    private static Army makeArmyFromFile(List<String> readLines) throws InvalidFormatException {
         boolean firstLine = true;
         String armyName = null;
         List<Unit> units = new ArrayList<>();
         UnitFactory unitFactory = new UnitFactory();
         Iterator<String> iterator = readLines.iterator();
         TerrainStyle terrainStyle = null;
+        boolean invalidFormat = false;
         while (iterator.hasNext()){
             String line = iterator.next();
             try {
-                String[] unitAsString = line.split(delimiter);
+                String[] unitAsString = line.split(",");
                 if (!firstLine && unitAsString.length >= 3){
                     units.add(makeUnit(unitAsString, unitFactory, terrainStyle));
-                }else if (armyName == null && terrainStyle == null && unitAsString.length == 2){
-                    firstLine = false;
+                }else if (armyName == null && terrainStyle == null){
                     armyName = unitAsString[0];
-                    terrainStyle = TerrainStyle.valueOf(unitAsString[1]);
+                    firstLine = false;
+                    if (unitAsString.length == 2){
+                        terrainStyle = TerrainStyle.valueOf(unitAsString[1]);
+                    }else if (unitAsString.length == 1){
+                        terrainStyle = TerrainStyle.FOREST;
+                    }else {
+                        invalidFormat = true;
+                    }
+
                 }else {
-                    throw new InvalidFormatException("The format on the file is invalid.");
+                    invalidFormat = true;
                 }
             }catch (IllegalArgumentException exception){
+                invalidFormat = true;
+            }
+            if (invalidFormat){
                 throw new InvalidFormatException("The format on the file is invalid.");
             }
         }
@@ -99,12 +124,11 @@ public class ArmyFileHandler {
 
     /**
      * Reads from a file and puts it into a list.
+     * @param file the file to read from.
      * @return a list with all the lines from the file.
      * @throws IOException gets thrown if something went wrong I/O wise.
      */
-    private static List<String> readFile(String armyFileName) throws IOException {
-        String path = System.getProperty("user.home") + "\\Documents" + "\\WarGames Saves\\" + armyFileName + ".csv";
-        File file = new File(path);
+    private static List<String> readFile(File file) throws IOException {
         List<String> readLines = new ArrayList<>();
         if (file.isFile()){
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))){
@@ -117,7 +141,7 @@ public class ArmyFileHandler {
                 throw e;
             }
         }else {
-            throw new FileNotFoundException("The file with the name " + armyFileName + " cannot be located.");
+            throw new FileNotFoundException("The file with the name " + file.getName() + " cannot be located.");
         }
         return readLines;
     }
@@ -128,12 +152,13 @@ public class ArmyFileHandler {
      *                          <code>false</code> if all the details about the units should be included.
      * @throws IOException gets thrown if something goes wrong with writing to the save file.
      */
-    public static void writeArmyToFile(Army army, boolean onlyHealthAndName) throws IOException {
+    public static void writeArmyToFile(Army army,File file , boolean onlyHealthAndName) throws IOException {
         checkIfObjectIsNull(army, "army");
+        checkIfObjectIsNull(file, "file");
         StringBuilder stringBuilder = new StringBuilder();
         appendArmyDetails(army, stringBuilder);
         appendUnits(army, stringBuilder, onlyHealthAndName);
-        writeToFile(stringBuilder, army.getArmyName());
+        writeToFile(stringBuilder, army.getArmyName(), file);
     }
 
     /**
@@ -142,11 +167,13 @@ public class ArmyFileHandler {
      * @param armyName the army name.
      * @throws IOException gets thrown if something goes wrong with writing to the save file.
      */
-    private static void writeToFile(StringBuilder stringBuilder, String armyName) throws IOException {
+    private static void writeToFile(StringBuilder stringBuilder, String armyName, File file) throws IOException {
         String stringToWrite = stringBuilder.toString();
         String path = System.getProperty("user.home") + "\\Documents";
         makeFolderIfItDoesNotExits(path);
-        File file = makeFileForArmy(path, armyName);
+        if (file == null){
+            file = makeFileForArmy(path, armyName);
+        }
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))){
             bufferedWriter.write(stringToWrite);
         }catch (IOException exception){
