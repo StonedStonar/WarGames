@@ -1,77 +1,34 @@
-package no.stonedstonar.wargames.model.items.weapons.ranged;
+package no.stonedstonar.wargames.model.items.weapons.meele;
 
-import no.stonedstonar.wargames.model.items.weapons.Projectile;
-import no.stonedstonar.wargames.model.items.weapons.ProjectileEffect;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
+import no.stonedstonar.wargames.model.units.Unit;
 
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represents an arrow that can be shot from a bow-like weapon.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class Arrow implements Projectile {
-
-    private final int damage;
+public abstract class MeleeWeapon implements Weapon {
 
     private int durability;
 
-    private int weaponDamageBonus;
+    private int maxDurability;
 
-    private final int maxDurability;
-
-    private final List<WeaponEffect> weaponEffects;
-
-    private final List<ProjectileEffect> projectileEffects;
+    private int damage;
 
     /**
-     * Makes an instance of the Arrow class.
-     * @param damage the damage the arrow has.
-     * @param maxDurability the max durability of the arrow.  Set to 1 for single use.
+     * Makes an instance of the MeleeWeapon class.
+     * @param durability the durability of the weapon.
+     * @param damage the damage the weapon has.
      */
-    public Arrow(int damage, int maxDurability, List<ProjectileEffect> projectileEffects) {
-        weaponEffects = new LinkedList<>();
-        this.projectileEffects = new LinkedList<>();
-        checkIfNumberIsBelowN(0, damage, "damage");
-        checkIfNumberIsBelowN(1, maxDurability, "durability");
-        checkIfObjectIsNull(projectileEffects, "projectile effects");
+    protected MeleeWeapon(int durability, int damage) {
+        checkIfNumberIsBelowN(1, durability, "durability");
+        checkIfNumberIsBelowN(1, damage, "damage");
+        this.maxDurability = durability;
+        this.durability = durability;
         this.damage = damage;
-        this.durability = maxDurability;
-        this.maxDurability = maxDurability;
-        weaponDamageBonus = 0;
-        this.projectileEffects.addAll(projectileEffects);
-    }
-
-    @Override
-    public void setRangedWeaponEffects(int bonusDamage, List<WeaponEffect> newWeaponsEffects) {
-        checkIfNumberIsBelowN(0, bonusDamage, "bonus damage");
-        checkIfObjectIsNull(weaponEffects, "weapons effects");
-        clearAllRangedWeaponEffects();
-        this.weaponDamageBonus = bonusDamage;
-        this.weaponEffects.addAll(newWeaponsEffects);
-    }
-
-    @Override
-    public void clearAllRangedWeaponEffects() {
-        this.weaponDamageBonus = 0;
-        weaponEffects.clear();
-    }
-
-    @Override
-    public int getDamage() {
-        return damage + weaponDamageBonus;
-    }
-
-    @Override
-    public List<WeaponEffect> getWeaponEffects() {
-        return weaponEffects;
-    }
-
-    @Override
-    public List<ProjectileEffect> getProjectileEffects() {
-        return projectileEffects;
     }
 
     @Override
@@ -114,9 +71,23 @@ public class Arrow implements Projectile {
     }
 
     @Override
-    public String getItemName() {
-        return getClass().getSimpleName();
+    public void doDamage(Unit opponent) {
+
     }
+
+    @Override
+    public int getAttackDamage() {
+        return damage + getBonusDamage();
+    }
+
+    @Override
+    public abstract List<WeaponEffect> getWeaponEffects();
+
+    /**
+     * The bonus damage the weapon has.
+     * @return the bonus damage.
+     */
+    public abstract int getBonusDamage();
 
     /**
      * Checks if the number is below a number N. Throws an error if the number is less than N.
@@ -132,6 +103,7 @@ public class Arrow implements Projectile {
 
     /**
      * Checks if a string is of a valid format or not.
+     *
      * @param stringToCheck the string you want to check.
      * @param errorPrefix   the error the exception should have if the string is invalid.
      * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
@@ -155,4 +127,6 @@ public class Arrow implements Projectile {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }
     }
+
+
 }

@@ -20,6 +20,11 @@ public enum WeaponEffect {
     SHARP,
 
     /**
+     * Represents the effect of a weapon that is not sharp.
+     */
+    DULL,
+
+    /**
      * Represents the effect of a weapon with poison on it.
      */
     POISON,
@@ -37,6 +42,7 @@ public enum WeaponEffect {
         return switch (this){
             case FIRE -> UnitEffects.BURNING;
             case SHARP -> UnitEffects.BLEEDING;
+            case DULL -> UnitEffects.SMALLWOUND;
             case POISON -> UnitEffects.POISONED;
             case DIRTY -> UnitEffects.INFECTION;
         };

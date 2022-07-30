@@ -1,6 +1,5 @@
 package no.stonedstonar.wargames.model.items.weapons;
 
-import no.stonedstonar.wargames.model.units.Unit;
 import no.stonedstonar.wargames.model.units.UnitEffects;
 
 /**
@@ -32,7 +31,7 @@ public enum ProjectileEffect {
     public UnitEffects getUnitEffect(){
         return switch (this){
             case SOFT, ARMOURPENETRATION -> UnitEffects.BLEEDING;
-            case EXPLOSIVE -> UnitEffects.LARGEWOUND;
+            case EXPLOSIVE -> UnitEffects.DEEPWOUND;
         };
     }
 }

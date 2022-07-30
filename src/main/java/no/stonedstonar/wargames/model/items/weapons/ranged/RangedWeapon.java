@@ -28,27 +28,23 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
 
     private List<Projectile> projectiles;
 
-    private List<WeaponEffect> weaponEffects;
-
     /**
      * Makes an instance of the RangedWeapon class.
      * @param maxProjectiles the amount of max projectiles.
      * @param maxDurability the durability of the bow.
      * @param damage the damage it should do in melee.
-     * @param weaponEffects the weapons special effects.
      */
-    protected RangedWeapon(int maxProjectiles, int maxDurability, int damage, List<WeaponEffect> weaponEffects) {
-        makeRangedWeapon(maxProjectiles, maxDurability, damage, weaponEffects);
+    protected RangedWeapon(int maxProjectiles, int maxDurability, int damage) {
+        makeRangedWeapon(maxProjectiles, maxDurability, damage);
     }
 
     /**
      * Makes an instance of the RangedWeapon class.
      * @param maxDurability the durability of the bow.
      * @param damage the damage it should do in melee.
-     * @param weaponEffects the effects the weapon should have.
      */
-    protected RangedWeapon(int maxDurability, int damage, List<WeaponEffect> weaponEffects) {
-        makeRangedWeapon(1, maxDurability, damage, weaponEffects);
+    protected RangedWeapon(int maxDurability, int damage) {
+        makeRangedWeapon(1, maxDurability, damage);
     }
 
     /**
@@ -56,19 +52,16 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
      * @param maxProjectiles the amount of max projectiles.
      * @param durability the durability of the bow.
      * @param damage the damage it should do in melee.
-     * @param weaponEffects the effects the weapon should have.
      */
-    private void makeRangedWeapon(int maxProjectiles, int durability, int damage, List<WeaponEffect> weaponEffects){
+    private void makeRangedWeapon(int maxProjectiles, int durability, int damage){
         projectiles = new ArrayList<>(maxProjectiles);
         checkIfNumberIsBelowN(1, maxProjectiles, "max projectiles");
         checkIfNumberIsBelowN(1, durability, "durability");
         checkIfNumberIsBelowN(1, damage, "damage");
-        checkIfObjectIsNull(weaponEffects, "weapons effects");
         this.maxProjectiles = maxProjectiles;
         this.durability = durability;
         this.maxDurability = durability;
         this.damage = damage;
-        this.weaponEffects = weaponEffects;
     }
 
     @Override
@@ -181,9 +174,10 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     }
 
     @Override
-    public List<WeaponEffect> getWeaponEffects(){
-        return weaponEffects;
-    }
+    public abstract List<WeaponEffect> getWeaponEffects();
+
+    @Override
+    public abstract String getItemName();
 
     /**
      * The time it takes to reload the weapon.

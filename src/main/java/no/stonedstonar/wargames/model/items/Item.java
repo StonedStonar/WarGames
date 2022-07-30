@@ -36,4 +36,10 @@ public interface Item {
      * @return the durability.
      */
     int getCurrentDurability();
+
+    /**
+     * Gets the name of the item.
+     * @return the item name.
+     */
+    String getItemName();
 }

@@ -1,5 +1,7 @@
 package no.stonedstonar.wargames.model.items.weapons.ranged;
 
+import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class Bow extends RangedWeapon{
      * @param arrows the arrows to load into the bow.
      */
     public Bow(List<Arrow> arrows) {
-        super(300, 2, new LinkedList<>());
+        super(300, 2);
         checkIfObjectIsNull(arrows,"arrows");
         addProjectiles(new LinkedList<>(arrows));
         reloadTime = 0;
@@ -33,11 +35,16 @@ public class Bow extends RangedWeapon{
      * @param meleeDamage the melee damage.
      */
     public Bow(int maxDurability, List<Arrow> arrows, int meleeDamage){
-        super(maxDurability, meleeDamage, new LinkedList<>());
+        super(maxDurability, meleeDamage);
         checkIfObjectIsNull(arrows,"arrows");
         addProjectiles(new LinkedList<>(arrows));
         reloadTime = 0;
         bonusDamage = 0;
+    }
+
+    @Override
+    public List<WeaponEffect> getWeaponEffects() {
+        return new LinkedList<>();
     }
 
     @Override
@@ -48,5 +55,10 @@ public class Bow extends RangedWeapon{
     @Override
     public int getBonusDamage() {
         return bonusDamage;
+    }
+
+    @Override
+    public String getItemName() {
+        return getClass().getSimpleName();
     }
 }
