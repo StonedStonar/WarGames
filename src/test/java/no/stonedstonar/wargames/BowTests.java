@@ -1,10 +1,8 @@
 package no.stonedstonar.wargames;
 
-import no.stonedstonar.wargames.TestTemplate;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Arrow;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

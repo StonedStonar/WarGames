@@ -1,0 +1,216 @@
+[33mcommit 0aaf4037bc95b02670ca5ea744612ae4a32ea2b0[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: stonedstonar <steinarhjellem@gmail.com>
+Date:   Wed Aug 17 13:32:03 2022 +0200
+
+    Removed all the code that was copied into every test class.
+
+:100644 100644 bc30e4c 68c6070 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Arrow.java
+:100644 100644 dab0ee2 06a175c M	src/test/java/no/stonedstonar/wargames/ArmyTest.java
+:100644 100644 52e53c2 28315b0 M	src/test/java/no/stonedstonar/wargames/BattleTests.java
+:100644 100644 74da5c4 dc72bd2 R099	src/test/java/no/stonedstonar/wargames/weapons/BowTests.java	src/test/java/no/stonedstonar/wargames/BowTests.java
+:100644 100644 8ef0101 894192f M	src/test/java/no/stonedstonar/wargames/CavalryUnitTests.java
+:100644 100644 3a23f9b 29a95ff M	src/test/java/no/stonedstonar/wargames/ChivalryCommanderUnitTests.java
+:100644 100644 9d5f5ca a995ad1 M	src/test/java/no/stonedstonar/wargames/InfantryTests.java
+:100644 100644 4394029 fe32a63 M	src/test/java/no/stonedstonar/wargames/RangedUnitTests.java
+:100644 100644 8aa5a4a a35b9e1 R098	src/test/java/no/stonedstonar/wargames/weapons/RangedWeaponTests.java	src/test/java/no/stonedstonar/wargames/RangedWeaponTests.java
+:100644 100644 7c50034 3c8e796 M	src/test/java/no/stonedstonar/wargames/UnitFactoryTests.java
+:100644 100644 713f2e4 8414c3e M	src/test/java/no/stonedstonar/wargames/UnitTests.java
+
+[33mcommit 6f7bbd1796eac5832df67e9189b6149dda82456d[m
+Author: stonedstonar <steinarhjellem@gmail.com>
+Date:   Wed Aug 17 13:01:54 2022 +0200
+
+    Started to refactor the test classes so that they extend TestTemplate. This makes testing methods only in one class that is used by all
+
+:100644 100644 70ca4d1 c4d57d2 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/Projectile.java
+:100644 000000 eba71d2 0000000 D	src/main/java/no/stonedstonar/wargames/model/items/weapons/ProjectileEffect.java
+:100644 100644 0706877 ccbe060 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/WeaponEffect.java
+:100644 100644 f0339da bc30e4c M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Arrow.java
+:100644 100644 8bcc8f1 401339e M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Bow.java
+:100644 100644 1351653 4c284d8 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/RangedWeapon.java
+:100644 100644 277259b 5559564 M	src/main/java/no/stonedstonar/wargames/model/units/CavalryUnit.java
+:100644 100644 37189de 75d4d82 M	src/main/java/no/stonedstonar/wargames/model/units/ChivalryCommanderUnit.java
+:100644 100644 6d6ecc4 371367b M	src/main/java/no/stonedstonar/wargames/model/units/InfantryUnit.java
+:100644 100644 6f5f4aa 5f63c7d M	src/main/java/no/stonedstonar/wargames/model/units/RangedUnit.java
+:100644 100644 30ba43e 57b31d7 M	src/main/java/no/stonedstonar/wargames/model/units/Unit.java
+:100644 100644 4d9b383 d133548 M	src/main/java/no/stonedstonar/wargames/model/units/UnitEffects.java
+:100644 100644 ecdc474 88d00df M	src/main/java/no/stonedstonar/wargames/model/units/UnitFactory.java
+:100644 100644 616ca7c dab0ee2 M	src/test/java/no/stonedstonar/wargames/ArmyTest.java
+:100644 100644 1ac93c4 8ef0101 M	src/test/java/no/stonedstonar/wargames/CavalryUnitTests.java
+:100644 100644 1d41b0c 3a23f9b M	src/test/java/no/stonedstonar/wargames/ChivalryCommanderUnitTests.java
+:100644 100644 aa3b15d 9d5f5ca M	src/test/java/no/stonedstonar/wargames/InfantryTests.java
+:100644 100644 62cdb0c 4394029 M	src/test/java/no/stonedstonar/wargames/RangedUnitTests.java
+:000000 100644 0000000 bdbded2 A	src/test/java/no/stonedstonar/wargames/TestTemplate.java
+:100644 100644 500cce4 7c50034 M	src/test/java/no/stonedstonar/wargames/UnitFactoryTests.java
+:100644 100644 d695c36 713f2e4 M	src/test/java/no/stonedstonar/wargames/UnitTests.java
+:000000 100644 0000000 74da5c4 A	src/test/java/no/stonedstonar/wargames/weapons/BowTests.java
+:000000 100644 0000000 8aa5a4a A	src/test/java/no/stonedstonar/wargames/weapons/RangedWeaponTests.java
+
+[33mcommit ef5ade3186a983ca5f2df5d2983083bb36d43fed[m
+Author: stonedstonar <steinarhjellem@gmail.com>
+Date:   Sat Jul 30 17:33:10 2022 +0200
+
+    Added some more melee weapons
+
+:100644 100644 722a1c9 0722c79 M	src/main/java/no/stonedstonar/wargames/model/items/Item.java
+:100644 100644 1bf68d2 eba71d2 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ProjectileEffect.java
+:100644 000000 2825277 0000000 D	src/main/java/no/stonedstonar/wargames/model/items/weapons/Sword.java
+:100644 100644 b3c6aa8 0706877 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/WeaponEffect.java
+:000000 100644 0000000 846c5da A	src/main/java/no/stonedstonar/wargames/model/items/weapons/meele/LongSword.java
+:000000 100644 0000000 3bcc3ec A	src/main/java/no/stonedstonar/wargames/model/items/weapons/meele/MeleeWeapon.java
+:000000 100644 0000000 3aed436 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/meele/ShortSword.java
+:100644 100644 4e7a579 f0339da M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Arrow.java
+:100644 100644 62b8604 8bcc8f1 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Bow.java
+:100644 100644 f413d4c f59226b M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/LongBow.java
+:100644 100644 ce6e226 1351653 M	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/RangedWeapon.java
+:100644 100644 6c11192 4d9b383 M	src/main/java/no/stonedstonar/wargames/model/units/UnitEffects.java
+
+[33mcommit 2d19637c25c4b33d5127c552af27dbeef136e9fa[m
+Author: stonedstonar <steinarhjellem@gmail.com>
+Date:   Sat Jul 30 15:48:31 2022 +0200
+
+    Started adding items to the wargames. This is so that units can have diffrent weapons based on the terrain and stuff
+
+:100644 000000 5dbe034 0000000 D	src/main/java/no/stonedstonar/wargames/model/Weapon.java
+:000000 100644 0000000 722a1c9 A	src/main/java/no/stonedstonar/wargames/model/items/Item.java
+:000000 100644 0000000 8a30402 A	src/main/java/no/stonedstonar/wargames/model/items/RangedItem.java
+:000000 100644 0000000 a8b8a4c A	src/main/java/no/stonedstonar/wargames/model/items/armour/Armour.java
+:000000 100644 0000000 70ca4d1 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/Projectile.java
+:000000 100644 0000000 1bf68d2 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/ProjectileEffect.java
+:000000 100644 0000000 2825277 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/Sword.java
+:000000 100644 0000000 73bbb9f A	src/main/java/no/stonedstonar/wargames/model/items/weapons/Throwable.java
+:000000 100644 0000000 26b151a A	src/main/java/no/stonedstonar/wargames/model/items/weapons/Weapon.java
+:000000 100644 0000000 b3c6aa8 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/WeaponEffect.java
+:000000 100644 0000000 4e7a579 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Arrow.java
+:000000 100644 0000000 62b8604 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/Bow.java
+:000000 100644 0000000 f413d4c A	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/LongBow.java
+:000000 100644 0000000 ce6e226 A	src/main/java/no/stonedstonar/wargames/model/items/weapons/ranged/RangedWeapon.java
+:100644 100644 0844d2f 30ba43e M	src/main/java/no/stonedstonar/wargames/model/units/Unit.java
+:000000 100644 0000000 6c11192 A	src/main/java/no/stonedstonar/wargames/model/units/UnitEffects.java
+
+[33mcommit d285a1a8fe4faeb2b117dc12f9fc38696ca68a5d[m[33m ([m[1;31morigin/originalBranch[m[33m, [m[1;32moriginalBranch[m[33m)[m
+Author: StonedStonar <Steinarhjellem@gmail.com>
+Date:   Tue May 24 17:23:24 2022 +0200
+
+    Did a last polish and added some alerts to confirm options and inform the user of not-working buttons
+
+:100644 100644 354df43 c617514 M	src/main/java/no/stonedstonar/wargames/model/army/ArmyFileHandler.java
+:100644 100644 71d1d62 f7011ae M	src/main/java/no/stonedstonar/wargames/ui/WarGamesApplication.java
+:100644 100644 c85b041 f4db805 M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 c960ef7 fda27f1 M	src/main/java/no/stonedstonar/wargames/ui/controllers/GameModeController.java
+:100644 100644 39b603a 46c6b6e M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+:100644 000000 6ebd028 0000000 D	src/main/java/no/stonedstonar/wargames/ui/controllers/TopMenuController.java
+:100644 100644 a758f84 418bb82 R081	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplate.java	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplateFactory.java
+:100644 100644 6c111d6 6968024 M	src/main/resources/no/stonedstonar/wargames/ui/GameModeWindow.fxml
+:100644 100644 d848421 ae83733 M	src/main/resources/no/stonedstonar/wargames/ui/OneToOneBattleWindow.fxml
+
+[33mcommit be6a85ccd31ce2567ff10124f2fb9a670d7068c9[m
+Author: StonedStonar <Steinarhjellem@gmail.com>
+Date:   Tue May 24 16:59:14 2022 +0200
+
+    Added the options to import and save armies. Also added 'about application' menu item
+
+:100644 100644 0fa3a0e 6cb907a M	pom.xml
+:100644 100644 68b2606 60110fa M	src/main/java/no/stonedstonar/wargames/model/SimulateBattle.java
+:100644 100644 0bc3f69 354df43 M	src/main/java/no/stonedstonar/wargames/model/army/ArmyFileHandler.java
+:100644 100644 3f97ba6 49fc42f R094	src/main/java/no/stonedstonar/wargames/model/Battle.java	src/main/java/no/stonedstonar/wargames/model/battle/Battle.java
+:100644 100644 f2fc0cf 49d8242 R096	src/main/java/no/stonedstonar/wargames/model/OneToOneBattle.java	src/main/java/no/stonedstonar/wargames/model/battle/OneToOneBattle.java
+:100644 100644 db5b7c5 c85b041 M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 2b79194 39b603a M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+:100644 100644 ca9ce02 a758f84 M	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplate.java
+:100644 100644 de162bb 2071990 M	src/main/resources/no/stonedstonar/wargames/ui/Edit army.fxml
+:100644 100644 6fc5fb5 d848421 M	src/main/resources/no/stonedstonar/wargames/ui/OneToOneBattleWindow.fxml
+:100644 100644 e8d4b19 52e53c2 M	src/test/java/no/stonedstonar/wargames/BattleTests.java
+:100644 100644 a707b22 d695c36 M	src/test/java/no/stonedstonar/wargames/UnitTests.java
+
+[33mcommit 40f50555294d3207c4f50827be3e658484d824e6[m
+Author: StonedStonar <Steinarhjellem@gmail.com>
+Date:   Sun May 8 17:44:46 2022 +0200
+
+    Added terrains and made tests for the diffrent aspects of the units. Also added the functionality to change terrain before the simulation
+
+:100644 100644 8219732 3f97ba6 M	src/main/java/no/stonedstonar/wargames/model/Battle.java
+:100644 100644 9a41ef8 f2fc0cf M	src/main/java/no/stonedstonar/wargames/model/OneToOneBattle.java
+:100644 100644 64b0ac6 68b2606 M	src/main/java/no/stonedstonar/wargames/model/SimulateBattle.java
+:100644 100644 fe8414f 0bc3f69 M	src/main/java/no/stonedstonar/wargames/model/army/ArmyFileHandler.java
+:100644 100644 ca2c13c ca01a35 M	src/main/java/no/stonedstonar/wargames/model/army/ArmyPresets.java
+:000000 100644 0000000 253f263 A	src/main/java/no/stonedstonar/wargames/model/exception/CouldNotGetArmyException.java
+:100644 100644 de5b403 277259b M	src/main/java/no/stonedstonar/wargames/model/units/CavalryUnit.java
+:100644 100644 7d372f2 37189de M	src/main/java/no/stonedstonar/wargames/model/units/ChivalryCommanderUnit.java
+:100644 100644 8c7027f 6d6ecc4 M	src/main/java/no/stonedstonar/wargames/model/units/InfantryUnit.java
+:100644 100644 d2704d4 6f5f4aa M	src/main/java/no/stonedstonar/wargames/model/units/RangedUnit.java
+:100644 100644 5ea3886 0844d2f M	src/main/java/no/stonedstonar/wargames/model/units/Unit.java
+:100644 100644 8170794 ecdc474 M	src/main/java/no/stonedstonar/wargames/model/units/UnitFactory.java
+:100644 100644 c2ce261 71d1d62 M	src/main/java/no/stonedstonar/wargames/ui/WarGamesApplication.java
+:100644 100644 f5f9222 534526a M	src/main/java/no/stonedstonar/wargames/ui/controllers/Controller.java
+:100644 100644 9248ab2 db5b7c5 M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 0c30a68 c960ef7 M	src/main/java/no/stonedstonar/wargames/ui/controllers/GameModeController.java
+:100644 100644 7ebeee3 2b79194 M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+:100644 100644 61a2e08 ca9ce02 M	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplate.java
+:100644 100644 e2c8d68 0c383ed M	src/main/java/no/stonedstonar/wargames/ui/elements/ArmyTableBuilder.java
+:100644 100644 b8b4e2e de162bb M	src/main/resources/no/stonedstonar/wargames/ui/Edit army.fxml
+:100644 100644 3521b75 6fc5fb5 M	src/main/resources/no/stonedstonar/wargames/ui/OneToOneBattleWindow.fxml
+:100644 100644 b5d91fe 616ca7c M	src/test/java/no/stonedstonar/wargames/ArmyTest.java
+:100644 100644 5ee4019 e8d4b19 M	src/test/java/no/stonedstonar/wargames/BattleTests.java
+:100644 100644 5463ef5 1ac93c4 M	src/test/java/no/stonedstonar/wargames/CavalryUnitTests.java
+:000000 100644 0000000 1d41b0c A	src/test/java/no/stonedstonar/wargames/ChivalryCommanderUnitTests.java
+:000000 100644 0000000 aa3b15d A	src/test/java/no/stonedstonar/wargames/InfantryTests.java
+:100644 100644 2066d8f 62cdb0c M	src/test/java/no/stonedstonar/wargames/RangedUnitTests.java
+:100644 100644 4d6d653 500cce4 M	src/test/java/no/stonedstonar/wargames/UnitFactoryTests.java
+:100644 100644 8415724 a707b22 M	src/test/java/no/stonedstonar/wargames/UnitTests.java
+
+[33mcommit 2f88a37390491183d38f404b52e66a25151f5353[m
+Author: StonedStonar <steinarhjellem@gmail.com>
+Date:   Sun May 8 01:25:11 2022 +0200
+
+    Fixed some documentation
+
+:100644 100644 98ea9bf 7ebeee3 M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+
+[33mcommit 311575b662f188979aee88223b28ed979cde69d1[m
+Author: StonedStonar <steinarhjellem@gmail.com>
+Date:   Sun May 8 01:19:24 2022 +0200
+
+    Added many functions to edit unit(s) and made the one-to-one battle mode work
+
+:100644 100644 e1d32d7 64b0ac6 M	src/main/java/no/stonedstonar/wargames/model/SimulateBattle.java
+:100644 100644 bf5bfab 8f83776 M	src/main/java/no/stonedstonar/wargames/model/army/Army.java
+:100644 100644 a9b86d8 fe8414f M	src/main/java/no/stonedstonar/wargames/model/army/ArmyFileHandler.java
+:100644 100644 b254dc4 22cb15a M	src/main/java/no/stonedstonar/wargames/model/army/NormalArmy.java
+:100644 100644 d1a3901 9248ab2 M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 e327614 98ea9bf M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+:100644 100644 f540f9d 61a2e08 M	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplate.java
+:100644 100644 c15fe10 e2c8d68 M	src/main/java/no/stonedstonar/wargames/ui/elements/ArmyTableBuilder.java
+:100644 100644 ac7f062 b8b4e2e M	src/main/resources/no/stonedstonar/wargames/ui/Edit army.fxml
+:100644 100644 97daba6 3521b75 M	src/main/resources/no/stonedstonar/wargames/ui/OneToOneBattleWindow.fxml
+
+[33mcommit 9b9ae550e2335c17fe289573ec0839bf6d2aa18d[m
+Author: StonedStonar <steinarhjellem@gmail.com>
+Date:   Sat May 7 22:11:11 2022 +0200
+
+    Added some buttons and functions to the edit unit window
+
+:100644 100644 fe77950 e1d32d7 M	src/main/java/no/stonedstonar/wargames/model/SimulateBattle.java
+:100644 100644 2dedfd5 bf5bfab M	src/main/java/no/stonedstonar/wargames/model/army/Army.java
+:100644 100644 6c96d2b ca2c13c M	src/main/java/no/stonedstonar/wargames/model/army/ArmyPresets.java
+:100644 100644 6e5c534 b254dc4 M	src/main/java/no/stonedstonar/wargames/model/army/NormalArmy.java
+:100644 100644 3a8e76a d1a3901 M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 f924be8 f540f9d M	src/main/java/no/stonedstonar/wargames/ui/elements/AlertTemplate.java
+:100644 100644 042e78c ac7f062 M	src/main/resources/no/stonedstonar/wargames/ui/Edit army.fxml
+
+[33mcommit d280aa6b0d69488a856c4bbc667425df154ee7c2[m
+Author: StonedStonar <steinarhjellem@gmail.com>
+Date:   Tue May 3 23:33:34 2022 +0200
+
+    Started on the edit gui elements
+
+:100644 100644 893f58a 2dedfd5 M	src/main/java/no/stonedstonar/wargames/model/army/Army.java
+:100644 100644 80d22d5 6e5c534 M	src/main/java/no/stonedstonar/wargames/model/army/NormalArmy.java
+:100644 100644 13193aa c2ce261 M	src/main/java/no/stonedstonar/wargames/ui/WarGamesApplication.java
+:100644 100644 988d624 3a8e76a M	src/main/java/no/stonedstonar/wargames/ui/controllers/EditUnitController.java
+:100644 100644 ac0353c e327614 M	src/main/java/no/stonedstonar/wargames/ui/controllers/OneToOneBattleController.java
+:000000 100644 0000000 c15fe10 A	src/main/java/no/stonedstonar/wargames/ui/elements/ArmyTableBuilder.java
+:100644 100644 ab29f59 474eccc M	src/main/java/no/stonedstonar/wargames/ui/windows/EditUnitWindow.java
+:100644 100644 ae109dd 042e78c M	src/main/resources/no/stonedstonar/wargames/ui/Edit army.fxml
+:100644 100644 7825e98 97daba6 M	src/main/resources/no/stonedstonar/wargames/ui/OneToOneBattleWindow.fxml
+:100644 100644 866fb86 b5d91fe M	src/test/java/no/stonedstonar/wargames/ArmyTest.java

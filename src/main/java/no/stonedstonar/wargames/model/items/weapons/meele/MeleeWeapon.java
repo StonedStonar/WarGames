@@ -7,6 +7,7 @@ import no.stonedstonar.wargames.model.units.Unit;
 import java.util.List;
 
 /**
+ * Represents a melee weapon.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
@@ -14,21 +15,25 @@ public abstract class MeleeWeapon implements Weapon {
 
     private int durability;
 
-    private int maxDurability;
+    private final int maxDurability;
 
-    private int damage;
+    private final int damage;
+
+    private final List<WeaponEffect> weaponEffects;
 
     /**
      * Makes an instance of the MeleeWeapon class.
      * @param durability the durability of the weapon.
      * @param damage the damage the weapon has.
      */
-    protected MeleeWeapon(int durability, int damage) {
+    protected MeleeWeapon(int durability, int damage, List<WeaponEffect> weaponEffects) {
         checkIfNumberIsBelowN(1, durability, "durability");
         checkIfNumberIsBelowN(1, damage, "damage");
+        checkIfObjectIsNull(weaponEffects, "weapons effects");
         this.maxDurability = durability;
         this.durability = durability;
         this.damage = damage;
+        this.weaponEffects = weaponEffects;
     }
 
     @Override
@@ -72,7 +77,7 @@ public abstract class MeleeWeapon implements Weapon {
 
     @Override
     public void doDamage(Unit opponent) {
-
+        opponent.reduceHealth(getAttackDamage());
     }
 
     @Override
@@ -81,7 +86,9 @@ public abstract class MeleeWeapon implements Weapon {
     }
 
     @Override
-    public abstract List<WeaponEffect> getWeaponEffects();
+    public List<WeaponEffect> getWeaponEffects(){
+        return weaponEffects;
+    }
 
     /**
      * The bonus damage the weapon has.

@@ -20,7 +20,7 @@ public class ShortSword extends MeleeWeapon{
      * Makes an instance of the ShortSword class.
      */
     public ShortSword() {
-        super(300, 10);
+        super(300, 12);
         weaponEffects = new LinkedList<>();
         weaponEffects.add(WeaponEffect.SHARP);
         bonusDamage = 0;

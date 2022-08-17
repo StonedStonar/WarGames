@@ -41,7 +41,7 @@ public class Bow extends RangedWeapon{
         checkIfObjectIsNull(arrows,"arrows");
         addProjectiles(new LinkedList<>(arrows));
         checkIfNumberIsBelowN(0, reloadTime, "reload time");
-        checkIfNumberIsBelowN(0, bonusDamage, "bonuns damage");
+        checkIfNumberIsBelowN(0, bonusDamage, "bonus damage");
         this.reloadTime = reloadTime;
         this.bonusDamage = bonusDamage;
     }

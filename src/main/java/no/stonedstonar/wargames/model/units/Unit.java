@@ -30,7 +30,7 @@ public abstract class Unit {
      * Makes an instance of the Unit class.
      * @param unitName the name.
      * @param health the health.
-     * @param attack the attack.
+     * @param weapon the weapon.
      * @param armour the armour.
      * @param unitType the type of unit.
      * @param terrainStyle the terrain of the unit.
@@ -83,11 +83,19 @@ public abstract class Unit {
     }
 
     /**
-     *
-     * @param projectiles
+     * Reduces the health of the opponent from the projectiles.
+     * @param projectiles the projectiles.
      */
     public void reduceHealth(List<Projectile> projectiles){
-
+        checkIfObjectIsNull(projectiles, "projectiles");
+        //Todo: Nå tar all skaden og gjøres om til en total damage.
+        // Videre burde kanskje hver prosjektil gjøre skade seperat siden man kan treffe forskjellige steder på kroppen og de kan bomme.
+        int totalDamage = projectiles.stream().mapToInt(Projectile::getDamage).sum();
+        int remainingHealth = health - totalDamage;
+        if (health <= 0){
+            remainingHealth = 0;
+        }
+        setHealth(remainingHealth);
     }
 
     /**

@@ -1,8 +1,9 @@
 package no.stonedstonar.wargames.model.items.weapons.ranged;
 
+import no.stonedstonar.wargames.model.exception.CouldNotAddProjectileException;
+import no.stonedstonar.wargames.model.exception.CouldNotRemoveProjectileException;
 import no.stonedstonar.wargames.model.items.RangedItem;
 import no.stonedstonar.wargames.model.items.weapons.Projectile;
-import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 import no.stonedstonar.wargames.model.units.Unit;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 
@@ -65,7 +66,7 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     }
 
     @Override
-    public void addProjectiles(List<Projectile> projectileList){
+    public void addProjectiles(List<Projectile> projectileList) throws CouldNotAddProjectileException {
         checkIfObjectIsNull(projectileList, "projectile list");
         boolean invalid = false;
         List<Projectile> newProjectiles = new LinkedList<>();
@@ -86,12 +87,13 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
         if (invalid){
             projectiles.removeAll(newProjectiles);
             projectileList.addAll(newProjectiles);
+            throw new CouldNotAddProjectileException("There is a projectile that is already a part of this ranged weapon.");
         }
 
     }
 
     @Override
-    public List<Projectile> changeProjectiles(List projectileList){
+    public List<Projectile> changeProjectiles(List<Projectile> projectileList) throws CouldNotAddProjectileException {
         checkIfObjectIsNull(projectileList, "projectile list");
         List<Projectile> oldProjectiles = new LinkedList<>();
         projectiles.forEach(projectile -> {
@@ -119,6 +121,7 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
 
     @Override
     public void doDamage(Unit opponent) {
+        checkIfObjectIsNull(opponent, "opponent");
         int i = 0;
         List<Projectile> projectilesToFire = new LinkedList<>();
         while (i < maxProjectiles && !projectiles.isEmpty()){
@@ -172,12 +175,6 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     public int getCurrentDurability() {
         return durability;
     }
-
-    @Override
-    public abstract List<WeaponEffect> getWeaponEffects();
-
-    @Override
-    public abstract String getItemName();
 
     /**
      * The time it takes to reload the weapon.
