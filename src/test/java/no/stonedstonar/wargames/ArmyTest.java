@@ -7,6 +7,7 @@ import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -100,7 +101,7 @@ public class ArmyTest {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10, 2, 3, TerrainStyle.FOREST);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10, 2, 3, TerrainStyle.FOREST);
     }
 
     /**

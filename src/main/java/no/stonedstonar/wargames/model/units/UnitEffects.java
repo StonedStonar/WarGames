@@ -35,5 +35,15 @@ public enum UnitEffects {
     /**
      * Represents a unit that has a small open wound.
      */
-    SMALLWOUND;
+    SMALLWOUND,
+
+    /**
+     * Represnets a big wound.
+     */
+    BIGWOUND,
+
+    /**
+     * Represents a bruise.
+     */
+    BRUISE;
 }

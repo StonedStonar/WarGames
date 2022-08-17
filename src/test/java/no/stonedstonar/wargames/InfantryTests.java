@@ -1,6 +1,8 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.CavalryUnit;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
 import no.stonedstonar.wargames.model.units.RangedUnit;
@@ -62,7 +64,7 @@ public class InfantryTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
     }
 
     /**
@@ -103,24 +105,24 @@ public class InfantryTests {
     public void testIfConstructorWorksWithInvalidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon weapon = new ShortSword();
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, 0, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, 0, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input bonus attack bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, -5, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, -5, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack bonus -5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, 0, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, 0, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, -5, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, -5, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is -5");
         }catch (IllegalArgumentException exception){}
     }
@@ -133,12 +135,12 @@ public class InfantryTests {
     public void testIfConstuctorWorksWithValidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon weapon = new ShortSword();
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
         }catch (IllegalArgumentException exception){
             addErrorWithException("Expected the", "unit to be made since the input value is valid", exception);
         }

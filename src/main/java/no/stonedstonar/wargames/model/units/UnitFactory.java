@@ -2,8 +2,11 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
+import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -52,10 +55,10 @@ public class UnitFactory {
      */
     private Unit makeUnit(UnitType unitType, String unitName, int health, int armour,int attack , int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
         return switch (unitType){
-            case CAVALRY -> new CavalryUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
-            case INFANTRY -> new InfantryUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
-            case RANGEDUNIT -> new RangedUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
-            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, armour, attack, attackBonus, armourBonus, terrainStyle);
+            case CAVALRY -> new CavalryUnit(unitName, health, new ShortSword(), attack, attackBonus, armourBonus, terrainStyle);
+            case INFANTRY -> new InfantryUnit(unitName, health, new Bow(new LinkedList<>()), armour, attackBonus, armourBonus, terrainStyle);
+            case RANGEDUNIT -> new RangedUnit(unitName, health, new Bow(new LinkedList<>()), armour, attackBonus, armourBonus, terrainStyle);
+            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, new ShortSword(), armour, attackBonus, armourBonus, terrainStyle);
         };
     }
 

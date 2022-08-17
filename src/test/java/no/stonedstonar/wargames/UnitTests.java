@@ -1,6 +1,8 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
 import no.stonedstonar.wargames.model.units.Unit;
 import org.junit.jupiter.api.AfterEach;
@@ -67,7 +69,7 @@ public class UnitTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
     }
 
     /**
@@ -108,63 +110,59 @@ public class UnitTests {
     public void testIfConstructorWorksWithInvalidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon weapon = new ShortSword();
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new InfantryUnit("", health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit("", health, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
             fail("Expected a IllegalArgumentException since the unit name is invalid");
             //addError(illegalPrefix, "the input unit name is empty.");
         }catch (IllegalArgumentException exception){
 
         }
         try {
-            Unit unit = new InfantryUnit(null, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(null, health, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input unit name is null");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, 0, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, 0, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input health is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, -5, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, -5, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input health is negative 5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, 0, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, null, armour, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack is zero");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, -5, armour, bonusAttack, bonusDefence, terrainStyle);
-            addError(illegalPrefix, "the input attack is negative 5");
-        }catch (IllegalArgumentException exception){}
-        try {
-            Unit unit = new InfantryUnit(unitName, health, attack, 0, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, 0, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input armour is zero");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, -5, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, -5, bonusAttack, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input armour is negative 5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, 0, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, 0, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, -5, bonusDefence, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, -5, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack bonus is -5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, 0, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, 0, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, -5, terrainStyle);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, -5, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is negative 5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, null);
+            Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, bonusDefence, null);
             addError(illegalPrefix, "the input terrain is null");
         }catch (IllegalArgumentException exception){}
     }
@@ -176,7 +174,7 @@ public class UnitTests {
     @DisplayName("Tests if constructor works with valid input.")
     public void testIfConstructorWorksWithValidInput(){
         try {
-            Unit unit = new InfantryUnit("Bjarne", 100, 20, 10, 2, 3, terrainStyle);
+            Unit unit = new InfantryUnit("Bjarne", 100, new ShortSword(), 10, 2, 3, terrainStyle);
         }catch (IllegalArgumentException exception){
             addErrorWithException("", "Expected the unit to be made since the input is valid", exception);
         }

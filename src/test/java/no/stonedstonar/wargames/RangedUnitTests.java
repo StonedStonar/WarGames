@@ -1,6 +1,9 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
+import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
 import no.stonedstonar.wargames.model.units.RangedUnit;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -8,6 +11,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -61,7 +66,7 @@ public class RangedUnitTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
     }
 
     /**
@@ -102,24 +107,24 @@ public class RangedUnitTests {
     public void testIfConstructorWorksWithInvalidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon weapon = new Bow(new LinkedList<>());
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new RangedUnit(unitName, health, attack, armour, 0, bonusDefence, terrainStyle);
+            Unit unit = new RangedUnit(unitName, health, weapon, armour, 0, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input bonus attack bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new RangedUnit(unitName, health, attack, armour, -5, bonusDefence, terrainStyle);
+            Unit unit = new RangedUnit(unitName, health, weapon, armour, -5, bonusDefence, terrainStyle);
             addError(illegalPrefix, "the input attack bonus -5");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new RangedUnit(unitName, health, attack, armour, bonusAttack, 0, terrainStyle);
+            Unit unit = new RangedUnit(unitName, health, weapon, armour, bonusAttack, 0, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new RangedUnit(unitName, health, attack, armour, bonusAttack, -5, terrainStyle);
+            Unit unit = new RangedUnit(unitName, health, weapon, armour, bonusAttack, -5, terrainStyle);
             addError(illegalPrefix, "the input armour bonus is -5");
         }catch (IllegalArgumentException exception){}
     }
@@ -132,12 +137,12 @@ public class RangedUnitTests {
     public void testIfConstuctorWorksWithValidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon weapon = new Bow(new LinkedList<>());
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
-            Unit unit = new RangedUnit(unitName, health, attack, armour, bonusAttack, bonusDefence, terrainStyle);
+            Unit unit = new RangedUnit(unitName, health, weapon, armour, bonusAttack, bonusDefence, terrainStyle);
         }catch (IllegalArgumentException exception){
             addError("Expected the", "unit to be made since the input value is valid.");
         }

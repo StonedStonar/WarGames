@@ -39,7 +39,7 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     }
 
     /**
-     * Makes an instance of the RangedWeapon class.
+     * Makes an instance of the RangedWeapon class where there is only 1 projectile in the weapon.
      * @param maxDurability the durability of the bow.
      * @param damage the damage it should do in melee.
      */

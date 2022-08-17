@@ -38,7 +38,7 @@ public abstract class Unit {
     protected Unit(String unitName, int health, Weapon weapon, int armour, UnitType unitType, TerrainStyle terrainStyle) {
         checkString(unitName, "unit name");
         checkIfNumberIsValid(health, "health");
-        checkIfObjectIsNull(weapon, "attack");
+        checkIfObjectIsNull(weapon, "weapon");
         checkIfNumberIsValid(armour, "armour");
         checkIfObjectIsNull(unitType, "unitType");
         checkIfObjectIsNull(terrainStyle, "terrain style");
@@ -120,7 +120,7 @@ public abstract class Unit {
      * @return the attack of the unit.
      */
     public int getAttack() {
-        return weapon.getMeeleDamage();
+        return weapon.getAttackDamage();
     }
 
     /**

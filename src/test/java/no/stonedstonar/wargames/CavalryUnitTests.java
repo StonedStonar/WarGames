@@ -1,9 +1,10 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.CavalryUnit;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
-import no.stonedstonar.wargames.model.units.RangedUnit;
 import no.stonedstonar.wargames.model.units.Unit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +64,7 @@ public class CavalryUnitTests {
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10,2 ,3,terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3,terrainStyle);
     }
 
     /**
@@ -104,7 +105,7 @@ public class CavalryUnitTests {
     public void testIfConstructorWorksWithInvalidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon attack = new ShortSword();
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;
@@ -138,7 +139,7 @@ public class CavalryUnitTests {
     public void testIfConstuctorWorksWithValidInput(){
         String unitName = "Fjell";
         int health = 100;
-        int attack = 12;
+        Weapon attack = new ShortSword();
         int armour = 10;
         int bonusAttack = 2;
         int bonusDefence = 3;

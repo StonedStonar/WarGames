@@ -40,5 +40,5 @@ public interface Projectile extends Item {
      * Gets the effects the projectile has like exploding.
      * @return all the effects of the projectile.
      */
-    List<ProjectileEffect> getProjectileEffects();
+    List<WeaponEffect> getProjectileEffects();
 }

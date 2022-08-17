@@ -33,13 +33,17 @@ public class Bow extends RangedWeapon{
      * @param maxDurability the durability of the bow.
      * @param arrows the arrows.
      * @param meleeDamage the melee damage.
+     * @param reloadTime reload time of the bow.
+     * @param bonusDamage bonus damage for the bow.
      */
-    public Bow(int maxDurability, List<Arrow> arrows, int meleeDamage){
+    public Bow(int maxDurability, List<Arrow> arrows, int meleeDamage, int reloadTime, int bonusDamage){
         super(maxDurability, meleeDamage);
         checkIfObjectIsNull(arrows,"arrows");
         addProjectiles(new LinkedList<>(arrows));
-        reloadTime = 0;
-        bonusDamage = 0;
+        checkIfNumberIsBelowN(0, reloadTime, "reload time");
+        checkIfNumberIsBelowN(0, bonusDamage, "bonuns damage");
+        this.reloadTime = reloadTime;
+        this.bonusDamage = bonusDamage;
     }
 
     @Override

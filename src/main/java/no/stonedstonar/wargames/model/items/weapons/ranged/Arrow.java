@@ -1,7 +1,6 @@
 package no.stonedstonar.wargames.model.items.weapons.ranged;
 
 import no.stonedstonar.wargames.model.items.weapons.Projectile;
-import no.stonedstonar.wargames.model.items.weapons.ProjectileEffect;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 
 import java.util.LinkedList;
@@ -24,14 +23,14 @@ public class Arrow implements Projectile {
 
     private final List<WeaponEffect> weaponEffects;
 
-    private final List<ProjectileEffect> projectileEffects;
+    private final List<WeaponEffect> projectileEffects;
 
     /**
      * Makes an instance of the Arrow class.
      * @param damage the damage the arrow has.
      * @param maxDurability the max durability of the arrow.  Set to 1 for single use.
      */
-    public Arrow(int damage, int maxDurability, List<ProjectileEffect> projectileEffects) {
+    public Arrow(int damage, int maxDurability, List<WeaponEffect> projectileEffects) {
         weaponEffects = new LinkedList<>();
         this.projectileEffects = new LinkedList<>();
         checkIfNumberIsBelowN(0, damage, "damage");
@@ -70,7 +69,7 @@ public class Arrow implements Projectile {
     }
 
     @Override
-    public List<ProjectileEffect> getProjectileEffects() {
+    public List<WeaponEffect> getProjectileEffects() {
         return projectileEffects;
     }
 
