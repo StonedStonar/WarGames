@@ -20,13 +20,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class InfantryTests {
-
-    private StringBuilder stringBuilder;
-
-    private int errors;
-
-    private String illegalPrefix;
+public class InfantryTests extends TestTemplate{
 
     private TerrainStyle terrainStyle;
 
@@ -34,7 +28,7 @@ public class InfantryTests {
      * Makes an instance of the RangedUnitTests class.
      */
     public InfantryTests() {
-        illegalPrefix = makeExceptionString("IllegalArgumentException");
+        super();
     }
 
     /**
@@ -43,20 +37,7 @@ public class InfantryTests {
     @BeforeEach
     private void addTestData(){
         this.terrainStyle = TerrainStyle.FOREST;
-        stringBuilder = new StringBuilder();
-        errors = 0;
-    }
-
-    /**
-     * Checks if the tests failed and displays the results.
-     */
-    @AfterEach
-    private void checkIfTestsFailedAndDisplayResult(){
-        if(stringBuilder.length() == 0){
-            assertTrue(true);
-        }else {
-            fail("\nAmount of errors " + errors + " listed errors: " + stringBuilder.toString());
-        }
+        resetTestClass();
     }
 
     /**
@@ -65,36 +46,6 @@ public class InfantryTests {
      */
     private Unit makeOpponent(){
         return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
-    }
-
-    /**
-     * Adds an error with an exception in the title.
-     * @param errorPrefix what it should say before the main error.
-     * @param error what it should say after the error.
-     * @param exception the exception that was not expected.
-     */
-    private void addErrorWithException(String errorPrefix, String error, Exception exception){
-        addError(errorPrefix, error);
-        stringBuilder.append(" and not a ").append(exception.getClass().getSimpleName());
-    }
-
-    /**
-     * Makes an exception into the wanted string.
-     * @param exceptionName the name of the exception.
-     * @return the full exception string.
-     */
-    private String makeExceptionString(String exceptionName){
-        return "Expected to get a " +  exceptionName + " since";
-    }
-
-    /**
-     * Adds a new error to the stringbuilder.
-     * @param errorPrefix what it should say before the error.
-     * @param error the error to append.
-     */
-    private void addError(String errorPrefix, String error){
-        stringBuilder.append("\n").append(errorPrefix).append(error);
-        errors++;
     }
 
     /**
@@ -111,19 +62,19 @@ public class InfantryTests {
         int bonusDefence = 3;
         try {
             Unit unit = new InfantryUnit(unitName, health, weapon, armour, 0, bonusDefence, terrainStyle);
-            addError(illegalPrefix, "the input bonus attack bonus is 0");
+            addError(getIllegalPrefix(), "the input bonus attack bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
             Unit unit = new InfantryUnit(unitName, health, weapon, armour, -5, bonusDefence, terrainStyle);
-            addError(illegalPrefix, "the input attack bonus -5");
+            addError(getIllegalPrefix(), "the input attack bonus -5");
         }catch (IllegalArgumentException exception){}
         try {
             Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, 0, terrainStyle);
-            addError(illegalPrefix, "the input armour bonus is 0");
+            addError(getIllegalPrefix(), "the input armour bonus is 0");
         }catch (IllegalArgumentException exception){}
         try {
             Unit unit = new InfantryUnit(unitName, health, weapon, armour, bonusAttack, -5, terrainStyle);
-            addError(illegalPrefix, "the input armour bonus is -5");
+            addError(getIllegalPrefix(), "the input armour bonus is -5");
         }catch (IllegalArgumentException exception){}
     }
 

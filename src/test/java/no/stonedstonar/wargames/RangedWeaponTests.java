@@ -1,4 +1,4 @@
-package no.stonedstonar.wargames.weapons;
+package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.TestTemplate;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;

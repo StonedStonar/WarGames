@@ -97,7 +97,7 @@ public class Arrow implements Projectile {
     public void setCurrentDurability(int amount) {
         checkIfNumberIsBelowN(0, amount, "amount");
         if (amount > maxDurability){
-            throw new IllegalArgumentException("The amount cannot exeede maximum durability.");
+            throw new IllegalArgumentException("The amount cannot exceed maximum durability.");
         }
         this.durability = amount;
     }
