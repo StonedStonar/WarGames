@@ -2,6 +2,10 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.weapons.Projectile;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+
+import java.util.List;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -13,9 +17,9 @@ public abstract class Unit {
 
     private int health;
 
-    private int attack;
-
     private int armour;
+
+    private Weapon weapon;
 
     private TerrainStyle terrainStyle;
 
@@ -26,21 +30,21 @@ public abstract class Unit {
      * Makes an instance of the Unit class.
      * @param unitName the name.
      * @param health the health.
-     * @param attack the attack.
+     * @param weapon the weapon.
      * @param armour the armour.
      * @param unitType the type of unit.
      * @param terrainStyle the terrain of the unit.
      */
-    public Unit(String unitName, int health, int attack, int armour, UnitType unitType, TerrainStyle terrainStyle) {
+    protected Unit(String unitName, int health, Weapon weapon, int armour, UnitType unitType, TerrainStyle terrainStyle) {
         checkString(unitName, "unit name");
         checkIfNumberIsValid(health, "health");
-        checkIfNumberIsValid(attack, "attack");
+        checkIfObjectIsNull(weapon, "weapon");
         checkIfNumberIsValid(armour, "armour");
         checkIfObjectIsNull(unitType, "unitType");
         checkIfObjectIsNull(terrainStyle, "terrain style");
         this.unitName = unitName;
         this.health = health;
-        this.attack = attack;
+        this.weapon = weapon;
         this.armour = armour;
         this.unitType = unitType;
         this.terrainStyle = terrainStyle;
@@ -52,7 +56,7 @@ public abstract class Unit {
      */
     public void doAttack(Unit opponent){
         checkIfObjectIsNull(opponent, "unit");
-        opponent.reduceHealth(attack + getAttackBonus());
+        weapon.doDamage(opponent);
     }
 
     /**
@@ -76,6 +80,22 @@ public abstract class Unit {
         }else if (totalAttack < 0){
             this.health = health + totalAttack;
         }
+    }
+
+    /**
+     * Reduces the health of the opponent from the projectiles.
+     * @param projectiles the projectiles.
+     */
+    public void reduceHealth(List<Projectile> projectiles){
+        checkIfObjectIsNull(projectiles, "projectiles");
+        //Todo: Nå tar all skaden og gjøres om til en total damage.
+        // Videre burde kanskje hver prosjektil gjøre skade seperat siden man kan treffe forskjellige steder på kroppen og de kan bomme.
+        int totalDamage = projectiles.stream().mapToInt(Projectile::getDamage).sum();
+        int remainingHealth = health - totalDamage;
+        if (health <= 0){
+            remainingHealth = 0;
+        }
+        setHealth(remainingHealth);
     }
 
     /**
@@ -108,7 +128,7 @@ public abstract class Unit {
      * @return the attack of the unit.
      */
     public int getAttack() {
-        return attack;
+        return weapon.getAttackDamage();
     }
 
     /**
@@ -136,6 +156,18 @@ public abstract class Unit {
     }
 
     /**
+     * Gets the attack bonus of the unit.
+     * @return the attack bonus of this unit.
+     */
+    public abstract int getAttackBonus();
+
+    /**
+     * Gets the amount of armour of this unit.
+     * @return the armour bonus.
+     */
+    public abstract int getArmourBonus();
+
+    /**
      * Checks if a whole number is valid.
      * @param number the number to check.
      * @param prefix the prefix that the error should have.
@@ -157,18 +189,6 @@ public abstract class Unit {
             throw new IllegalArgumentException("The " + prefix + " cannot be shorter than 0.");
         }
     }
-
-    /**
-     * Gets the attack bonus of the unit.
-     * @return the attack bonus of this unit.
-     */
-    public abstract int getAttackBonus();
-
-    /**
-     * Gets the amount of armour of this unit.
-     * @return the armour bonus.
-     */
-    public abstract int getArmourBonus();
 
     /**
      * Checks if a string is of a valid format or not.

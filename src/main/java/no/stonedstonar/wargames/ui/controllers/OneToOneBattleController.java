@@ -3,23 +3,21 @@ package no.stonedstonar.wargames.ui.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import no.stonedstonar.wargames.model.Battle;
-import no.stonedstonar.wargames.model.OneToOneBattle;
+import no.stonedstonar.wargames.model.battle.Battle;
+import no.stonedstonar.wargames.model.battle.OneToOneBattle;
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.army.Army;
-import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.NormalArmy;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;
 import no.stonedstonar.wargames.model.units.Unit;
 import no.stonedstonar.wargames.ui.WarGamesApplication;
-import no.stonedstonar.wargames.ui.elements.AlertTemplate;
+import no.stonedstonar.wargames.ui.elements.AlertTemplateFactory;
 import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
 import no.stonedstonar.wargames.ui.windows.EditUnitWindow;
 import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
 
 import java.io.IOException;
-import java.util.logging.FileHandler;
 
 /**
  * Represents a controller of a one-to-one battle.
@@ -47,12 +45,6 @@ public class OneToOneBattleController implements Controller{
     private Button editArmyTwoButton;
 
     @FXML
-    private MenuItem saveToFileMenu;
-
-    @FXML
-    private MenuItem loadFromFileMenu;
-
-    @FXML
     private MenuItem exitAppMenu;
 
     @FXML
@@ -73,6 +65,8 @@ public class OneToOneBattleController implements Controller{
     @FXML
     private ComboBox<TerrainStyle> terrainComboBox;
 
+    private AlertTemplateFactory alertTemplateFactory;
+
     private Army armyOne;
 
     private Army armyTwo;
@@ -84,6 +78,7 @@ public class OneToOneBattleController implements Controller{
     public OneToOneBattleController() {
         armyOne = new NormalArmy("Human");
         armyTwo = new NormalArmy("Orcs");
+        alertTemplateFactory = new AlertTemplateFactory();
     }
 
     /**
@@ -103,13 +98,21 @@ public class OneToOneBattleController implements Controller{
      * Sets the menu items functions.
      */
     private void setMenuItemFunctions(){
-        exitAppMenu.setOnAction(event -> Platform.exit());
+        exitAppMenu.setOnAction(event -> WarGamesApplication.getWarGamesApplication().closeApplication());
         backToMenu.setOnAction(event -> {
             try {
                 WarGamesApplication.getWarGamesApplication().setNewScene(GameModeWindow.getGameModeWindow());
             } catch (IOException e) {
-                AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+                alertTemplateFactory.makeCouldNotChangeWindowAlert().showAndWait();
             }
+        });
+        aboutApplicationMenu.setOnAction(actionEvent -> {
+            Alert alert = alertTemplateFactory.makeAboutApplicationAlert();
+            alert.showAndWait();
+        });
+        howToPlayMenu.setOnAction(actionEvent -> {
+            Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.INFORMATION, "About OneToOne battle", "The one to one battle mode is a mode where one unit hits another at the same time. \n\nTo start a battle both armies must have units and a terrain must be selected.");
+            alert.showAndWait();
         });
     }
 
@@ -119,7 +122,7 @@ public class OneToOneBattleController implements Controller{
     private void simulateBattle(){
         TerrainStyle terrainStyle = terrainComboBox.getSelectionModel().getSelectedItem();
         if (terrainStyle == null){
-            Alert alert = AlertTemplate.makeSelectTerrainAlert();
+            Alert alert = alertTemplateFactory.makeSelectTerrainAlert();
             alert.showAndWait();
         }else {
             try {
@@ -135,11 +138,11 @@ public class OneToOneBattleController implements Controller{
                     armyTwoTable.refresh();
                     armyOneTable.refresh();
                 }else {
-                    Alert alert = AlertTemplate.makeCouldNotSimulateBattle();
+                    Alert alert = alertTemplateFactory.makeCouldNotSimulateBattle();
                     alert.showAndWait();
                 }
             }catch (CouldNotFinishBattleException | IllegalArgumentException exception){
-                Alert alert = AlertTemplate.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
+                Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.WARNING, "Could not simulate battle", "Could not simulate battle. Something has gone wrong in the simulation. \nPlease try again");
                 alert.showAndWait();
             }
         }
@@ -155,7 +158,7 @@ public class OneToOneBattleController implements Controller{
         try {
             WarGamesApplication.getWarGamesApplication().setNewScene(editUnitWindow);
         } catch (IOException e) {
-            AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+            alertTemplateFactory.makeCouldNotChangeWindowAlert().showAndWait();
             e.printStackTrace();
         }
     }

@@ -1,4 +1,4 @@
-package no.stonedstonar.wargames.model;
+package no.stonedstonar.wargames.model.battle;
 
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.model.exception.CouldNotFinishBattleException;

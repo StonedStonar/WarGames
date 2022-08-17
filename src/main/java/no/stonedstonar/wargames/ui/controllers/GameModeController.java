@@ -6,7 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import no.stonedstonar.wargames.model.army.Army;
 import no.stonedstonar.wargames.ui.WarGamesApplication;
-import no.stonedstonar.wargames.ui.elements.AlertTemplate;
+import no.stonedstonar.wargames.ui.elements.AlertTemplateFactory;
 import no.stonedstonar.wargames.ui.windows.OneToOneBattleWindow;
 
 import java.io.IOException;
@@ -24,15 +24,20 @@ public class GameModeController implements Controller{
     @FXML
     private Button exitButton;
 
+    @FXML
+    private Button anotherModeButton;
+
     private Army armyOne;
 
     private Army armyTwo;
+
+    private AlertTemplateFactory alertTemplateFactory;
 
     /**
      * Makes an instance of the GameModeController class.
      */
     public GameModeController() {
-
+        alertTemplateFactory = new AlertTemplateFactory();
     }
 
     /**
@@ -44,12 +49,15 @@ public class GameModeController implements Controller{
             try {
                 warGamesApplication.setNewScene(OneToOneBattleWindow.getOneToOneBattleWindow());
             } catch (IOException e){
-                Alert alert =AlertTemplate.makeCouldNotChangeWindowAlert();
+                Alert alert = alertTemplateFactory.makeCouldNotChangeWindowAlert();
                 alert.showAndWait();
             }
         });
-
-        exitButton.setOnAction(event -> Platform.exit());
+        anotherModeButton.setOnAction(actionEvent -> {
+            Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.INFORMATION, "Another game mode", "This button is only here to illustrate that there will be more than one gamemode in the future.");
+            alert.showAndWait();
+        });
+        exitButton.setOnAction(event -> WarGamesApplication.getWarGamesApplication().closeApplication());
     }
 
     @Override

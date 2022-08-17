@@ -24,9 +24,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="saveToFileMenu" mnemonicParsing="false" text="Save to file" />
-                  <MenuItem fx:id="loadFromFileMenu" mnemonicParsing="false" text="Load from file" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="backToMenu" mnemonicParsing="false" text="Back to menu" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="exitAppMenu" mnemonicParsing="false" text="Exit" />
@@ -110,7 +107,7 @@
                   <Font size="16.0" />
                </font>
             </Label>
-            <Label text="Army one" textFill="WHITE" GridPane.columnIndex="1">
+            <Label text="Army two" textFill="WHITE" GridPane.columnIndex="1">
                <font>
                   <Font size="16.0" />
                </font>

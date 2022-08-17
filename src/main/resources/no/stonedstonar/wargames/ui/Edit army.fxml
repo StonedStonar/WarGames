@@ -26,6 +26,9 @@
          <menus>
             <Menu mnemonicParsing="false" text="File">
                <items>
+                  <MenuItem fx:id="saveToFileMenu" mnemonicParsing="false" text="Save army to file" />
+                  <MenuItem fx:id="loadFromFileMenu" mnemonicParsing="false" text="Load army from file" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="backToMenu" mnemonicParsing="false" text="Back to menu" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem fx:id="exitAppMenu" mnemonicParsing="false" text="Exit" />
@@ -34,6 +37,7 @@
             <Menu mnemonicParsing="false" text="Help">
                <items>
                   <MenuItem fx:id="aboutApplicationMenu" mnemonicParsing="false" text="About application" />
+                  <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" text="Help" />
                </items>
             </Menu>
          </menus>

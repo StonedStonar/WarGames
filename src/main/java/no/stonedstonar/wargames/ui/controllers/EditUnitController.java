@@ -5,22 +5,28 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+<<<<<<< HEAD
 import no.stonedstonar.wargames.model.Battle;
+=======
+import javafx.stage.FileChooser;
+>>>>>>> 19fa86d350cbe9d31b4076f8a24e07dc9cf026f7
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.army.ArmyFileHandler;
 import no.stonedstonar.wargames.model.army.ArmyPresets;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
+import no.stonedstonar.wargames.model.exception.InvalidFormatException;
 import no.stonedstonar.wargames.model.units.*;
 import no.stonedstonar.wargames.ui.WarGamesApplication;
-import no.stonedstonar.wargames.ui.elements.AlertTemplate;
+import no.stonedstonar.wargames.ui.elements.AlertTemplateFactory;
 import no.stonedstonar.wargames.ui.elements.ArmyTableBuilder;
 import no.stonedstonar.wargames.ui.windows.GameModeWindow;
 import no.stonedstonar.wargames.ui.windows.Window;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,6 +55,12 @@ public class EditUnitController implements Controller{
 
     @FXML
     private TextField unitNameField;
+
+    @FXML
+    private MenuItem saveToFileMenu;
+
+    @FXML
+    private MenuItem loadFromFileMenu;
 
     @FXML
     private TextField healthField;
@@ -80,6 +92,11 @@ public class EditUnitController implements Controller{
     @FXML
     private Button addPresetsButton;
 
+    @FXML
+    private MenuItem helpMenuItem;
+
+    private AlertTemplateFactory alertTemplateFactory;
+
     private UnitFactory unitFactory;
 
     private Window lastWindow;
@@ -91,6 +108,7 @@ public class EditUnitController implements Controller{
      */
     public EditUnitController() {
         unitFactory = new UnitFactory();
+        alertTemplateFactory = new AlertTemplateFactory();
 
     }
 
@@ -108,19 +126,82 @@ public class EditUnitController implements Controller{
     }
 
     private void setMenuFunctions(){
-        exitAppMenu.setOnAction(event -> Platform.exit());
+        exitAppMenu.setOnAction(event ->  WarGamesApplication.getWarGamesApplication().closeApplication());
         backToMenu.setOnAction(event -> {
             try {
                 WarGamesApplication.getWarGamesApplication().setNewScene(GameModeWindow.getGameModeWindow());
             } catch (IOException e) {
-                Alert alert = AlertTemplate.makeCouldNotChangeWindowAlert();
+                Alert alert = alertTemplateFactory.makeCouldNotChangeWindowAlert();
                 alert.showAndWait();
             }
         });
-        aboutApplicationMenu.setOnAction(actionEvent -> {
-            Alert alert = AlertTemplate.makeAlert(Alert.AlertType.INFORMATION, "Edit units", "Edit units", "Edit units is a window where you can edit a unit in an army. It is also possible to edit the armies name and different units.\nTo edit units in the table select one and click \"edit unit\" button. \nTo make new units use the \"clear\" button and fill in the details.");
+        helpMenuItem.setOnAction(actionEvent -> {
+            Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.INFORMATION, "Edit units", "Edit units is a window where you can edit a unit in an army. It is also possible to edit the armies name and different units.\nTo edit units in the table select one and click \"edit unit\" button. \nTo make new units use the \"clear\" button and fill in the details.");
             alert.showAndWait();
         });
+        aboutApplicationMenu.setOnAction(actionEvent -> {
+            Alert alert = alertTemplateFactory.makeAboutApplicationAlert();
+            alert.showAndWait();
+        });
+
+        loadFromFileMenu.setOnAction(event -> loadArmyFromFile());
+        saveToFileMenu.setOnAction(event -> saveArmyToFile());
+    }
+
+    /**
+     * Saves an army to a file.
+     */
+    private void saveArmyToFile(){
+        try {
+            if (army.hasUnits()){
+                ArmyFileHandler.writeArmyToFile(army, null, true);
+                Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.INFORMATION, "Army has been saved", "The army has now been saved under userName/Documents/Wargames Saves");
+                alert.showAndWait();
+            }else {
+                Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "Army has no units", "The army has no units and thus cannot be saved.");
+                alert.showAndWait();
+            }
+        }catch (IOException exception){
+            Alert  alert = alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "Could not save army", "The army could not be saved. Something has gone wrong in the writing to the file. \nPlease try again.");
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Loads an army from a file.
+     */
+    private void loadArmyFromFile(){
+        ButtonType buttonType = null;
+        if (army.hasUnits()){
+            Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.CONFIRMATION, "Load army", "Are you sure you want to load a new army? \nThe current army will be overwritten and lost.");
+            buttonType = alert.showAndWait().get();
+        }
+        if (buttonType == null || buttonType == ButtonType.OK){
+            try {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV file","*.csv"));
+                fileChooser.setInitialDirectory(new File(System.getProperty("user.home") + "\\Documents" + "\\WarGames Saves\\"));
+                File file = fileChooser.showOpenDialog(null);
+                if (file != null){
+                    Army loadedArmy = ArmyFileHandler.readFromFile(file);
+                    army.clearAllUnits();
+                    army.addAllUnits(loadedArmy.getAllUnits());
+                    army.setArmyName(loadedArmy.getArmyName());
+                    armyTable.getItems().clear();
+                    armyTable.getItems().addAll(army.getAllUnits());
+                    armyNameField.setText(loadedArmy.getArmyName());
+                }else {
+                    Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "No file selected", "The army could not be loaded since no .csv file is selected.");
+                    alert.showAndWait();
+                }
+            }catch (IOException | CouldNotAddUnitException exception){
+                Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "Could not read file", "Something has gone wrong while reading the wanted file. \nPlease try again.");
+                alert.showAndWait();
+            }catch (InvalidFormatException exception){
+                Alert alert = alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "Invalid file format", "The selected file has invalid file format.");
+                alert.showAndWait();
+            }
+        }
     }
 
     /**
@@ -147,14 +228,14 @@ public class EditUnitController implements Controller{
                 armyTable.getItems().clear();
                 armyTable.getItems().addAll(army.getAllUnits());
             } catch (CouldNotAddUnitException e) {
-                AlertTemplate.makeAlert(Alert.AlertType.ERROR, "Could not add presets", "Could not add presets", "Could not add default presets. \nPlease try again").showAndWait();
+                alertTemplateFactory.makeAlert(Alert.AlertType.ERROR, "Could not add presets", "Could not add default presets. \nPlease try again").showAndWait();
             }
         });
         backToBattleButton.setOnAction(event -> {
             try {
                 WarGamesApplication.getWarGamesApplication().setNewScene(lastWindow);
             } catch (IOException e) {
-                AlertTemplate.makeCouldNotChangeWindowAlert().showAndWait();
+                alertTemplateFactory.makeCouldNotChangeWindowAlert().showAndWait();
             }
         });
         saveUnitsButton.setOnAction(event -> {
@@ -177,13 +258,13 @@ public class EditUnitController implements Controller{
                 armyTable.getItems().addAll(units);
                 emptyFields();
             }else {
-                Unit unit = unitFactory.makeSimpleUnit(unitType, unitName, health, TerrainStyle.PLAINS);
-                army.addUnit(unit);
-                armyTable.getItems().add(unit);
+                List<Unit> units = unitFactory.makeNAmountOfTypeUnit(Integer.parseInt(amountField.getText()), unitType, unitName, health, TerrainStyle.PLAINS);
+                army.addAllUnits(units);
+                armyTable.getItems().addAll(units);
                 emptyFields();
             }
         }catch (CouldNotAddUnitException | IllegalArgumentException exception){
-            Alert alert = AlertTemplate.makeCouldNotAddUnitAlert();
+            Alert alert = alertTemplateFactory.makeCouldNotAddUnitAlert();
             alert.showAndWait();
         }
     }
@@ -239,7 +320,7 @@ public class EditUnitController implements Controller{
         Unit unit = armyTable.getSelectionModel().getSelectedItem();
         emptyFields();
         if (unit == null){
-            Alert alert = AlertTemplate.makeCouldNotEditSelectUnit();
+            Alert alert = alertTemplateFactory.makeCouldNotEditSelectUnit();
             alert.showAndWait();
         }else {
             amountField.setDisable(true);
@@ -258,10 +339,6 @@ public class EditUnitController implements Controller{
                 System.err.println("The unit selected could not be removed.");
             }
         }
-    }
-
-    private ObservableList<Unit> makeObservableListFromArmy(){
-        return FXCollections.observableList(army.getAllUnits());
     }
 
     /**

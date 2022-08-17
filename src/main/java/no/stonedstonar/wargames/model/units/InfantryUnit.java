@@ -2,6 +2,8 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.weapons.Weapon;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 
 /**
  * Represents a infantry unit.
@@ -18,14 +20,14 @@ public class InfantryUnit extends Unit{
      * Makes an instance of the InfantryUnit class.
      * @param unitName the name.
      * @param health the health.
-     * @param attack the attack.
+     * @param weapon the weapon.
      * @param armour the armour.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
      * @param terrainStyle the terrain of the unit.
      */
-    public InfantryUnit(String unitName, int health, int attack, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
-        super(unitName, health, attack, armour, UnitType.INFANTRY, terrainStyle);
+    public InfantryUnit(String unitName, int health, Weapon weapon, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+        super(unitName, health, weapon, armour, UnitType.INFANTRY, terrainStyle);
         checkIfNumberIsValid(attackBonus, "attack bonus");
         checkIfNumberIsValid(armourBonus, "armour bonus");
         this.armourBonus = armourBonus;
@@ -39,7 +41,7 @@ public class InfantryUnit extends Unit{
      * @param terrainStyle the terrain of the unit.
      */
     public InfantryUnit(String unitName, int health, TerrainStyle terrainStyle){
-        super(unitName, health, 15, 10, UnitType.INFANTRY, terrainStyle);
+        super(unitName, health, new ShortSword(), 10, UnitType.INFANTRY, terrainStyle);
         //Todo: Skal ha en bonus i nærkamp.
         attackBonus = 2;
         armourBonus = 1;

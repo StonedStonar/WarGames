@@ -7,6 +7,7 @@ import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.exception.CouldNotAddUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotGetUnitException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveUnitException;
+import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,17 +25,11 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class ArmyTest {
+public class ArmyTest extends TestTemplate{
 
     private Army army;
 
     private List<Unit> units;
-
-    private StringBuilder stringBuilder;
-
-    private int errors;
-
-    private String illegalPrefix;
 
     private String addPrefix;
 
@@ -48,7 +43,7 @@ public class ArmyTest {
      * Makes an army test instance.
      */
     public ArmyTest(){
-        illegalPrefix = makeExceptionString("IllegalArgumentException");
+        super();
         addPrefix = makeExceptionString("CouldNotAddUnitException");
         removePrefix = makeExceptionString("CouldNotRemoveUnitException");
         getPrefix = makeExceptionString("CouldNotGetUnitException");
@@ -63,11 +58,10 @@ public class ArmyTest {
         try {
             this.units = makeUnits();
             army = new NormalArmy("hei", units);
-        }catch (IllegalArgumentException exception){
+        }catch (IllegalArgumentException exception) {
             fail("Expected the test items to be added since the input is valid.");
         }
-        stringBuilder = new StringBuilder();
-        errors = 0;
+        resetTestClass();
     }
 
     /**
@@ -84,53 +78,11 @@ public class ArmyTest {
     }
 
     /**
-     * Checks if the tests failed and displays the results.
-     */
-    @AfterEach
-    private void checkIfTestsFailedAndDisplayResult(){
-        if(stringBuilder.length() == 0){
-            assertTrue(true);
-        }else {
-            fail("\nAmount of errors " + errors + " listed errors: " + stringBuilder.toString());
-        }
-    }
-
-    /**
      * Makes an opponent for the testing.
      * @return the opponent to attack.
      */
-    private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, 20, 10, 2, 3, TerrainStyle.FOREST);
-    }
-
-    /**
-     * Adds an error with an exception in the title.
-     * @param errorPrefix what it should say before the main error.
-     * @param error what it should say after the error.
-     * @param exception the exception that was not expected.
-     */
-    private void addErrorWithException(String errorPrefix, String error, Exception exception){
-        addError(errorPrefix, error);
-        stringBuilder.append(" and not a ").append(exception.getClass().getSimpleName());
-    }
-
-    /**
-     * Makes an exception into the wanted string.
-     * @param exceptionName the name of the exception.
-     * @return the full exception string.
-     */
-    private String makeExceptionString(String exceptionName){
-        return "Expected to get a " +  exceptionName + " since";
-    }
-
-    /**
-     * Adds a new error to the stringbuilder.
-     * @param errorPrefix what it should say before the error.
-     * @param error the error to append.
-     */
-    private void addError(String errorPrefix, String error){
-        stringBuilder.append("\n").append(errorPrefix).append(error);
-        errors++;
+    private Unit makeOpponent() {
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10, 2, 3, TerrainStyle.FOREST);
     }
 
 
@@ -143,15 +95,15 @@ public class ArmyTest {
         String armyName = "Hei";
         try {
             army = new NormalArmy("", units);
-            addError(illegalPrefix, "the input army name is empty");
+            addError(getIllegalPrefix(), "the input army name is empty");
         }catch (IllegalArgumentException exception){}
         try {
             army = new NormalArmy(null, units);
-            addError(illegalPrefix, "the input army name is null");
+            addError(getIllegalPrefix(), "the input army name is null");
         }catch (IllegalArgumentException exception){}
         try {
             army = new NormalArmy(armyName, null);
-            addError(illegalPrefix, "the input unit list is null");
+            addError(getIllegalPrefix(), "the input unit list is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -182,11 +134,11 @@ public class ArmyTest {
     public void testIfSetArmyNameWorksWithInvalidInput(){
         try {
             army.setArmyName("");
-            addError(illegalPrefix, "the input name is empty");
+            addError(getIllegalPrefix(), "the input name is empty");
         }catch (IllegalArgumentException exception){}
         try {
             army.setArmyName(null);
-            addError(illegalPrefix, "the input name is null");
+            addError(getIllegalPrefix(), "the input name is null");
         }catch (IllegalArgumentException exception){}
     }
 
@@ -211,16 +163,16 @@ public class ArmyTest {
     public void testIfAddUnitWorksWithInvalidInput(){
         try {
             army.addUnit(null);
-            addError(illegalPrefix, "the input unit is null");
+            addError(getIllegalPrefix(), "the input unit is null");
         }catch (IllegalArgumentException exception){}
         catch (CouldNotAddUnitException exception){
-            addErrorWithException(illegalPrefix, "the input unit is null", exception);
+            addErrorWithException(getIllegalPrefix(), "the input unit is null", exception);
         }
         try {
             army.addUnit(units.get(0));
             addError(addPrefix, "the input unit is already in the army");
         }  catch (IllegalArgumentException exception){
-            addErrorWithException(addPrefix, "the input unit is already in the army", exception);
+            addErrorWithException(getIllegalPrefix(), "the input unit is already in the army", exception);
         }catch (CouldNotAddUnitException exception) {
         }
     }
@@ -246,11 +198,11 @@ public class ArmyTest {
     public void testIfAddAllUnitsWorksWithInvalidInput(){
         try {
             army.addAllUnits(null);
-            addError(illegalPrefix, "since the input is null");
+            addError(getIllegalPrefix(), "since the input is null");
         }catch (IllegalArgumentException exception){
 
         }catch (CouldNotAddUnitException exception){
-            addErrorWithException(illegalPrefix, "since the input is null", exception);
+            addErrorWithException(getIllegalPrefix(), "since the input is null", exception);
         }
         try {
             army.addAllUnits(units);
@@ -281,11 +233,11 @@ public class ArmyTest {
     public void testIfRemoveUnitWorksWithInvalidInput(){
         try {
             army.removeUnit(null);
-            addError(illegalPrefix, "the input unit is null");
+            addError(getIllegalPrefix(), "the input unit is null");
         }catch (IllegalArgumentException exception){
 
         }catch (CouldNotRemoveUnitException exception){
-            addErrorWithException(illegalPrefix, "the input unit is null", exception);
+            addErrorWithException(getIllegalPrefix(), "the input unit is null", exception);
         }
         try {
             army.removeUnit(new InfantryUnit("Bjarne 3", 100, terrainStyle));
@@ -318,7 +270,7 @@ public class ArmyTest {
     public void testIfGetSpecifiedUnitWorksWithInvalidInput(){
         try {
             army.getSpecifiedUnit(null);
-            addError(illegalPrefix, "since the input is null");
+            addError(getIllegalPrefix(), "since the input is null");
         }catch (IllegalArgumentException exception){}
     }
 
