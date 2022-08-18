@@ -5,7 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+<<<<<<< HEAD
+import no.stonedstonar.wargames.model.Battle;
+=======
 import javafx.stage.FileChooser;
+>>>>>>> 19fa86d350cbe9d31b4076f8a24e07dc9cf026f7
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
 import no.stonedstonar.wargames.model.army.Army;
