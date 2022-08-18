@@ -2,10 +2,12 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.weapons.Projectile;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
 
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Represents a unit that uses ranged weapons.
@@ -73,6 +75,19 @@ public class RangedUnit extends Unit {
     @Override
     public void reduceHealth(int damage) {
         super.reduceHealth(damage);
+        incrementAttacksTaken();
+    }
+
+    @Override
+    public void reduceHealth(List<Projectile> projectileList){
+        super.reduceHealth(projectileList);
+        incrementAttacksTaken();
+    }
+
+    /**
+     * Increments the attacks taken.
+     */
+    private void incrementAttacksTaken(){
         timesAttacked += 1;
     }
 

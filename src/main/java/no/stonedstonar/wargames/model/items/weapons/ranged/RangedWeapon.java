@@ -1,9 +1,12 @@
 package no.stonedstonar.wargames.model.items.weapons.ranged;
 
 import no.stonedstonar.wargames.model.exception.CouldNotAddProjectileException;
+import no.stonedstonar.wargames.model.exception.CouldNotAddWeaponEffectException;
 import no.stonedstonar.wargames.model.exception.CouldNotRemoveProjectileException;
+import no.stonedstonar.wargames.model.exception.CouldNotRemoveWeaponEffectException;
 import no.stonedstonar.wargames.model.items.RangedItem;
 import no.stonedstonar.wargames.model.items.weapons.Projectile;
+import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 import no.stonedstonar.wargames.model.units.Unit;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 
@@ -28,6 +31,8 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     private int maxProjectiles;
 
     private List<Projectile> projectiles;
+
+    private List<WeaponEffect> weaponEffects;
 
     /**
      * Makes an instance of the RangedWeapon class.
@@ -63,6 +68,25 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
         this.durability = durability;
         this.maxDurability = durability;
         this.damage = damage;
+        weaponEffects = new LinkedList<>();
+    }
+
+    @Override
+    public void addWeaponEffect(WeaponEffect weaponEffect) throws CouldNotAddWeaponEffectException {
+        checkIfObjectIsNull(weaponEffect, "weapon effect");
+        if (!weaponEffects.contains(weaponEffect)){
+            weaponEffects.add(weaponEffect);
+        }else {
+            throw new CouldNotAddWeaponEffectException("The weapon effect is already a part of this weapon.");
+        }
+    }
+
+    @Override
+    public void removeWeaponEffect(WeaponEffect weaponEffect) throws CouldNotRemoveWeaponEffectException {
+        checkIfObjectIsNull(weaponEffect, "weapon effect");
+        if(!weaponEffects.remove(weaponEffect)){
+            throw new CouldNotRemoveWeaponEffectException("The weapon effect is not a part of this weapon.");
+        }
     }
 
     @Override
@@ -95,20 +119,22 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
     @Override
     public List<Projectile> changeProjectiles(List<Projectile> projectileList) throws CouldNotAddProjectileException {
         checkIfObjectIsNull(projectileList, "projectile list");
-        List<Projectile> oldProjectiles = new LinkedList<>();
-        projectiles.forEach(projectile -> {
-            oldProjectiles.add(projectile);
-            projectiles.remove(projectile);
-        });
-        addProjectiles(projectileList);
+        List<Projectile> oldProjectiles;
+        if (projectiles.stream().noneMatch(projectileList::contains)){
+            oldProjectiles = new LinkedList<>(projectiles);
+            projectiles.removeAll(oldProjectiles);
+            addProjectiles(projectileList);
+        }else {
+            throw new CouldNotAddProjectileException("A projectile in the input list is already in the weapon.");
+        }
         return oldProjectiles;
     }
 
     @Override
-    public List<Projectile> removeProjectiles(int amountOfProjectiles){
+    public List<Projectile> removeProjectiles(int amountOfProjectiles) throws CouldNotRemoveProjectileException {
         checkIfNumberIsBelowN(1, amountOfProjectiles, "amount of projectiles");
         if (amountOfProjectiles > projectiles.size()){
-            throw new IllegalArgumentException("The amount of projectiles is larger than the weapon holds.");
+            throw new CouldNotRemoveProjectileException("The amount of projectiles is larger than the weapon holds.");
         }
         List<Projectile> oldProjectiles = new LinkedList<>();
         for (int i = 0; i < amountOfProjectiles; i++){
@@ -176,6 +202,11 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
         return durability;
     }
 
+    @Override
+    public boolean hasProjectiles(){
+        return !projectiles.isEmpty();
+    }
+
     /**
      * The time it takes to reload the weapon.
      * @return the time.
@@ -187,6 +218,14 @@ public abstract class RangedWeapon implements Weapon, RangedItem {
      * @return the bonus damage.
      */
     public abstract int getBonusDamage();
+
+    /**
+     * Gets all the projectiles.
+     * @return the list with projectiles.
+     */
+    public List<Projectile> getProjectiles(){
+        return projectiles;
+    }
 
     /**
      * Checks if the number is below a number N. Throws an error if the number is less than N.

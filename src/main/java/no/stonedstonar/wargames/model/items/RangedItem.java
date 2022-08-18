@@ -32,6 +32,14 @@ public interface RangedItem{
      * Removes an amount of projectiles from the ranged weapon.
      * @param amountOfProjectiles the amount of projectiles.
      * @return a list with the projectiles.
+     * @throws CouldNotRemoveProjectileException gets thrown if the amount is larger than the ones currently in the weapon.
      */
-    List<Projectile> removeProjectiles(int amountOfProjectiles);
+    List<Projectile> removeProjectiles(int amountOfProjectiles) throws CouldNotRemoveProjectileException;
+
+    /**
+     * Checks if the ranged item has projectiles.
+     * @return <code>true</code> if the ranged item has projectiles.
+     *         <code>false</code> if the ranged item does not have projectiles.
+     */
+    boolean hasProjectiles();
 }

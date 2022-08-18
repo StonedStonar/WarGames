@@ -1,9 +1,12 @@
 package no.stonedstonar.wargames.model.items.weapons.meele;
 
+import no.stonedstonar.wargames.model.exception.CouldNotAddWeaponEffectException;
+import no.stonedstonar.wargames.model.exception.CouldNotRemoveWeaponEffectException;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 import no.stonedstonar.wargames.model.units.Unit;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -19,21 +22,20 @@ public abstract class MeleeWeapon implements Weapon {
 
     private final int damage;
 
-    private final List<WeaponEffect> weaponEffects;
+    private List<WeaponEffect> weaponEffects;
 
     /**
      * Makes an instance of the MeleeWeapon class.
      * @param durability the durability of the weapon.
      * @param damage the damage the weapon has.
      */
-    protected MeleeWeapon(int durability, int damage, List<WeaponEffect> weaponEffects) {
+    protected MeleeWeapon(int durability, int damage) {
         checkIfNumberIsBelowN(1, durability, "durability");
         checkIfNumberIsBelowN(1, damage, "damage");
-        checkIfObjectIsNull(weaponEffects, "weapons effects");
         this.maxDurability = durability;
         this.durability = durability;
         this.damage = damage;
-        this.weaponEffects = weaponEffects;
+        weaponEffects = new LinkedList<>();
     }
 
     @Override
@@ -63,6 +65,24 @@ public abstract class MeleeWeapon implements Weapon {
             throw new IllegalArgumentException("The amount cannot exeede maximum durability.");
         }
         this.durability = amount;
+    }
+
+    @Override
+    public void addWeaponEffect(WeaponEffect weaponEffect) throws CouldNotAddWeaponEffectException {
+        checkIfObjectIsNull(weaponEffect, "weapon effect");
+        if (!weaponEffects.contains(weaponEffect)){
+            weaponEffects.add(weaponEffect);
+        }else {
+            throw new CouldNotAddWeaponEffectException("The weapon effect is already a part of this weapon.");
+        }
+    }
+
+    @Override
+    public void removeWeaponEffect(WeaponEffect weaponEffect) throws CouldNotRemoveWeaponEffectException{
+        checkIfObjectIsNull(weaponEffect, "weapon effect");
+        if(!weaponEffects.remove(weaponEffect)){
+            throw new CouldNotRemoveWeaponEffectException("The weapon effect is not a part of this weapon.");
+        }
     }
 
     @Override

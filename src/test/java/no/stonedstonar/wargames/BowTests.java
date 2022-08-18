@@ -90,19 +90,11 @@ public class BowTests extends TestTemplate {
         int meleeDamage = 2;
         int reloadTime = 1;
         int bonusDamage = 2;
-        try {
-            bow = new Bow(-2, arrows, meleeDamage, reloadTime, bonusDamage);
-            addError(getIllegalPrefix(), "the input durability is negative");
-        }catch (IllegalArgumentException exception){}
-        try {
-            bow = new Bow(0, arrows, meleeDamage, reloadTime, bonusDamage);
-            addError(getIllegalPrefix(), "durability is 0");
-        }catch (IllegalArgumentException exception){}
+
         try {
             bow = new Bow(maxDurability, null, meleeDamage, reloadTime, bonusDamage);
             addError(getIllegalPrefix(), "arrows is null");
         }catch (IllegalArgumentException exception){}
-
         try {
             bow = new Bow(maxDurability, arrows, meleeDamage, -2, bonusDamage);
             addError(getIllegalPrefix(),"reload time is 0");
@@ -119,13 +111,8 @@ public class BowTests extends TestTemplate {
     @Test
     @DisplayName("Test if constructor with five parameters works with valid input.")
     public void testIfConstructorWithFiveParametersWorksWithValidInput(){
-        int maxDurability = 50;
-        List<Arrow> arrows = makeArrows();
-        int meleeDamage = 2;
-        int reloadTime = 1;
-        int bonusDamage = 2;
         try {
-            bow = new Bow(maxDurability, arrows, meleeDamage, reloadTime, bonusDamage);
+            bow = new Bow(50, makeArrows(), 2, 2, 2);
         }catch (IllegalArgumentException exception){
             addErrorWithException(getIllegalPrefix(), "the input is valid", exception);
         }

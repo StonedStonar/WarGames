@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames.model.items.weapons.ranged;
 
+import no.stonedstonar.wargames.model.exception.CouldNotAddProjectileException;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 
 import java.util.LinkedList;
@@ -23,7 +24,11 @@ public class Bow extends RangedWeapon{
     public Bow(List<Arrow> arrows) {
         super(300, 2);
         checkIfObjectIsNull(arrows,"arrows");
-        addProjectiles(new LinkedList<>(arrows));
+        try {
+            addProjectiles(new LinkedList<>(arrows));
+        }catch (CouldNotAddProjectileException exception){
+            throw new IllegalArgumentException(exception.getMessage());
+        }
         reloadTime = 0;
         bonusDamage = 0;
     }
@@ -36,10 +41,14 @@ public class Bow extends RangedWeapon{
      * @param reloadTime reload time of the bow.
      * @param bonusDamage bonus damage for the bow.
      */
-    public Bow(int maxDurability, List<Arrow> arrows, int meleeDamage, int reloadTime, int bonusDamage){
+    public Bow(int maxDurability, List<Arrow> arrows, int meleeDamage, int reloadTime, int bonusDamage) {
         super(maxDurability, meleeDamage);
         checkIfObjectIsNull(arrows,"arrows");
-        addProjectiles(new LinkedList<>(arrows));
+        try {
+            addProjectiles(new LinkedList<>(arrows));
+        }catch (CouldNotAddProjectileException exception){
+            throw new IllegalArgumentException(exception.getMessage());
+        }
         checkIfNumberIsBelowN(0, reloadTime, "reload time");
         checkIfNumberIsBelowN(0, bonusDamage, "bonus damage");
         this.reloadTime = reloadTime;

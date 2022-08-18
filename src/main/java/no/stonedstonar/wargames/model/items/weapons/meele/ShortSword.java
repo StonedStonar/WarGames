@@ -1,5 +1,6 @@
 package no.stonedstonar.wargames.model.items.weapons.meele;
 
+import no.stonedstonar.wargames.model.exception.CouldNotAddWeaponEffectException;
 import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
 
 import java.util.LinkedList;
@@ -12,8 +13,6 @@ import java.util.List;
  */
 public class ShortSword extends MeleeWeapon{
 
-    private List<WeaponEffect> weaponEffects;
-
     private int bonusDamage;
 
     /**
@@ -21,14 +20,12 @@ public class ShortSword extends MeleeWeapon{
      */
     public ShortSword() {
         super(300, 12);
-        weaponEffects = new LinkedList<>();
-        weaponEffects.add(WeaponEffect.SHARP);
         bonusDamage = 0;
-    }
-
-    @Override
-    public List<WeaponEffect> getWeaponEffects() {
-        return weaponEffects;
+        try {
+            addWeaponEffect(WeaponEffect.SHARP);
+        }catch (CouldNotAddWeaponEffectException exception){
+            throw new IllegalArgumentException(exception.getMessage());
+        }
     }
 
     @Override
