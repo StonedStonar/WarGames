@@ -68,7 +68,7 @@ public class CavalryUnit extends Unit{
      * @param terrainStyle the terrain of the unit.
      */
     public CavalryUnit(String unitName, int health, TerrainStyle terrainStyle){
-        super(unitName, health, new ShortSword(), new PlateArmour(50, 12), UnitType.CAVALRY, terrainStyle);
+        super(unitName, health, new ShortSword(), new PlateArmour(50, 10), UnitType.CAVALRY, terrainStyle);
         //Todo: Bonus fra avstand.
         this.attackBonus = 2;
         this.armourBonus = 2;

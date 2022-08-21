@@ -110,7 +110,6 @@ public class UnitFactory {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
      * @param error  the error message the exception should have.
      */

@@ -79,7 +79,7 @@ public class ArmyPresets {
      * @param health the health most of the units should have.
      * @param army army to add units to.
      * @return the new army.
-     * @throws CouldNotAddUnitException
+     * @throws CouldNotAddUnitException gets thrown if the unit could not be added.
      */
     private static Army fillArmy(String infantryName, String cavalryName, String rangedName, String commanderName, int health, Army army) throws CouldNotAddUnitException {
         UnitFactory unitFactory = new UnitFactory();

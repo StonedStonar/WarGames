@@ -98,7 +98,7 @@ public abstract class MeleeWeapon implements Weapon {
     @Override
     public void doDamage(Unit opponent) {
         checkIfObjectIsNull(opponent, "opponent");
-        opponent.reduceHealth(getAttackDamage());
+        opponent.reduceHealth(getAttackDamage() + getBonusDamage());
     }
 
     @Override

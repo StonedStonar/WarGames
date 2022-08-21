@@ -17,7 +17,7 @@ public class ShortSword extends MeleeWeapon{
      * Makes an instance of the ShortSword class.
      */
     public ShortSword() {
-        super(300, 12);
+        super(300, 15);
         bonusDamage = 0;
         try {
             addWeaponEffect(WeaponEffect.SHARP);
