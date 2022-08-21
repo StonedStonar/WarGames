@@ -2,6 +2,7 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
 
@@ -53,12 +54,12 @@ public class UnitFactory {
      * @param terrainStyle the terrain style.
      * @return the unit matching the input.
      */
-    private Unit makeUnit(UnitType unitType, String unitName, int health, int armour,int attack , int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+    private Unit makeUnit(UnitType unitType, String unitName, int health, int armour, int attack , int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
         return switch (unitType){
-            case CAVALRY -> new CavalryUnit(unitName, health, new ShortSword(), attack, attackBonus, armourBonus, terrainStyle);
-            case INFANTRY -> new InfantryUnit(unitName, health, new Bow(new LinkedList<>()), armour, attackBonus, armourBonus, terrainStyle);
-            case RANGEDUNIT -> new RangedUnit(unitName, health, new Bow(new LinkedList<>()), armour, attackBonus, armourBonus, terrainStyle);
-            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, new ShortSword(), armour, attackBonus, armourBonus, terrainStyle);
+            case CAVALRY -> new CavalryUnit(unitName, health, new ShortSword(), new PlateArmour(50, armour), attackBonus, armourBonus, terrainStyle);
+            case INFANTRY -> new InfantryUnit(unitName, health, new Bow(new LinkedList<>()), new PlateArmour(50, armour), attackBonus, armourBonus, terrainStyle);
+            case RANGEDUNIT -> new RangedUnit(unitName, health, new Bow(new LinkedList<>()), new PlateArmour(50, armour), attackBonus, armourBonus, terrainStyle);
+            case CAVALRYCOMMANDER -> new ChivalryCommanderUnit(unitName, health, new ShortSword(), new PlateArmour(50, armour), attackBonus, armourBonus, terrainStyle);
         };
     }
 

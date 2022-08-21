@@ -42,12 +42,13 @@ public enum ArmourEffects {
      * @return a list with the remaining weapons effects.
      */
     public static List<WeaponsEffects> getBlockedWeaponEffects(List<WeaponsEffects> weaponsEffects, Armour armour){
+        //Todo: Finish these later beacuse its more complicated then i thought.
         checkIfObjectIsNull(weaponsEffects, "weapons effects");
         checkIfObjectIsNull(armour, "armour");
         List<WeaponEffect> weaponsEffectsToRemove = new ArrayList<>();
         List<ArmourEffects> armourEffects = armour.getArmourEffects();
 
-        return ;
+        return weaponsEffects;
     }
 
     /**
@@ -57,14 +58,13 @@ public enum ArmourEffects {
     public List<WeaponEffect> getBlockedWeaponEffects(){
         List<WeaponEffect> weaponEffects = new ArrayList<>();
         switch (this){
-            case HARDENED -> ;
-            case LIGHT -> ;
+            case HARDENED -> weaponEffects.add(WeaponEffect.SHARP);
             case THICKARMOUR -> {
                 weaponEffects.add(WeaponEffect.EXPLOSIVE);
 
-            };
-
+            }
         }
+        return weaponEffects;
     }
 
     /**

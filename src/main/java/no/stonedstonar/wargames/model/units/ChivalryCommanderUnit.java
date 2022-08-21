@@ -2,6 +2,9 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 
@@ -22,7 +25,7 @@ public class ChivalryCommanderUnit extends CavalryUnit{
      * @param armourBonus the armour bonus
      * @param terrainStyle the terrain style
      */
-    public ChivalryCommanderUnit(String unitName, int health, Weapon weapon, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+    public ChivalryCommanderUnit(String unitName, int health, Weapon weapon, Armour armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
         super(unitName, health, weapon, armour, attackBonus, armourBonus, terrainStyle);
     }
 
@@ -33,6 +36,6 @@ public class ChivalryCommanderUnit extends CavalryUnit{
      * @param terrainStyle the terrain style
      */
     public ChivalryCommanderUnit(String unitName, int health, TerrainStyle terrainStyle){
-        super(unitName, health, new ShortSword(), 15, 2, 2, UnitType.CAVALRYCOMMANDER, terrainStyle);
+        super(unitName, health, new ShortSword(), new PlateArmour(50, 12), 2, 2, UnitType.CAVALRYCOMMANDER, terrainStyle);
     }
 }

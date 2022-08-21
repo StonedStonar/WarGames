@@ -1,6 +1,8 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.CavalryUnit;
@@ -40,7 +42,7 @@ public class CavalryUnitTests extends TestTemplate{
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3,terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), new PlateArmour(50, 10),2 ,3,terrainStyle);
     }
 
     /**
@@ -52,7 +54,7 @@ public class CavalryUnitTests extends TestTemplate{
         String unitName = "Fjell";
         int health = 100;
         Weapon attack = new ShortSword();
-        int armour = 10;
+        Armour armour = new PlateArmour(50, 10);
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
@@ -86,7 +88,7 @@ public class CavalryUnitTests extends TestTemplate{
         String unitName = "Fjell";
         int health = 100;
         Weapon attack = new ShortSword();
-        int armour = 10;
+        Armour armour = new PlateArmour(50, 10);
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {

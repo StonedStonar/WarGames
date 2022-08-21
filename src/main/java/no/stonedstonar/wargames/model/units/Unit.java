@@ -2,6 +2,7 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.armour.Armour;
 import no.stonedstonar.wargames.model.items.weapons.Projectile;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 
@@ -17,7 +18,7 @@ public abstract class Unit {
 
     private int health;
 
-    private int armour;
+    private Armour armour;
 
     private Weapon weapon;
 
@@ -30,18 +31,18 @@ public abstract class Unit {
      * Makes an instance of the Unit class.
      * @param unitName the name.
      * @param health the health.
-     * @param weapon the weapon.
-     * @param armour the armour.
+     * @param weapon the weapon that the unit wields.
+     * @param armour the armour that the unit wears.
      * @param unitType the type of unit.
      * @param terrainStyle the terrain of the unit.
      */
-    protected Unit(String unitName, int health, Weapon weapon, int armour, UnitType unitType, TerrainStyle terrainStyle) {
+    protected Unit(String unitName, int health, Weapon weapon, Armour armour, UnitType unitType, TerrainStyle terrainStyle) {
         checkString(unitName, "unit name");
         checkIfNumberIsValid(health, "health");
         checkIfObjectIsNull(weapon, "weapon");
-        checkIfNumberIsValid(armour, "armour");
         checkIfObjectIsNull(unitType, "unitType");
         checkIfObjectIsNull(terrainStyle, "terrain style");
+        checkIfObjectIsNull(armour, "armour");
         this.unitName = unitName;
         this.health = health;
         this.weapon = weapon;
@@ -74,7 +75,7 @@ public abstract class Unit {
      */
     public void reduceHealth(int damage){
         checkIfNumberIsValid(damage, "amount of health");
-        int totalAttack = getArmour() - damage;
+        int totalAttack = getArmour().getProtection() - damage;
         if (-totalAttack > health){
             this.health = 0;
         }else if (totalAttack < 0){
@@ -135,7 +136,7 @@ public abstract class Unit {
      * Gets the armour of the unit.
      * @return the armour of the unit.
      */
-    public int getArmour() {
+    public Armour getArmour() {
         return armour;
     }
 

@@ -2,6 +2,8 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Projectile;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
@@ -26,13 +28,13 @@ public class RangedUnit extends Unit {
      * Makes an instance of the ranged unit class.
      * @param unitName the name.
      * @param health the health.
-     * @param weapon the weapon.
-     * @param armour the armour.
+     * @param weapon the weapon that the unit wields.
+     * @param armour the armour that the unit wears.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
      * @param terrainStyle the terrain of the unit.
      */
-    public RangedUnit(String unitName, int health, Weapon weapon, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
+    public RangedUnit(String unitName, int health, Weapon weapon, Armour armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle) {
         super(unitName, health, weapon, armour, UnitType.RANGEDUNIT, terrainStyle);
         //Todo: Hvis det er på avstand
         checkIfNumberIsValid(attackBonus, "attack bonus");
@@ -50,7 +52,7 @@ public class RangedUnit extends Unit {
      * @param terrainStyle the terrain of the unit.
      */
     public RangedUnit(String unitName, int health, TerrainStyle terrainStyle) {
-        super(unitName, health, new Bow(new LinkedList<>()), 8, UnitType.RANGEDUNIT,terrainStyle);
+        super(unitName, health, new Bow(new LinkedList<>()), new PlateArmour(50, 8), UnitType.RANGEDUNIT,terrainStyle);
         //Todo: If there is distance.
         this.attackBonus = 3;
         //Todo: Based on the distance to the enemy.

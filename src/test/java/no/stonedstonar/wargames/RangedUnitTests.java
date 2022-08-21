@@ -1,6 +1,9 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.army.Army;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.items.weapons.ranged.Bow;
@@ -47,7 +50,7 @@ public class RangedUnitTests extends TestTemplate{
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), new PlateArmour(50, 10),2 ,3, terrainStyle);
     }
 
     /**
@@ -59,7 +62,7 @@ public class RangedUnitTests extends TestTemplate{
         String unitName = "Fjell";
         int health = 100;
         Weapon weapon = new Bow(new LinkedList<>());
-        int armour = 10;
+        Armour armour = new PlateArmour(50, 10);
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
@@ -89,7 +92,7 @@ public class RangedUnitTests extends TestTemplate{
         String unitName = "Fjell";
         int health = 100;
         Weapon weapon = new Bow(new LinkedList<>());
-        int armour = 10;
+        Armour armour = new PlateArmour(50, 10);
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {

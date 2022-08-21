@@ -2,6 +2,8 @@ package no.stonedstonar.wargames.model.units;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 
@@ -23,12 +25,12 @@ public class CavalryUnit extends Unit{
      * @param unitName the unit name.
      * @param health the health.
      * @param weapon the weapon.
-     * @param armour the armour.
+     * @param armour the armour that the unit wears.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
      * @param terrainStyle the terrain of the unit.
      */
-    public CavalryUnit(String unitName, int health, Weapon weapon, int armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle){
+    public CavalryUnit(String unitName, int health, Weapon weapon, Armour armour, int attackBonus, int armourBonus, TerrainStyle terrainStyle){
         super(unitName, health, weapon, armour, UnitType.CAVALRY, terrainStyle);
         //Todo: Bonus fra avstand.
         checkIfNumberIsValid(attackBonus, "attack bonus");
@@ -42,14 +44,14 @@ public class CavalryUnit extends Unit{
      * Makes an instance of the CavarlyUnit.
      * @param unitName the unit name.
      * @param health the health.
-     * @param weapon the weapon.
-     * @param armour the armour.
+     * @param weapon the weapon that the unit wields.
+     * @param armour the armour that the unit wears.
      * @param attackBonus the attack bonus.
      * @param armourBonus the armour bonus.
      * @param unitType the unit type.
      * @param terrainStyle the terrain of the unit.
      */
-    public CavalryUnit(String unitName, int health, Weapon weapon, int armour, int attackBonus, int armourBonus, UnitType unitType, TerrainStyle terrainStyle){
+    public CavalryUnit(String unitName, int health, Weapon weapon, Armour armour, int attackBonus, int armourBonus, UnitType unitType, TerrainStyle terrainStyle){
         super(unitName, health, weapon, armour, unitType, terrainStyle);
         //Todo: Bonus fra avstand.
         checkIfNumberIsValid(attackBonus, "attack bonus");
@@ -66,7 +68,7 @@ public class CavalryUnit extends Unit{
      * @param terrainStyle the terrain of the unit.
      */
     public CavalryUnit(String unitName, int health, TerrainStyle terrainStyle){
-        super(unitName, health, new ShortSword(), 12, UnitType.CAVALRY, terrainStyle);
+        super(unitName, health, new ShortSword(), new PlateArmour(50, 12), UnitType.CAVALRY, terrainStyle);
         //Todo: Bonus fra avstand.
         this.attackBonus = 2;
         this.armourBonus = 2;

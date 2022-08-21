@@ -2,6 +2,7 @@ package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
 import no.stonedstonar.wargames.model.UnitType;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
 import no.stonedstonar.wargames.model.units.Unit;
@@ -43,7 +44,7 @@ public class UnitFactoryTests extends TestTemplate{
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), new PlateArmour(50, 10),2 ,3, terrainStyle);
     }
 
     /**

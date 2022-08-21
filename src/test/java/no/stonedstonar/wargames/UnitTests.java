@@ -1,6 +1,8 @@
 package no.stonedstonar.wargames;
 
 import no.stonedstonar.wargames.model.TerrainStyle;
+import no.stonedstonar.wargames.model.items.armour.Armour;
+import no.stonedstonar.wargames.model.items.armour.PlateArmour;
 import no.stonedstonar.wargames.model.items.weapons.Weapon;
 import no.stonedstonar.wargames.model.items.weapons.meele.ShortSword;
 import no.stonedstonar.wargames.model.units.InfantryUnit;
@@ -51,7 +53,7 @@ public class UnitTests extends TestTemplate{
      * @return the opponent to attack.
      */
     private Unit makeOpponent(){
-        return new InfantryUnit("Fjarne", 100, new ShortSword(), 10,2 ,3, terrainStyle);
+        return new InfantryUnit("Fjarne", 100, new ShortSword(), new PlateArmour(50, 10),2 ,3, terrainStyle);
     }
 
 
@@ -64,7 +66,7 @@ public class UnitTests extends TestTemplate{
         String unitName = "Fjell";
         int health = 100;
         Weapon weapon = new ShortSword();
-        int armour = 10;
+        Armour armour = new PlateArmour(50, 10);
         int bonusAttack = 2;
         int bonusDefence = 3;
         try {
@@ -91,12 +93,8 @@ public class UnitTests extends TestTemplate{
             addError(getIllegalPrefix(), "the input attack is zero");
         }catch (IllegalArgumentException exception){}
         try {
-            Unit unit = new InfantryUnit(unitName, health, weapon, 0, bonusAttack, bonusDefence, terrainStyle);
-            addError(getIllegalPrefix(), "the input armour is zero");
-        }catch (IllegalArgumentException exception){}
-        try {
-            Unit unit = new InfantryUnit(unitName, health, weapon, -5, bonusAttack, bonusDefence, terrainStyle);
-            addError(getIllegalPrefix(), "the input armour is negative 5");
+            Unit unit = new InfantryUnit(unitName, health, weapon, null, bonusAttack, bonusDefence, terrainStyle);
+            addError(getIllegalPrefix(), "the input armour is null");
         }catch (IllegalArgumentException exception){}
         try {
             Unit unit = new InfantryUnit(unitName, health, weapon, armour, 0, bonusDefence, terrainStyle);
@@ -127,7 +125,7 @@ public class UnitTests extends TestTemplate{
     @DisplayName("Tests if constructor works with valid input.")
     public void testIfConstructorWorksWithValidInput(){
         try {
-            Unit unit = new InfantryUnit("Bjarne", 100, new ShortSword(), 10, 2, 3, terrainStyle);
+            Unit unit = new InfantryUnit("Bjarne", 100, new ShortSword(), new PlateArmour(50, 10), 2, 3, terrainStyle);
         }catch (IllegalArgumentException exception){
             addErrorWithException("", "Expected the unit to be made since the input is valid", exception);
         }

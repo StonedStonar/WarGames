@@ -24,5 +24,5 @@ public enum UnitType {
     /**
      * The ranged units.
      */
-    RANGEDUNIT
+    RANGEDUNIT;
 }

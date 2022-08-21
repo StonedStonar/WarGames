@@ -1,41 +1,34 @@
-package no.stonedstonar.wargames.model.items.weapons.meele;
+package no.stonedstonar.wargames.model.items.armour;
 
-import no.stonedstonar.wargames.model.exception.CouldNotAddWeaponEffectException;
-import no.stonedstonar.wargames.model.exception.CouldNotRemoveWeaponEffectException;
-import no.stonedstonar.wargames.model.items.weapons.Weapon;
-import no.stonedstonar.wargames.model.items.weapons.WeaponEffect;
-import no.stonedstonar.wargames.model.units.Unit;
-
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a melee weapon.
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public abstract class MeleeWeapon implements Weapon {
+public class PlateArmour implements Armour{
 
     private int durability;
 
     private final int maxDurability;
 
-    private final int damage;
+    private final int protection;
 
-    private List<WeaponEffect> weaponEffects;
+    private List<ArmourEffects> armourEffects;
 
     /**
-     * Makes an instance of the MeleeWeapon class.
-     * @param durability the durability of the weapon.
-     * @param damage the damage the weapon has.
+     * Makes an instance of plate armour.
+     * @param durability the durability of the armour.
+     * @param protection the protection the armour gives.
      */
-    protected MeleeWeapon(int durability, int damage) {
+    public PlateArmour(int durability, int protection){
         checkIfNumberIsBelowN(1, durability, "durability");
-        checkIfNumberIsBelowN(1, damage, "damage");
+        checkIfNumberIsBelowN(0, protection, "durability");
         this.maxDurability = durability;
         this.durability = durability;
-        this.damage = damage;
-        weaponEffects = new LinkedList<>();
+        this.protection = protection;
+        this.armourEffects = new ArrayList<>();
     }
 
     @Override
@@ -68,24 +61,6 @@ public abstract class MeleeWeapon implements Weapon {
     }
 
     @Override
-    public void addWeaponEffect(WeaponEffect weaponEffect) throws CouldNotAddWeaponEffectException {
-        checkIfObjectIsNull(weaponEffect, "weapon effect");
-        if (!weaponEffects.contains(weaponEffect)){
-            weaponEffects.add(weaponEffect);
-        }else {
-            throw new CouldNotAddWeaponEffectException("The weapon effect is already a part of this weapon.");
-        }
-    }
-
-    @Override
-    public void removeWeaponEffect(WeaponEffect weaponEffect) throws CouldNotRemoveWeaponEffectException{
-        checkIfObjectIsNull(weaponEffect, "weapon effect");
-        if(!weaponEffects.remove(weaponEffect)){
-            throw new CouldNotRemoveWeaponEffectException("The weapon effect is not a part of this weapon.");
-        }
-    }
-
-    @Override
     public int getMaxDurability() {
         return maxDurability;
     }
@@ -96,26 +71,20 @@ public abstract class MeleeWeapon implements Weapon {
     }
 
     @Override
-    public void doDamage(Unit opponent) {
-        checkIfObjectIsNull(opponent, "opponent");
-        opponent.reduceHealth(getAttackDamage());
+    public String getItemName() {
+        return getClass().getSimpleName();
     }
 
     @Override
-    public int getAttackDamage() {
-        return damage + getBonusDamage();
+    public int getProtection() {
+        //Todo: Make this so that when the armour takes damage it decreases.
+        return protection;
     }
 
     @Override
-    public List<WeaponEffect> getWeaponEffects(){
-        return weaponEffects;
+    public List<ArmourEffects> getArmourEffects() {
+        return armourEffects;
     }
-
-    /**
-     * The bonus damage the weapon has.
-     * @return the bonus damage.
-     */
-    public abstract int getBonusDamage();
 
     /**
      * Checks if the number is below a number N. Throws an error if the number is less than N.
@@ -123,7 +92,7 @@ public abstract class MeleeWeapon implements Weapon {
      * @param number the number to check.
      * @param prefix the prefix of the error.
      */
-    protected void checkIfNumberIsBelowN(int n, int number, String prefix){
+    private void checkIfNumberIsBelowN(int n, int number, String prefix){
         if (number < n){
             throw new IllegalArgumentException("The amount of " + prefix +  " must be above or equal to one.");
         }
@@ -134,9 +103,8 @@ public abstract class MeleeWeapon implements Weapon {
      *
      * @param stringToCheck the string you want to check.
      * @param errorPrefix   the error the exception should have if the string is invalid.
-     * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
      */
-    protected void checkString(String stringToCheck, String errorPrefix) {
+    private void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
         if (stringToCheck.isEmpty()) {
             throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
@@ -148,13 +116,10 @@ public abstract class MeleeWeapon implements Weapon {
      *
      * @param object the object you want to check.
      * @param error  the error message the exception should have.
-     * @throws IllegalArgumentException gets thrown if the object is null.
      */
-    protected void checkIfObjectIsNull(Object object, String error) {
+    private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }
     }
-
-
 }

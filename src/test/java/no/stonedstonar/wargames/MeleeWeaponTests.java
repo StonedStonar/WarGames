@@ -209,7 +209,7 @@ public class MeleeWeaponTests extends TestTemplate{
             addErrorWithException(getIllegalPrefix(), "the input is null", e);
         }
         try {
-            meleeWeapon.addWeaponEffect(WeaponEffect.DULL);
+            meleeWeapon.addWeaponEffect(WeaponEffect.SHARP);
             addError(addWeaponEffectPrefix, "the effect is already a part of the weapon");
         } catch (CouldNotAddWeaponEffectException e) {
         } catch (IllegalArgumentException exception){
@@ -224,9 +224,9 @@ public class MeleeWeaponTests extends TestTemplate{
     @DisplayName("Tests if addWeaponEffect works with valid input.")
     public void testIfAddWeaponEffectWorksWithValidInput(){
         try {
-            meleeWeapon.addWeaponEffect(WeaponEffect.SHARP);
+            meleeWeapon.addWeaponEffect(WeaponEffect.DIRTY);
         }catch (IllegalArgumentException | CouldNotAddWeaponEffectException exception){
-            addErrorWithException("Expected the effect to be added", "the input is valid", exception);
+            addErrorWithException("Expected the effect to be added since ", "the input is valid", exception);
         }
     }
 
@@ -253,7 +253,7 @@ public class MeleeWeaponTests extends TestTemplate{
     @DisplayName("Test if removeWeaponEffect works with valid input.")
     public void testIfRemoveWeaponEffectWorksWithValidInput(){
         try{
-            meleeWeapon.removeWeaponEffect(WeaponEffect.DULL);
+            meleeWeapon.removeWeaponEffect(WeaponEffect.SHARP);
         }catch (IllegalArgumentException | CouldNotRemoveWeaponEffectException exception){
             addErrorWithException("Expected the effect to be removed", "the input is invalid", exception);
         }

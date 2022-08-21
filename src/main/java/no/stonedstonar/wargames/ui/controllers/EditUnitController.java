@@ -323,7 +323,7 @@ public class EditUnitController implements Controller{
             unitNameField.setText(unit.getUnitName());
             healthField.setText(Integer.toString(unit.getHealth()));
             attackField.setText(Integer.toString(unit.getAttack()));
-            armourField.setText(Integer.toString(unit.getArmour()));
+            armourField.setText(Integer.toString(unit.getArmour().getProtection()));
             UnitType unitType = unit.getUnitType();
             unitCombo.getSelectionModel().select(unitType);
             try {
